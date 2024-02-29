@@ -1,3 +1,4 @@
+// Pages
 import Login from "@/pages/Login";
 
 const Page = (): JSX.Element => {
