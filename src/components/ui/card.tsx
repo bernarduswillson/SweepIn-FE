@@ -1,79 +1,51 @@
-import * as React from "react"
+"use client"
 
-import { cn } from "@/lib/utils"
+import React, { useState } from 'react'
 
-const Card = React.forwardRef<
-  HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
->(({ className, ...props }, ref) => (
-  <div
-    ref={ref}
-    className={cn(
-      "rounded-lg border bg-card text-card-foreground shadow-sm",
-      className
-    )}
-    {...props}
-  />
-))
-Card.displayName = "Card"
+import Alert from '@/components/ui/alertLoc';
 
-const CardHeader = React.forwardRef<
-  HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
->(({ className, ...props }, ref) => (
-  <div
-    ref={ref}
-    className={cn("flex flex-col space-y-1.5 p-6", className)}
-    {...props}
-  />
-))
-CardHeader.displayName = "CardHeader"
+import RightArrow from '@/images/Presensi/RightArrow';
 
-const CardTitle = React.forwardRef<
-  HTMLParagraphElement,
-  React.HTMLAttributes<HTMLHeadingElement>
->(({ className, ...props }, ref) => (
-  <h3
-    ref={ref}
-    className={cn(
-      "text-2xl font-semibold leading-none tracking-tight",
-      className
-    )}
-    {...props}
-  />
-))
-CardTitle.displayName = "CardTitle"
+interface CardProps {
+  date: Date,
+  status: number
+}
 
-const CardDescription = React.forwardRef<
-  HTMLParagraphElement,
-  React.HTMLAttributes<HTMLParagraphElement>
->(({ className, ...props }, ref) => (
-  <p
-    ref={ref}
-    className={cn("text-sm text-muted-foreground", className)}
-    {...props}
-  />
-))
-CardDescription.displayName = "CardDescription"
+const Card = ({ date, status }: CardProps): JSX.Element => {
+  const convertDate = (date: Date) => {
+    const days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+    const months = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+    const day = days[date.getDay()];
+    const month = months[date.getMonth()];
+    const year = date.getFullYear();
+    return `${day}, ${date.getDate()} ${month} ${year}`;
+  }
 
-const CardContent = React.forwardRef<
-  HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
->(({ className, ...props }, ref) => (
-  <div ref={ref} className={cn("p-6 pt-0", className)} {...props} />
-))
-CardContent.displayName = "CardContent"
+  const [showAlert, setShowAlert] = useState(false);
+  const handleConfirm = (): void => {
+    setShowAlert(false)
+  }
 
-const CardFooter = React.forwardRef<
-  HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
->(({ className, ...props }, ref) => (
-  <div
-    ref={ref}
-    className={cn("flex items-center p-6 pt-0", className)}
-    {...props}
-  />
-))
-CardFooter.displayName = "CardFooter"
+  return (
+    <div className={`w-full relative rounded-xl flex justify-between items-center ${date.getDate() === new Date().getDate() ? 'bg-blue_main text-white' : 'bg-grey_bg'} p-3 mb-3`} onClick={() => setShowAlert(true)}>
+      <div>
+        <div className={`font-extrabold text-sm  ${date.getDate() !== new Date().getDate() ? ' text-blue_main' : ''}`}>
+          Presensi
+        </div>
+        <div className={`font-bold text-xl  ${date.getDate() !== new Date().getDate() ? ' text-black' : ''}`}>
+          {convertDate(date)}
+        </div>
+        <div className={`flex items-center text-sm font-semibold  ${date.getDate() !== new Date().getDate() ? ' text-grey_text' : ''}`}>
+          <div className={`w-2 h-2 rounded-full ${status === 0 ? 'bg-red' : status === 1 ? 'bg-orange' : 'bg-green_main'} mr-2`}></div>
+          {status === 0 ? 'Belum Presensi awal dan akhir' : status === 1 ? 'Belum Presensi Akhir' : 'Sudah Presensi'}
+        </div>
+      </div>
+      <div className='mr-3'>
+        <RightArrow fillColor={date.getDate() === new Date().getDate() ? '#FCFCFC' : '#000000'} />
+      </div>
+      {showAlert && <Alert onConfirm={handleConfirm} />}
+    </div>
+  )
+}
 
-export { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent }
+export default Card

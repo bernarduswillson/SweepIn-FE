@@ -10,13 +10,16 @@ module.exports = {
         white: '#FCFCFC',
         green_main: '#48AD83',
         grey: '#C2C9D3',
-        text_grey: '#A3A3A3',
+        grey_text: '#A3A3A3',
         green_light: '#7AC0A3',
         green_dark: '#3D8567',
         blue_main: '#005AAB',
         blue_light: '#499AE3',
         blue_dark: '#074A87',
         black: '#1C1C1C',
+        grey_bg: '#EDF1F6',
+        red: '#FF5959',
+        orange: '#F9AF42'
       },
       fontSize: {
         sm: '0.8rem',
