@@ -2,6 +2,8 @@
 
 // Imports
 import Image from "next/image";
+import { signIn, signOut, useSession, getProviders } from "next-auth/react";
+import { useEffect, useState } from "react";
 
 // Assets
 import WaveTop from "@/images/Login/WaveTop.svg"
@@ -10,10 +12,18 @@ import ITB from "@/images/Logo/ITB.svg"
 import Google from "@/images/Logo/Google.svg"
 
 const Login = (): JSX.Element => {
-  // Google Login Handler
-  const handleGoogle = () => {
-    console.log("Google");
-  }
+  const { data: session } = useSession();
+
+  const [providers, setProviders] = useState<any>(null);
+
+  useEffect(() => {
+    const setUpProviders = async () => {
+      const response = await getProviders();
+      setProviders(response);
+    }
+
+    setUpProviders();
+  }, [])
 
   return (
     <div className="relative h-screen bg-white font-bold flex flex-col justify-center overflow-hidden">
@@ -33,15 +43,27 @@ const Login = (): JSX.Element => {
               In
             </span>
           </h1>
-          <p className="text-center text-sm text-text_grey">Masuk untuk melanjutkan</p>
+          <p className="text-center text-md text-text_grey">Masuk untuk melanjutkan</p>
         </div>
 
         {/* Google Login Button */}
-        <button className="border-2 bg-white rounded-xl py-4 px-5 mt-20 text-center relative mx-14 flex items-center hover:bg-grey" onClick={handleGoogle}>
-          <Image src={Google} alt="Google" className="mx-3" />
-          <p className="text-sm text-center w-full mr-3">Login dengan Google</p>
-        </button>
+        {providers && Object.values(providers).map((provider : any) => (
+          <button className="border-2 bg-white rounded-xl py-4 px-5 mt-20 text-center relative mx-14 flex items-center hover:bg-grey" 
+            type="button"
+            key={provider.name}
+            onClick={() => signIn(provider.id)}>
+            <Image src={Google} alt="Google" className="mx-3" />
+            <p className="text-md text-center font-semibold w-full mr-3">Login dengan Google</p>
+          </button>
+        ))}
 
+        {/* NANTI HAPUS */}
+        <pre>{JSON.stringify(session, null, 2)}</pre>
+          
+        {/* Sign Out NANTI HAPUS */}
+        <button onClick={() => signOut()} className="border-2 bg-white rounded-xl py-4 px-5 mt-20 text-center relative mx-14 flex items-center hover:bg-grey">
+          <p className="text-md text-center font-semibold w-full">Sign Out</p>
+        </button>
       </div>
 
       {/* Bottom Illustration */}
