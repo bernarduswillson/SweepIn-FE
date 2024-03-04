@@ -10,9 +10,9 @@ const handler = NextAuth({
     }),
   ],
   callbacks: {
-    async signIn({ profile }) {
+    async signIn({ profile, account, user }) {
       try {
-        const response = await axios.post('http://localhost:5000/login', {
+        const response = await axios.post('http://localhost:1337/login', {
           email: profile?.email ?? '',
         });
 
@@ -28,7 +28,17 @@ const handler = NextAuth({
         return false;
       }
     },
+    async redirect(params: { url: string; baseUrl: string; }) {
+      const { url, baseUrl } = params;
+      if (url === '/api/auth/callback/error') {
+        return baseUrl;
+      }
+      return '/tes';
+    },
+  },
+  pages: {
+    error: 'http://localhost:3000',
   },
 });
 
-export { handler as GET, handler as POST }; 
+export { handler as GET, handler as POST };

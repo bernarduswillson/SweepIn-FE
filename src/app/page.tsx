@@ -1,5 +1,5 @@
 // Pages
-import Login from "@/pages/Login";
+import Login from "@/contexts/Login/Login";
 
 const Page = (): JSX.Element => {
   return (

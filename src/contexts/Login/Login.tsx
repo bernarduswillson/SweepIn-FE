@@ -4,17 +4,22 @@
 import Image from "next/image";
 import { signIn, signOut, useSession, getProviders } from "next-auth/react";
 import { useEffect, useState } from "react";
+import { useSearchParams } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 
 // Assets
 import WaveTop from "@/images/Login/WaveTop.svg"
 import WaveBot from "@/images/Login/WaveBot.svg"
 import ITB from "@/images/Logo/ITB.svg"
 import Google from "@/images/Logo/Google.svg"
+import AlertLogin from "@/components/ui/alertLogin";
 
 const Login = (): JSX.Element => {
+  const router = useRouter()
   const { data: session } = useSession();
-
   const [providers, setProviders] = useState<any>(null);
+  const searchParams = useSearchParams()
+  const search = searchParams?.get('error')
 
   useEffect(() => {
     const setUpProviders = async () => {
@@ -24,6 +29,25 @@ const Login = (): JSX.Element => {
 
     setUpProviders();
   }, [])
+
+  const [showAlert, setShowAlert] = useState(false);
+  const handleConfirm = (): void => {
+    setShowAlert(false)
+  }
+
+  useEffect(() => {
+    if (search === 'AccessDenied') {
+      setShowAlert(true)
+    }
+  }, [search])
+
+  useEffect(() => {
+    console.log(session)
+    // if (session) {
+    //   router.push('/tes')
+    // }
+  }
+  , [session])
 
   return (
     <div className="relative h-screen bg-white font-bold flex flex-col justify-center overflow-hidden">
@@ -56,14 +80,6 @@ const Login = (): JSX.Element => {
             <p className="text-md text-center font-semibold w-full mr-3">Login dengan Google</p>
           </button>
         ))}
-
-        {/* NANTI HAPUS */}
-        <pre>{JSON.stringify(session, null, 2)}</pre>
-          
-        {/* Sign Out NANTI HAPUS */}
-        <button onClick={() => signOut()} className="border-2 bg-white rounded-xl py-4 px-5 mt-20 text-center relative mx-14 flex items-center hover:bg-grey">
-          <p className="text-md text-center font-semibold w-full">Sign Out</p>
-        </button>
       </div>
 
       {/* Bottom Illustration */}
@@ -73,6 +89,9 @@ const Login = (): JSX.Element => {
       <div className="absolute w-[70vw] bottom-0 right-0 flex justify-end sm:translate-y-[15vw]">
         <Image src={WaveBot} alt="WaveBot" className="w-full" />
       </div>
+
+      {/* Alert Box */}
+      {showAlert && <AlertLogin onConfirm={handleConfirm} />}
     </div>
   );
 };
