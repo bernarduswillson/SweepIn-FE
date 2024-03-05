@@ -16,7 +16,7 @@ before_script:
   - npm install
 
 build:
-  stage: test
+  stage: build
   script:
     - echo "Building the app from branch $CI_COMMIT_BRANCH"
     - npm run dev
