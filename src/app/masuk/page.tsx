@@ -29,7 +29,7 @@ const Login = (): JSX.Element => {
     if (search === "AccessDenied") {
       setShowAlert(true)
     }
-  }, [status, router])
+  }, [search, router])
 
   const handleConfirm = (): void => {
     setShowAlert(false)
