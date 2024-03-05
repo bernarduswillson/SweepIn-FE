@@ -30,7 +30,7 @@ const Login = (): JSX.Element => {
     setUpProviders();
   }, [])
 
-  const [showAlert, setShowAlert] = useState(false);
+  const [showAlert, setShowAlert] = useState(true);
   const handleConfirm = (): void => {
     setShowAlert(false)
   }
@@ -67,17 +67,17 @@ const Login = (): JSX.Element => {
               In
             </span>
           </h1>
-          <p className="text-center text-md text-text_grey">Masuk untuk melanjutkan</p>
+          <p className="text-center text-md font-normal text-text_grey">Masuk untuk melanjutkan</p>
         </div>
 
         {/* Google Login Button */}
         {providers && Object.values(providers).map((provider : any) => (
-          <button className="border-2 bg-white rounded-xl py-4 px-5 mt-20 text-center relative mx-14 flex items-center hover:bg-grey" 
+          <button className="flex items-center justify-center w-4/5 max-w-[370px] py-4 mt-20 border-2 bg-white rounded-xl border-grey text-black relative hover:bg-grey button-animation" 
             type="button"
             key={provider.name}
             onClick={() => signIn(provider.id)}>
-            <Image src={Google} alt="Google" className="mx-3" />
-            <p className="text-md text-center font-semibold w-full mr-3">Login dengan Google</p>
+            <Image src={Google} alt="Google" className="absolute left-3" />
+            <p className="text-md text-center font-medium w-full">Masuk dengan Google</p>
           </button>
         ))}
       </div>
