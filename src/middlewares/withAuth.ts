@@ -19,6 +19,7 @@ export default function withAuth(
         req,
         secret: process.env.NEXTAUTH_SECRET
       })
+      console.log(token);
       
       // Handle not logged in
       if (!token && !authPage.includes(pathname)) {

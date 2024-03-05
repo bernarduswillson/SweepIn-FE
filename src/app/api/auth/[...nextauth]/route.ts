@@ -1,7 +1,8 @@
 import { NextAuthOptions } from "next-auth";
 import NextAuth from "next-auth/next";
-import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProfile from "next-auth/providers/google";
+import axios from "axios";
+import SignToken from "@/utils/siginToken";
 
 const authOptions: NextAuthOptions = {
   session: {
@@ -9,48 +10,24 @@ const authOptions: NextAuthOptions = {
   },
   secret: process.env.NEXTAUTH_SECRET,
   providers: [
-    // CredentialsProvider({
-    //   name: "Credentials",
-    //   credentials: {
-    //     email: {label: "Email", type: "email"},
-    //     password: {label: "Password", type: "password"},
-    //   },
-    //   async authorize(credentials) {
-    //     const { email, password } = credentials as {
-    //       email: string,
-    //       password: string,
-    //     };
-    //     const user: any = {
-    //       id: 1,
-    //       fullname: "Ditra Amadia",
-    //       email: "dam@gmail.com",
-    //       role: "admin"
-    //     }
-    //     if (email === "dam@gmail.com" && password === "123") {
-    //       return user;
-    //     } else {
-    //       return null;
-    //     }
-    //   }
-    // }),
     GoogleProfile({
       clientId: process.env.GOOGLE_CLIENT_ID || '',
       clientSecret: process.env.GOOGLE_CLIENT_SECRET || ''
     })
   ],
   callbacks: {
-    async jwt({token, account, profile}: any) {
-      return token;
+    async jwt({token, user, account}: any) {
+      if (account) {
+        const userLoggedIn = await SignToken(user?.email as string)
+        token.userLoggedIn = userLoggedIn;
+        console.log(account.accessToken);
+      }
+      console.log(token);
+      return token
     },
     async session({session, token}: any) {
-      if ("email" in token) {
-        session.user.email = token.email;
-      }
-      if ("name" in token) {
-        session.user.name = token.name;
-      }
-      // Handle role here
-      session.user.role = "admin"
+      session.loggedUser = token.userLoggedIn;
+      console.log(session);
       return session;
     }
   }

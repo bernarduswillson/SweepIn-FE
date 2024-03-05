@@ -72,7 +72,7 @@ const Login = (): JSX.Element => {
                 type="button"
                 onClick={() => {
                   setIsLoading(true);
-                  signIn('google', { callbackUrl: 'http://localhost:3000/tes' });
+                  signIn('google', { callbackUrl: 'http://localhost:3000/' });
                 }}>
                 <Image src={Google} alt="Google" className="absolute left-3" />
                 <p className="text-md text-center poppins-medium w-full">Masuk dengan Google</p>
