@@ -16,20 +16,30 @@ import AlertLogin from "@/components/ui/Modal";
 import googleLoadingAnimation from "@public/lotties/google-loading.json";
 
 const Login = (): JSX.Element => {
+  const router = useRouter();
+  const { data: session, status } = useSession();
+  
+  // Show modal alert if access in unauthorized
+  const [showAlert, setShowAlert] = useState(false);
   const searchParams = useSearchParams()
   const search = searchParams?.get('error')
 
-  // Show modal alert if access in unauthorized
-  const [showAlert, setShowAlert] = useState(false);
+  // Handle unauthorized login
+  useEffect(() => {
+    if (search === "AccessDenied") {
+      setShowAlert(true)
+    }
+  }, [status, router])
+
   const handleConfirm = (): void => {
     setShowAlert(false)
   }
   
-  useEffect(() => {
-    if (search === 'AccessDenied') {
-      setShowAlert(true)
-    }
-  }, [search])
+  // Handle login
+  const handleLogin = async () => {
+    setIsLoading(true);
+    const signInResult = await signIn('google', { callbackUrl: 'http://localhost:3000/'});
+  }
   
   // Loading
   const [isLoading, setIsLoading] = useState(false);
@@ -70,10 +80,7 @@ const Login = (): JSX.Element => {
           !isLoading ? 
               <button className="flex items-center justify-center w-4/5 max-w-[370px] py-4 mt-20 border-2 bg-white rounded-xl border-grey text-black relative hover:bg-grey button-animation" 
                 type="button"
-                onClick={() => {
-                  setIsLoading(true);
-                  signIn('google', { callbackUrl: 'http://localhost:3000/' });
-                }}>
+                onClick={handleLogin}>
                 <Image src={Google} alt="Google" className="absolute left-3" />
                 <p className="text-md text-center poppins-medium w-full">Masuk dengan Google</p>
               </button>

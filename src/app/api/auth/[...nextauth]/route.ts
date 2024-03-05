@@ -16,18 +16,28 @@ const authOptions: NextAuthOptions = {
     })
   ],
   callbacks: {
+    async signIn({ user, account, profile }) {
+      try {
+        const response = await axios.post("http://localhost:5000/login", {
+          email: profile?.email
+        });
+        if (response && response.data.status === "success") {
+          return true;
+        }
+        return '/masuk?error=AccessDenied';
+      } catch (error) {
+        return '/masuk?error=AccessDenied';
+      }
+    },
     async jwt({token, user, account}: any) {
       if (account) {
         const userLoggedIn = await SignToken(user?.email as string)
         token.userLoggedIn = userLoggedIn;
-        console.log(account.accessToken);
       }
-      console.log(token);
       return token
     },
     async session({session, token}: any) {
       session.loggedUser = token.userLoggedIn;
-      console.log(session);
       return session;
     }
   }
