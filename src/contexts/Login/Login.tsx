@@ -14,16 +14,15 @@ import WaveBot from "@public/images/wave-bottom-illustration.svg"
 import ITB from "@public/icons/itb-ic.svg"
 import Google from "@public/icons/google-ic.svg"
 import AlertLogin from "@/components/ui/Modal";
-import Provider from "@/components/Provider";
 import googleLoadingAnimation from "@public/lotties/google-loading.json";
 
 const Login = (): JSX.Element => {
-  const router = useRouter()
-  const { data: session } = useSession();
-  const [providers, setProviders] = useState<any>(null);
   const searchParams = useSearchParams()
   const search = searchParams?.get('error')
-
+  
+  // Session setup
+  const { data: session } = useSession();
+  const [providers, setProviders] = useState<any>(null);
   useEffect(() => {
     const setUpProviders = async () => {
       const response = await getProviders();
@@ -33,24 +32,20 @@ const Login = (): JSX.Element => {
     setUpProviders();
   }, [])
 
+  // Show modal alert if access in unauthorized
   const [showAlert, setShowAlert] = useState(false);
   const handleConfirm = (): void => {
     setShowAlert(false)
   }
-
+  
   useEffect(() => {
     if (search === 'AccessDenied') {
       setShowAlert(true)
     }
   }, [search])
-
-  useEffect(() => {
-    console.log(session)
-    // if (session) {
-    //   router.push('/tes')
-    // }
-  }
-  , [session])
+  
+  // Loading
+  const [isLoading, setIsLoading] = useState(false);
 
   // Lottie Configuration
   const googleLoadingAnimationOptions = {
@@ -85,12 +80,15 @@ const Login = (): JSX.Element => {
 
         {/* Google Login Button */}
         {
-          providers ? 
+          providers && !isLoading ? 
             Object.values(providers).map((provider : any) => (
               <button className="flex items-center justify-center w-4/5 max-w-[370px] py-4 mt-20 border-2 bg-white rounded-xl border-grey text-black relative hover:bg-grey button-animation" 
                 type="button"
                 key={provider.name}
-                onClick={() => signIn(provider.id)}>
+                onClick={() => {
+                  setIsLoading(true);
+                  signIn(provider.id);
+                }}>
                 <Image src={Google} alt="Google" className="absolute left-3" />
                 <p className="text-md text-center poppins-medium w-full">Masuk dengan Google</p>
               </button>
@@ -99,8 +97,8 @@ const Login = (): JSX.Element => {
             <div className="flex items-center justify-center w-4/5 max-w-[370px] mt-20" >
               <Lottie 
                 options={googleLoadingAnimationOptions}
-                height={80}
-                width={80}
+                height={60}
+                width={60}
               />
             </div>
         }

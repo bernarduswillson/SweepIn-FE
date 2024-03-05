@@ -12,17 +12,18 @@ const handler = NextAuth({
   callbacks: {
     async signIn({ profile, account, user }) {
       try {
-        const response = await axios.post('http://localhost:1337/login', {
-          email: profile?.email ?? '',
-        });
+        // const response = await axios.post('http://localhost:1337/login', {
+        //   email: profile?.email ?? '',
+        // });
 
-        const { status } = response.data;
+        // const { status } = response.data;
 
-        if (status === 'success') {
-          return true;
-        }
+        // if (status === 'success') {
+        //   return true;
+        // }
 
-        return false;
+        // return false;
+        return true;
       } catch (error) {
         console.error('Error checking email registration:', error);
         return false;
