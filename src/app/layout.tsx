@@ -1,11 +1,7 @@
-import type { Metadata } from "next";
-import "./globals.css";
-import Provider from "@/components/Provider";
+"use client";
 
-export const metadata: Metadata = {
-  title: "SweepIn",
-  description: "Website Presensi",
-};
+import "./globals.css";
+import { SessionProvider } from "next-auth/react";
 
 export default function RootLayout({
   children,
@@ -17,10 +13,10 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning={true}>
       <body className="font-poppins">
-        <Provider session={session}>
+        <SessionProvider>
           {children}
-        </Provider>
+        </SessionProvider>
       </body>
     </html>
   );
-}
+};

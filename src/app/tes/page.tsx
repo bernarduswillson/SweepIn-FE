@@ -1,37 +1,29 @@
 'use client'
 
-import { signOut, useSession } from 'next-auth/react';
-import Image from 'next/image';
-import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
+import { signOut, useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 
 const Tes = (): JSX.Element => {
+  const { data: session, status } = useSession();
   const router = useRouter();
-  const { data: session } = useSession();
 
-  const handleLogout = async () => {
-    router.push("/");
-    signOut();
-  };
-
+  // Authorization
   useEffect(() => {
-    if (!session?.user?.email) {
-      router.push("/login");
+    if (status === "unauthenticated") {
+      router.push("/masuk");
     }
-  }, [])
+  }, [status])
 
+  console.log(session?.user?.image);
 
   return (
     <div>
+      <h1>{session?.user?.name}</h1>
       <p>{session?.user?.email}</p>
-      <p>{session?.user?.name}</p>
-      <Image src={session?.user?.image ?? ''} alt="Profile Picture" width={200} height={200} />
-      <button
-        onClick={handleLogout}
-        className="border-2 bg-white rounded-xl py-4 px-5 mt-20 text-center relative mx-14 flex items-center hover:bg-grey"
-      >
-        <p className="text-md text-center font-semibold w-full">Sign Out</p>
-      </button>
+      <p>{session?.user?.role}</p>
+      <button onClick={() => signOut({ callbackUrl: 'http://localhost:3000/masuk' })}>Logout</button>
     </div>
   );
 };

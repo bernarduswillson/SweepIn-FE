@@ -5,7 +5,7 @@ import Image from "next/image";
 import Lottie from "react-lottie";
 import { signIn, useSession, getProviders } from "next-auth/react";
 import { useEffect, useState } from "react";
-import { useSearchParams } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 
 // Assets
 import WaveTop from "@public/images/wave-top-illustration.svg"
@@ -18,18 +18,15 @@ import googleLoadingAnimation from "@public/lotties/google-loading.json";
 const Login = (): JSX.Element => {
   const searchParams = useSearchParams()
   const search = searchParams?.get('error')
-  
-  // Session setup
-  const { data: session } = useSession();
-  const [providers, setProviders] = useState<any>(null);
-  useEffect(() => {
-    const setUpProviders = async () => {
-      const response = await getProviders();
-      setProviders(response);
-    }
+  const { data: session, status } = useSession();
+  const router = useRouter();
 
-    setUpProviders();
-  }, [])
+  // Authorization
+  useEffect(() => {
+    if (status === "authenticated") {
+      router.push("/tes");
+    }
+  }, [status])
 
   // Show modal alert if access in unauthorized
   const [showAlert, setShowAlert] = useState(false);
@@ -79,19 +76,16 @@ const Login = (): JSX.Element => {
 
         {/* Google Login Button */}
         {
-          providers && !isLoading ? 
-            Object.values(providers).map((provider : any) => (
+          !isLoading ? 
               <button className="flex items-center justify-center w-4/5 max-w-[370px] py-4 mt-20 border-2 bg-white rounded-xl border-grey text-black relative hover:bg-grey button-animation" 
                 type="button"
-                key={provider.name}
                 onClick={() => {
                   setIsLoading(true);
-                  signIn(provider.id);
+                  signIn('google', { callbackUrl: 'http://localhost:3000/tes' });
                 }}>
                 <Image src={Google} alt="Google" className="absolute left-3" />
                 <p className="text-md text-center poppins-medium w-full">Masuk dengan Google</p>
               </button>
-            ))
           : 
             <div className="flex items-center justify-center w-4/5 max-w-[370px] mt-20" >
               <Lottie 

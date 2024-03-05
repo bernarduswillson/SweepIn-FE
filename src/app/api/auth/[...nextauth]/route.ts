@@ -1,45 +1,63 @@
-import NextAuth from 'next-auth';
-import GoogleProvider from 'next-auth/providers/google';
-import axios from 'axios';
+import { NextAuthOptions } from "next-auth";
+import NextAuth from "next-auth/next";
+import CredentialsProvider from "next-auth/providers/credentials";
+import GoogleProfile from "next-auth/providers/google";
 
-const handler = NextAuth({
+const authOptions: NextAuthOptions = {
+  session: {
+    strategy: "jwt"
+  },
+  secret: process.env.NEXTAUTH_SECRET,
   providers: [
-    GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID ?? '',
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? '',
-    }),
+    // CredentialsProvider({
+    //   name: "Credentials",
+    //   credentials: {
+    //     email: {label: "Email", type: "email"},
+    //     password: {label: "Password", type: "password"},
+    //   },
+    //   async authorize(credentials) {
+    //     const { email, password } = credentials as {
+    //       email: string,
+    //       password: string,
+    //     };
+    //     const user: any = {
+    //       id: 1,
+    //       fullname: "Ditra Amadia",
+    //       email: "dam@gmail.com",
+    //       role: "admin"
+    //     }
+    //     if (email === "dam@gmail.com" && password === "123") {
+    //       return user;
+    //     } else {
+    //       return null;
+    //     }
+    //   }
+    // }),
+    GoogleProfile({
+      clientId: process.env.GOOGLE_CLIENT_ID || '',
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET || ''
+    })
   ],
   callbacks: {
-    async signIn({ profile, account, user }) {
-      try {
-        // const response = await axios.post('http://localhost:1337/login', {
-        //   email: profile?.email ?? '',
-        // });
-
-        // const { status } = response.data;
-
-        // if (status === 'success') {
-        //   return true;
-        // }
-
-        // return false;
-        return true;
-      } catch (error) {
-        console.error('Error checking email registration:', error);
-        return false;
-      }
+    async jwt({token, account, profile}: any) {
+      return token;
     },
-    async redirect(params: { url: string; baseUrl: string; }) {
-      const { url, baseUrl } = params;
-      if (url === '/api/auth/callback/error') {
-        return baseUrl;
+    async session({session, token}: any) {
+      if ("email" in token) {
+        session.user.email = token.email;
       }
-      return '/tes';
-    },
-  },
-  pages: {
-    error: 'http://localhost:5000/auth/google/callback',
-  },
-});
+      if ("name" in token) {
+        session.user.name = token.name;
+      }
+      // Handle role here
+      session.user.role = "admin"
+      return session;
+    }
+  }
+}
 
-export { handler as GET, handler as POST };
+const handler = NextAuth(authOptions);
+
+export {
+  handler as GET, handler as POST
+};
