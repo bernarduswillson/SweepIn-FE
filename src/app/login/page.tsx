@@ -3,10 +3,9 @@
 // Imports
 import Image from "next/image";
 import Lottie from "react-lottie";
-import { signIn, signOut, useSession, getProviders } from "next-auth/react";
+import { signIn, useSession, getProviders } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { useSearchParams } from 'next/navigation'
-import { useRouter } from 'next/navigation'
 
 // Assets
 import WaveTop from "@public/images/wave-top-illustration.svg"
@@ -69,7 +68,7 @@ const Login = (): JSX.Element => {
 
         {/* Title */}
         <div>
-          <h1 className="text-[50px] text-center text-blue_main font-extrabold">
+          <h1 className="text-[50px] poppins-bold text-center text-blue_main font-extrabold">
             Sweep
             <span className="outline-title text-white">
               In

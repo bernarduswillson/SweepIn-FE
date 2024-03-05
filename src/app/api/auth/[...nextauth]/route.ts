@@ -38,7 +38,7 @@ const handler = NextAuth({
     },
   },
   pages: {
-    error: 'http://localhost:3000',
+    error: 'http://localhost:5000/auth/google/callback',
   },
 });
 
