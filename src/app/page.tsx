@@ -1,9 +1,9 @@
-import Presensi from "@/pages/Presensi";
+import DetailLaporan from "@/pages/DetailLaporan";
 
 const Page = (): JSX.Element => {
   return (
     <div className="relative h-auto">
-      <Presensi />
+      <DetailLaporan />
     </div>
   );
 };
