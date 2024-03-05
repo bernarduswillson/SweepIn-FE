@@ -12,7 +12,7 @@ import WaveTop from "@/images/Login/WaveTop.svg"
 import WaveBot from "@/images/Login/WaveBot.svg"
 import ITB from "@/images/Logo/ITB.svg"
 import Google from "@/images/Logo/Google.svg"
-import AlertLogin from "@/components/ui/alertLogin";
+import AlertLogin from "@/components/ui/Modal";
 
 const Login = (): JSX.Element => {
   const router = useRouter()
@@ -30,7 +30,7 @@ const Login = (): JSX.Element => {
     setUpProviders();
   }, [])
 
-  const [showAlert, setShowAlert] = useState(true);
+  const [showAlert, setShowAlert] = useState(false);
   const handleConfirm = (): void => {
     setShowAlert(false)
   }
@@ -67,7 +67,7 @@ const Login = (): JSX.Element => {
               In
             </span>
           </h1>
-          <p className="text-center text-md font-normal text-text_grey">Masuk untuk melanjutkan</p>
+          <p className="text-center text-md poppins-medium text-text_grey">Masuk untuk melanjutkan</p>
         </div>
 
         {/* Google Login Button */}
@@ -77,7 +77,7 @@ const Login = (): JSX.Element => {
             key={provider.name}
             onClick={() => signIn(provider.id)}>
             <Image src={Google} alt="Google" className="absolute left-3" />
-            <p className="text-md text-center font-medium w-full">Masuk dengan Google</p>
+            <p className="text-md text-center poppins-medium w-full">Masuk dengan Google</p>
           </button>
         ))}
       </div>
