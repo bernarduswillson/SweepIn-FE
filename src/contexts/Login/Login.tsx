@@ -2,17 +2,20 @@
 
 // Imports
 import Image from "next/image";
+import Lottie from "react-lottie";
 import { signIn, signOut, useSession, getProviders } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { useSearchParams } from 'next/navigation'
 import { useRouter } from 'next/navigation'
 
 // Assets
-import WaveTop from "@/images/Login/WaveTop.svg"
-import WaveBot from "@/images/Login/WaveBot.svg"
-import ITB from "@/images/Logo/ITB.svg"
-import Google from "@/images/Logo/Google.svg"
+import WaveTop from "@public/images/wave-top-illustration.svg"
+import WaveBot from "@public/images/wave-bottom-illustration.svg"
+import ITB from "@public/icons/itb-ic.svg"
+import Google from "@public/icons/google-ic.svg"
 import AlertLogin from "@/components/ui/Modal";
+import Provider from "@/components/Provider";
+import googleLoadingAnimation from "@public/lotties/google-loading.json";
 
 const Login = (): JSX.Element => {
   const router = useRouter()
@@ -49,6 +52,16 @@ const Login = (): JSX.Element => {
   }
   , [session])
 
+  // Lottie Configuration
+  const googleLoadingAnimationOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: googleLoadingAnimation,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice"
+    }
+  };
+
   return (
     <div className="relative h-screen bg-white font-bold flex flex-col justify-center overflow-hidden">
       {/* Top Illustration */}
@@ -71,15 +84,26 @@ const Login = (): JSX.Element => {
         </div>
 
         {/* Google Login Button */}
-        {providers && Object.values(providers).map((provider : any) => (
-          <button className="flex items-center justify-center w-4/5 max-w-[370px] py-4 mt-20 border-2 bg-white rounded-xl border-grey text-black relative hover:bg-grey button-animation" 
-            type="button"
-            key={provider.name}
-            onClick={() => signIn(provider.id)}>
-            <Image src={Google} alt="Google" className="absolute left-3" />
-            <p className="text-md text-center poppins-medium w-full">Masuk dengan Google</p>
-          </button>
-        ))}
+        {
+          providers ? 
+            Object.values(providers).map((provider : any) => (
+              <button className="flex items-center justify-center w-4/5 max-w-[370px] py-4 mt-20 border-2 bg-white rounded-xl border-grey text-black relative hover:bg-grey button-animation" 
+                type="button"
+                key={provider.name}
+                onClick={() => signIn(provider.id)}>
+                <Image src={Google} alt="Google" className="absolute left-3" />
+                <p className="text-md text-center poppins-medium w-full">Masuk dengan Google</p>
+              </button>
+            ))
+          : 
+            <div className="flex items-center justify-center w-4/5 max-w-[370px] mt-20" >
+              <Lottie 
+                options={googleLoadingAnimationOptions}
+                height={80}
+                width={80}
+              />
+            </div>
+        }
       </div>
 
       {/* Bottom Illustration */}
