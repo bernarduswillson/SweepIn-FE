@@ -18,15 +18,6 @@ import googleLoadingAnimation from "@public/lotties/google-loading.json";
 const Login = (): JSX.Element => {
   const searchParams = useSearchParams()
   const search = searchParams?.get('error')
-  const { data: session, status } = useSession();
-  const router = useRouter();
-
-  // Authorization
-  useEffect(() => {
-    if (status === "authenticated") {
-      router.push("/tes");
-    }
-  }, [status])
 
   // Show modal alert if access in unauthorized
   const [showAlert, setShowAlert] = useState(false);

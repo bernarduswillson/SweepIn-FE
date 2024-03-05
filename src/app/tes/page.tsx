@@ -9,15 +9,6 @@ const Tes = (): JSX.Element => {
   const { data: session, status } = useSession();
   const router = useRouter();
 
-  // Authorization
-  useEffect(() => {
-    if (status === "unauthenticated") {
-      router.push("/masuk");
-    }
-  }, [status])
-
-  console.log(session?.user?.image);
-
   return (
     <div>
       <h1>{session?.user?.name}</h1>
