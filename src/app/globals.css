@@ -2,66 +2,81 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 
 /* Write custom base/ component/ utility styles with `@layer` directive */
-
 @layer base {
-  [type='text'],
-  [type='email'],
-  [type='url'],
-  [type='password'],
-  [type='number'],
-  [type='date'],
-  [type='datetime-local'],
-  [type='month'],
-  [type='search'],
-  [type='tel'],
-  [type='time'],
-  [type='week'],
+  [type="text"],
+  [type="email"],
+  [type="url"],
+  [type="password"],
+  [type="number"],
+  [type="date"],
+  [type="datetime-local"],
+  [type="month"],
+  [type="search"],
+  [type="tel"],
+  [type="time"],
+  [type="week"],
   [multiple],
   textarea,
   select {
     @apply border-gray-300 focus:border-blue-500 focus:ring-blue-500 rounded-lg shadow-sm;
   }
 
-  [type='checkbox'],
-  [type='radio'] {
+  [type="checkbox"],
+  [type="radio"] {
     @apply border-gray-300 focus:ring-blue-500 h-5 text-blue-600 w-5;
   }
 
-  [type='checkbox'] {
+  [type="checkbox"] {
     @apply rounded;
   }
 
-  [type='radio'] {
+  [type="radio"] {
     @apply rounded-full;
   }
 }
 
 @layer components {
-  .prose :where(code):not(:where([class~='not-prose'] *)) {
+  .prose :where(code):not(:where([class~="not-prose"] *)) {
     @apply bg-gray-200 dark:bg-gray-800 dark:text-white font-normal px-1 py-0.5 rounded-md text-sm;
   }
 
-  .prose :where(code):not(:where([class~='not-prose'] *))::before {
-    content: '';
+  .prose :where(code):not(:where([class~="not-prose"] *))::before {
+    content: "";
   }
 
-  .prose :where(code):not(:where([class~='not-prose'] *))::after {
-    content: '';
+  .prose :where(code):not(:where([class~="not-prose"] *))::after {
+    content: "";
   }
 }
 
-::-webkit-scrollbar {
-  width: 12px;
+.outline-title {
+  -webkit-text-stroke: 2px #005aab;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
-::-webkit-scrollbar-track {
-  background: #f1f1f1;
+.button-animation {
+  @apply transition-colors duration-150 ease-in-out;
 }
 
-::-webkit-scrollbar-thumb {
-  background: #888;
-  border-radius: 6px;
+.poppins-regular {
+  font-family: "Poppins", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+}
+
+.poppins-medium {
+  font-family: "Poppins", sans-serif;
+  font-style: normal;
+  font-weight: 500;
+}
+
+.poppins-bold {
+  font-family: "Poppins", sans-serif;
+  font-style: normal;
+  font-weight: 700;
 }
