@@ -18,7 +18,7 @@ const authOptions: NextAuthOptions = {
   callbacks: {
     async signIn({ user, account, profile }) {
       try {
-        const response = await axios.post("http://localhost:5000/login", {
+        const response = await axios.post(process.env.NEXT_PUBLIC_API_URL + "/login", {
           email: profile?.email
         });
         if (response && response.data.status === "success") {

@@ -19,6 +19,8 @@ const Login = (): JSX.Element => {
   const router = useRouter();
   const { data: session, status } = useSession();
   
+  console.log(process.env.NEXT_PUBLIC_API_URL)
+
   // Show modal alert if access in unauthorized
   const [showAlert, setShowAlert] = useState(false);
   const searchParams = useSearchParams()
@@ -38,7 +40,7 @@ const Login = (): JSX.Element => {
   // Handle login
   const handleLogin = async () => {
     setIsLoading(true);
-    const signInResult = await signIn('google', { callbackUrl: 'http://localhost:3000/'});
+    await signIn('google', { callbackUrl: process.env.NEXT_PUBLIC_BASE_URL + "/tes"});
   }
   
   // Loading

@@ -13,7 +13,7 @@ const Tes = (): JSX.Element => {
     <div>
       <h1>{session?.user?.name}</h1>
       <p>{session?.user?.email}</p>
-      <button onClick={() => signOut({ callbackUrl: 'http://localhost:3000/' })}>Logout</button>
+      <button onClick={() => signOut({ callbackUrl: process.env.NEXT_PUBLIC_BASE_URL + '/masuk' })}>Logout</button>
     </div>
   );
 };
