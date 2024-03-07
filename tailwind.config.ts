@@ -17,7 +17,8 @@ module.exports = {
         blue_dark: '#074A87',
         black: '#1C1C1C',
         grey_bg: '#EDF1F6',
-        red: '#FF5959',
+        red_main: '#FF5959',
+        red_dark: '#d43535',
         orange: '#F9AF42'
       },
       fontSize: {

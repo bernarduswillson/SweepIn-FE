@@ -4,7 +4,7 @@ import ToggleButton from '@components/ui/NavButton';
 
 const Navbar = (): JSX.Element => {
   return (
-    <div className='w-full flex justify-between mt-5'>
+    <div className='w-full flex justify-between items-center mt-5'>
       <ToggleButton state={'Presensi'} />
 
       <LogoutButton />

@@ -11,24 +11,23 @@ import ITB from "@public/icons/itb-ic.svg"
 
 // Components
 import GoogleButton from "@/components/ui/GoogleButton";
-import AlertLogin from "@/components/ui/Modal";
+import Modal from "@/components/ui/Modal";
 
 const Masuk = (): JSX.Element => {
   const router = useRouter();
 
-  // Show modal alert if access in unauthorized
   const [showAlert, setShowAlert] = useState(false);
   const searchParams = useSearchParams()
   const search = searchParams?.get('error')
-
-  // Handle unauthorized login
+  
+  // Show modal alert if access in unauthorized
   useEffect(() => {
     if (search === "AccessDenied") {
       setShowAlert(true)
     }
   }, [search, router])
 
-  // Handle modal confirm
+  // Confirm modal
   const handleConfirm = (): void => {
     setShowAlert(false)
   }
@@ -60,7 +59,17 @@ const Masuk = (): JSX.Element => {
         </div>
 
         {/* Alert Box */}
-        {showAlert && <AlertLogin onConfirm={handleConfirm} />}
+        {
+          showAlert && 
+            <Modal 
+              title="Akun tidak ditemukan"
+              type="info"
+              msg="Akun anda belum terdaftar, coba masuk menggunakan akun lain atau hubungi admin."
+              confirmText='Oke'
+              onConfirm={handleConfirm}
+              onClose={handleConfirm}
+            />
+          }
       </div>
 
       {/* Bottom Illustration */}

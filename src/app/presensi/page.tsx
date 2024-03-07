@@ -42,8 +42,8 @@ const Presensi = (): JSX.Element => {
 
   return (
     <div className="relative w-screen h-screen flex justify-center bg-blue_main overflow-hidden">
-      
-      <div className='w-11/12'>
+      <div className='w-11/12 max-w-[641px]'>
+
         {/* Header */}
         <div className='relative h-[30vh]'>
           <Navbar />
@@ -73,9 +73,11 @@ const Presensi = (): JSX.Element => {
             </div>
           </div>
         </div> */}
+
       </div>
 
       {/* {showAlert && <AlertLog onConfirm={handleConfirm} onCancel={handleConfirm} />} */}
+    
     </div>
   );
 };
