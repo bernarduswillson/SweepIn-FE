@@ -1,9 +1,9 @@
-import Presensi from "@/pages/Presensi";
+import FormPresensi from "@/pages/FormPresensi";
 
 const Page = (): JSX.Element => {
   return (
     <div className="relative h-auto">
-      <Presensi />
+      <FormPresensi />
     </div>
   );
 };
