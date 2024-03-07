@@ -1,9 +1,6 @@
 "use client"
 
-// Imports
 import Image from "next/image";
-import Lottie from "react-lottie";
-import { signIn, useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from 'next/navigation'
 
@@ -11,15 +8,13 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import WaveTop from "@public/images/wave-top-illustration.svg"
 import WaveBot from "@public/images/wave-bottom-illustration.svg"
 import ITB from "@public/icons/itb-ic.svg"
-import Google from "@public/icons/google-ic.svg"
+
+// Components
+import GoogleButton from "@/components/ui/GoogleButton";
 import AlertLogin from "@/components/ui/Modal";
-import googleLoadingAnimation from "@public/lotties/google-loading.json";
 
 const Masuk = (): JSX.Element => {
   const router = useRouter();
-  const { data: session, status } = useSession();
-  
-  console.log(process.env.NEXT_PUBLIC_API_URL)
 
   // Show modal alert if access in unauthorized
   const [showAlert, setShowAlert] = useState(false);
@@ -33,28 +28,10 @@ const Masuk = (): JSX.Element => {
     }
   }, [search, router])
 
+  // Handle modal confirm
   const handleConfirm = (): void => {
     setShowAlert(false)
   }
-  
-  // Handle login
-  const handleLogin = async () => {
-    setIsLoading(true);
-    await signIn('google', { callbackUrl: process.env.NEXT_PUBLIC_BASE_URL + "/tes"});
-  }
-  
-  // Loading
-  const [isLoading, setIsLoading] = useState(false);
-
-  // Lottie Configuration
-  const googleLoadingAnimationOptions = {
-    loop: true,
-    autoplay: true,
-    animationData: googleLoadingAnimation,
-    rendererSettings: {
-      preserveAspectRatio: "xMidYMid slice"
-    }
-  };
 
   return (
     <div className="relative h-screen bg-white font-bold flex flex-col justify-center overflow-hidden">
@@ -78,23 +55,12 @@ const Masuk = (): JSX.Element => {
         </div>
 
         {/* Google Login Button */}
-        {
-          !isLoading ? 
-              <button className="flex items-center justify-center w-4/5 max-w-[370px] py-4 mt-20 border-2 bg-white rounded-xl border-grey text-black relative hover:bg-grey button-animation" 
-                type="button"
-                onClick={handleLogin}>
-                <Image src={Google} alt="Google" className="absolute left-3" />
-                <p className="text-md text-center poppins-medium w-full">Masuk dengan Google</p>
-              </button>
-          : 
-            <div className="flex items-center justify-center w-4/5 max-w-[370px] mt-20" >
-              <Lottie 
-                options={googleLoadingAnimationOptions}
-                height={60}
-                width={60}
-              />
-            </div>
-        }
+        <div className="w-4/5 max-w-[370px]">
+          <GoogleButton />
+        </div>
+
+        {/* Alert Box */}
+        {showAlert && <AlertLogin onConfirm={handleConfirm} />}
       </div>
 
       {/* Bottom Illustration */}
@@ -104,9 +70,6 @@ const Masuk = (): JSX.Element => {
       <div className="absolute w-[70vw] bottom-0 right-0 flex justify-end sm:translate-y-[15vw]">
         <Image src={WaveBot} alt="WaveBot" className="w-full" />
       </div>
-
-      {/* Alert Box */}
-      {showAlert && <AlertLogin onConfirm={handleConfirm} />}
     </div>
   );
 };
