@@ -3,7 +3,7 @@
 // Imports
 import Image from "next/image";
 import Lottie from "react-lottie";
-import { signIn, useSession, getProviders } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from 'next/navigation'
 
@@ -15,7 +15,7 @@ import Google from "@public/icons/google-ic.svg"
 import AlertLogin from "@/components/ui/Modal";
 import googleLoadingAnimation from "@public/lotties/google-loading.json";
 
-const Login = (): JSX.Element => {
+const Masuk = (): JSX.Element => {
   const router = useRouter();
   const { data: session, status } = useSession();
   
@@ -111,4 +111,4 @@ const Login = (): JSX.Element => {
   );
 };
 
-export default Login;
+export default Masuk;
