@@ -11,100 +11,8 @@ import AlertLog from '@/components/ui/alertLog';
 import Calendar from '@/images/Presensi/Calendar.svg'
 import Logout from '@/images/Presensi/Logout.svg'
 
-const DataPresensi = [
-  {
-    date: new Date('2024-03-01'),
-    status: 0
-  },
-  {
-    date: new Date('2024-02-29'),
-    status: 1
-  },
-  {
-    date: new Date('2024-02-28'),
-    status: 2
-  },
-  {
-    date: new Date('2024-02-27'),
-    status: 0
-  },
-  {
-    date: new Date('2024-02-26'),
-    status: 1
-  },
-  {
-    date: new Date('2024-02-25'),
-    status: 2
-  },
-  {
-    date: new Date('2024-02-24'),
-    status: 0
-  },
-  {
-    date: new Date('2024-02-23'),
-    status: 1
-  },
-  {
-    date: new Date('2024-02-22'),
-    status: 2
-  },
-  {
-    date: new Date('2024-02-21'),
-    status: 0
-  },
-  {
-    date: new Date('2024-02-20'),
-    status: 1
-  },
-  {
-    date: new Date('2024-02-19'),
-    status: 2
-  },
-  {
-    date: new Date('2024-02-18'),
-    status: 0
-  },
-  {
-    date: new Date('2024-02-17'),
-    status: 1
-  },
-  {
-    date: new Date('2024-02-16'),
-    status: 2
-  },
-  {
-    date: new Date('2024-02-15'),
-    status: 0
-  },
-  {
-    date: new Date('2024-02-14'),
-    status: 1
-  },
-  {
-    date: new Date('2024-02-13'),
-    status: 2
-  },
-  {
-    date: new Date('2024-02-12'),
-    status: 0
-  },
-  {
-    date: new Date('2024-02-11'),
-    status: 1
-  },
-  {
-    date: new Date('2024-02-10'),
-    status: 2
-  },
-  {
-    date: new Date('2024-02-09'),
-    status: 0
-  },
-  {
-    date: new Date('2024-02-08'),
-    status: 1
-  }
-]
+// Data
+import AttendanceData from "@data/attendanceDummy.json"
 
 const Presensi = (): JSX.Element => {
   const getToday = () => {
@@ -158,9 +66,9 @@ const Presensi = (): JSX.Element => {
         </div>
         <div className='overflow-y-auto flex-1 mt-5 rounded-xl'>
           <div className='w-full h-fit gap-1'>
-            {DataPresensi.map((data, index) => (
+            {/* {DataPresensi.map((data, index) => (
               <Card key={index} date={data.date} status={data.status} />
-            ))}
+            ))} */}
           </div>
         </div>
       </div>

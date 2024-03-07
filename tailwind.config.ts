@@ -30,9 +30,6 @@ module.exports = {
         '4xl': '2.441rem',
         '5xl': '3.052rem'
       },
-      // dropShadow: {
-      //   green: '0 2px 4px rgba(137, 193, 144, 0.25)'
-      // }
     }
   },
   variants: {},
