@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { motion } from 'framer-motion';
+import { useState, useRef } from 'react';
+import { motion} from 'framer-motion';
 
 // Interfaces
 import MonthRange from '@/app/interface/MonthRange';
@@ -15,6 +15,23 @@ interface ListContainerProps {
   title: 'Daftar Presensi' | 'Daftar Laporan'
 };
 
+// Animation config
+const fadeIn = {
+  initial: {
+    opacity: 0,
+    y: 50
+  },
+  animate: (index: number) => ({
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.5,
+      delay: 0.1 * index,
+      ease: 'easeInOut',
+    }
+  })
+}
+
 const ListContainer = (props: ListContainerProps):JSX.Element => {
   const { title } = props;
 
@@ -27,6 +44,7 @@ const ListContainer = (props: ListContainerProps):JSX.Element => {
     end: undefined,
   });
 
+  // Handle change date input 
   const handleDateInputOnChange = (name: 'start' | 'end', value: Date | undefined) => {
     setMonthRange((prev) => ({
       ...prev,
@@ -34,6 +52,7 @@ const ListContainer = (props: ListContainerProps):JSX.Element => {
     }));
   };
   
+  // Handle search
   const handleSearch = () => {
     // TODO: Implement search
     console.log(monthRange);
@@ -53,7 +72,14 @@ const ListContainer = (props: ListContainerProps):JSX.Element => {
           <div className='w-full h-fit gap-1'>
             {
               data.map((item, index) => (
-                <motion.div key={index}>
+                <motion.div 
+                  key={index}
+                  variants={fadeIn}
+                  initial='initial'
+                  whileInView="animate"
+                  viewport={{once: true}}  
+                  custom={index}
+                >
                   <Card
                     id={item.id}
                     date={new Date(item.date)} 
