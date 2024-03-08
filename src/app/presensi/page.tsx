@@ -3,8 +3,9 @@
 import { useState } from 'react';
 import Image from 'next/image';
 
-import Navbar from '@components/Navbar'
-
+// Components
+import Navbar from '@components/Navbar';
+import Header from '@components/Header';
 
 import SearchBar from '@/components/ui/searcbar';
 import Card from '@/components/ui/card';
@@ -16,21 +17,6 @@ import Calendar from '@/images/Presensi/Calendar.svg'
 import AttendanceData from "@data/attendanceDummy.json"
 
 const Presensi = (): JSX.Element => {
-  const getToday = () => {
-    const months = [
-        'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
-        'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
-    ];
-
-    const today = new Date();
-    const day = today.getDate();
-    const monthIndex = today.getMonth();
-    const year = today.getFullYear();
-    
-    const monthName = months[monthIndex];
-
-    return `${day} ${monthName} ${year}`;
-  }
 
   const [showAlert, setShowAlert] = useState(false);
   const handleJoinClick = (): void => {
@@ -47,12 +33,7 @@ const Presensi = (): JSX.Element => {
         <div className='relative w-11/12 max-w-[641px] h-[40vh]'>
           <Navbar />
           
-          <div className='justify-end flex flex-col bottom-0 absolute'>
-            <div className='mb-7'>
-              <h1 className="text-white text-5xl pt-10 font-extrabold">Presensi</h1>
-              <h2 className="text-white text-md font-semibold">{getToday()}</h2>
-            </div>
-          </div>
+          <Header title='Presensi' />
 
           <div className='absolute bottom-0 right-0 translate-x-[100px] translate-y-[50px]'>
             <Image src={Calendar} alt='Calendar' />
