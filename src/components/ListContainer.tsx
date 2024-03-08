@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { motion } from 'framer-motion';
 
 // Interfaces
 import MonthRange from '@/app/interface/MonthRange';
@@ -52,12 +53,14 @@ const ListContainer = (props: ListContainerProps):JSX.Element => {
           <div className='w-full h-fit gap-1'>
             {
               data.map((item, index) => (
-                <Card 
-                  key={index}
-                  date={new Date(item.date)} 
-                  startAttendanceId={item.startAttendanceId}
-                  endAttendanceId={item.endAttendanceId} 
-                />
+                <motion.div key={index}>
+                  <Card
+                    id={item.id}
+                    date={new Date(item.date)} 
+                    startAttendanceId={item.startAttendanceId}
+                    endAttendanceId={item.endAttendanceId} 
+                  />
+                </motion.div>
               ))
             } 
           </div>

@@ -10,18 +10,26 @@ import Alert from '@/components/ui/alertLoc';
 import RightArrow from '@public/icons/RightArrow';
 import UncheckedMark from '@public/icons/status-unchecked.svg';
 import CheckedMark from '@public/icons/status-checked.svg';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 interface CardProps {
+  id: String,
   date: Date,
   startAttendanceId: String | null,
   endAttendanceId: String | null 
 }
 
 const Card = (props: CardProps): JSX.Element => {
-  const { date, startAttendanceId, endAttendanceId } = props;
+  const { id, date, startAttendanceId, endAttendanceId } = props;
+
+  const route = useRouter();
 
   // Is today attendance?
   const [isToday, setIsToday] = useState<Boolean>(date.getDate() === new Date().getDate());
+
+  // Is modal shown?
+  const [showAlert, setShowAlert] = useState(false);
 
   // Parse date to String (DAY, DD MONTH YYYY)
   const parseDate = (date: Date) => {
@@ -33,13 +41,19 @@ const Card = (props: CardProps): JSX.Element => {
     return `${day}, ${date.getDate()} ${month} ${year}`;
   }
 
-  const [showAlert, setShowAlert] = useState(false);
+  // Handle card click
+  const handleClick = () => {
+    setShowAlert(true);
+    // route.push(process.env.NEXT_PUBLIC_BASE_URL + '/presensi/' + id)
+  }
+
+  // Handle modal confirm
   const handleConfirm = (): void => {
     setShowAlert(false)
   }
 
   return (
-    <div className={`w-full relative rounded-xl flex justify-between items-center cursor-pointer ${isToday ? 'bg-blue_main' : 'bg-grey_bg'} p-3 mb-3 group`} onClick={() => setShowAlert(true)}>
+    <div className={`w-full relative rounded-xl flex justify-between items-center cursor-pointer ${isToday ? 'bg-blue_main' : 'bg-grey_bg'} p-3 mb-3 group`} onClick={handleClick}>
       <div className='w-full flex flex-col'>
 
         {/* Label */}
@@ -90,7 +104,7 @@ const Card = (props: CardProps): JSX.Element => {
       {showAlert && <Alert onConfirm={handleConfirm} />}
 
     </div>
-  )
-}
+  );
+};
 
 export default Card
