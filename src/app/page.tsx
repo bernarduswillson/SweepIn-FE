@@ -1,11 +1,8 @@
-import Presensi from "@/pages/Presensi";
-import Laporan from "@/pages/Laporan";
+"use client";
 
 const Page = (): JSX.Element => {
   return (
-    <div className="relative h-auto">
-      <Laporan />
-      {/* <Presensi /> */}
+    <div>
     </div>
   );
 };

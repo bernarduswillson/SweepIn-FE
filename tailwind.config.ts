@@ -1,6 +1,5 @@
 module.exports = {
   content: [
-    './pages/**/*.{js,ts,jsx,tsx}',
     './src/**/*.{js,ts,jsx,tsx}'
   ],
   darkMode: 'class',
@@ -18,7 +17,8 @@ module.exports = {
         blue_dark: '#074A87',
         black: '#1C1C1C',
         grey_bg: '#EDF1F6',
-        red: '#FF5959',
+        red_main: '#FF5959',
+        red_dark: '#d43535',
         orange: '#F9AF42'
       },
       fontSize: {
@@ -31,9 +31,9 @@ module.exports = {
         '4xl': '2.441rem',
         '5xl': '3.052rem'
       },
-      // dropShadow: {
-      //   green: '0 2px 4px rgba(137, 193, 144, 0.25)'
-      // }
+      screen: {
+        md: '768px' 
+      }
     }
   },
   variants: {},

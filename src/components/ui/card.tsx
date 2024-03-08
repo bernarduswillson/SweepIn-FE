@@ -1,18 +1,38 @@
 "use client"
 
-import React, { useState } from 'react'
+import React, { useState } from 'react';
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 
-import Alert from '@/components/ui/alertLoc';
+// Components
+import Modal from '@/components/ui/Modal';
 
-import RightArrow from '@/images/Presensi/RightArrow';
+// Asset
+import RightArrow from '@public/icons/right-arrow-ic';
+import UncheckedMark from '@public/icons/status-unchecked-ic.svg';
+import CheckedMark from '@public/icons/status-checked-ic.svg';
+import MapMissing from '@public/images/map-missing.svg'
 
 interface CardProps {
+  id: String,
   date: Date,
-  status: number
+  startAttendanceId: String | null,
+  endAttendanceId: String | null 
 }
 
-const Card = ({ date, status }: CardProps): JSX.Element => {
-  const convertDate = (date: Date) => {
+const Card = (props: CardProps): JSX.Element => {
+  const { id, date, startAttendanceId, endAttendanceId } = props;
+
+  const route = useRouter();
+
+  // Is today attendance?
+  const [isToday, setIsToday] = useState<Boolean>(date.getDate() === new Date().getDate());
+
+  // Is modal shown?
+  const [showModal, setShowModal] = useState(false);
+
+  // Parse date to String (DAY, DD MONTH YYYY)
+  const parseDate = (date: Date) => {
     const days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
     const months = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
     const day = days[date.getDay()];
@@ -21,31 +41,80 @@ const Card = ({ date, status }: CardProps): JSX.Element => {
     return `${day}, ${date.getDate()} ${month} ${year}`;
   }
 
-  const [showAlert, setShowAlert] = useState(false);
+  // Handle card click
+  const handleClick = () => {
+    setShowModal(true);
+    // route.push(process.env.NEXT_PUBLIC_BASE_URL + '/presensi/' + id)
+  }
+
+  // Handle modal confirm
   const handleConfirm = (): void => {
-    setShowAlert(false)
+    setShowModal(false)
   }
 
   return (
-    <div className={`w-full relative rounded-xl flex justify-between items-center ${date.getDate() === new Date().getDate() ? 'bg-blue_main text-white' : 'bg-grey_bg'} p-3 mb-3`} onClick={() => setShowAlert(true)}>
-      <div>
-        <div className={`font-extrabold text-sm  ${date.getDate() !== new Date().getDate() ? ' text-blue_main' : ''}`}>
-          Presensi
+    <div className='w-full'>
+      <div className={`w-full relative rounded-xl flex justify-between items-center cursor-pointer ${isToday ? 'bg-blue_main' : 'bg-grey_bg'} p-3 mb-3 group`} onClick={handleClick}>
+        <div className='w-full flex flex-col'>
+
+          {/* Label */}
+          <div className={`poppins-bold text-sm  ${isToday ? ' text-white' : 'text-blue_main'}`}>
+            Presensi
+          </div>
+
+          {/* Date */}
+          <div className={`poppins-bold text-2xl  ${isToday ? ' text-white' : 'text-black'}`}>
+            {
+              isToday ?
+              'Hari ini' :
+              parseDate(date)
+            }
+          </div>
+
+          {/* Status */}
+          <div className='w-full h-fit flex gap-3'>
+
+            {/* Start attendance status */}
+            <div className='w-fit h-fit flex items-center gap-1.5'>
+              {
+                startAttendanceId ?
+                <Image src={CheckedMark} alt='Centang'/> :
+                <Image src={UncheckedMark} alt='Silang'/>
+              }
+              <span className={`poppins-medium text-base ${isToday ? 'text-white' : 'text-black'}`}>Presensi Awal</span>
+            </div>
+
+            {/* End attendance status */}
+            <div className='w-fit h-fit flex items-center gap-1.5'>
+              {
+                endAttendanceId ?
+                <Image src={CheckedMark} alt='Centang'/> :
+                <Image src={UncheckedMark} alt='Silang'/> 
+              }
+              <span className={`poppins-medium text-base ${isToday ? 'text-white' : 'text-black'}`}>Presensi Akhir</span>
+            </div>
+            
+          </div>
+
         </div>
-        <div className={`font-bold text-xl  ${date.getDate() !== new Date().getDate() ? ' text-black' : ''}`}>
-          {convertDate(date)}
+
+        <div className='transition-transform ease-in-out duration-150 mr-3 group-hover:translate-x-2'>
+          <RightArrow fillColor={isToday ? '#FCFCFC' : '#1C1C1C'} />
         </div>
-        <div className={`flex items-center text-sm font-semibold  ${date.getDate() !== new Date().getDate() ? ' text-grey_text' : ''}`}>
-          <div className={`w-2 h-2 rounded-full ${status === 0 ? 'bg-red' : status === 1 ? 'bg-orange' : 'bg-green_main'} mr-2`}></div>
-          {status === 0 ? 'Belum Presensi awal dan akhir' : status === 1 ? 'Belum Presensi Akhir' : 'Sudah Presensi'}
-        </div>
+
       </div>
-      <div className='mr-3'>
-        <RightArrow fillColor={date.getDate() === new Date().getDate() ? '#FCFCFC' : '#000000'} />
-      </div>
-      {showAlert && <Alert onConfirm={handleConfirm} />}
+      <Modal
+        title="Lokasi tidak ditemukan"
+        msg="Patikan lokasi pada HP Anda sudah aktif untuk melakukan presensi"
+        img={MapMissing}
+        type="info"
+        confirmText="Oke"
+        onConfirm={handleConfirm}
+        onClose={handleConfirm} 
+        isOpen={showModal}
+      />
     </div>
-  )
-}
+  );
+};
 
 export default Card
