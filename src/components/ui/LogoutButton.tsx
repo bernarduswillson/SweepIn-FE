@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { signOut } from 'next-auth/react';
 
 // Asset
-import Logout from '@/images/Presensi/Logout.svg';
+import Logout from '@public/icons/logout-ic.svg';
 
 // Components
 import Modal from '@/components/ui/Modal';

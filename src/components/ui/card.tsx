@@ -8,9 +8,9 @@ import { useRouter } from 'next/navigation';
 import Modal from '@/components/ui/Modal';
 
 // Asset
-import RightArrow from '@public/icons/RightArrow';
-import UncheckedMark from '@public/icons/status-unchecked.svg';
-import CheckedMark from '@public/icons/status-checked.svg';
+import RightArrow from '@public/icons/right-arrow-ic';
+import UncheckedMark from '@public/icons/status-unchecked-ic.svg';
+import CheckedMark from '@public/icons/status-checked-ic.svg';
 import MapMissing from '@public/images/map-missing.svg'
 
 interface CardProps {

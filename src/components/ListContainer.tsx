@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { easeInOut, motion} from 'framer-motion';
-import axios from 'axios';
+import { useFetch } from '@/hooks/useFetch';
 
 // Interfaces
 import MonthRange from '@/interface/MonthRange';
@@ -11,9 +11,6 @@ import DateSearchBar from '@/components/ui/DateSearchBar';
 import Card from '@/components/ui/Card';
 import SweepLoader from '@/components/ui/SweepLoader';
 
-// Fetch
-import AttendanceData from "@/data/attendanceDummy.json";
-
 interface ListContainerProps {
   title: 'Daftar Presensi' | 'Daftar Laporan'
 };
@@ -21,8 +18,9 @@ interface ListContainerProps {
 const ListContainer = (props: ListContainerProps):JSX.Element => {
   const { title } = props;
 
-  // Loading state
-  const [isLoading, setIsLoading] = useState<Boolean>(true);
+  // Fetch data
+  // TODO: Get the user id from session
+  const { data, loading } = useFetch(`/api/activity/user/65e977f9ff15a6ab52da402a`)
 
   // Today's data
   const [todayData, setTodayData] = useState<Attendance>({
@@ -32,32 +30,11 @@ const ListContainer = (props: ListContainerProps):JSX.Element => {
     endLogId: null
   })
 
-  // Data
-  const [data, setData] = useState<Attendance[]>([]);
-
   // Month range value
   const [monthRange, setMonthRange] = useState<MonthRange>({
     start: undefined,
     end: undefined,
   });
-
-  // Fetch data
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setIsLoading(true);
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/activity/user/65e977f9ff15a6ab52da402a`)
-        if (response.status == 200) {
-          setData(response.data.data);
-        }
-      } catch (error) {
-      } finally {
-        setIsLoading(false);
-      }
-    }
-
-    fetchData();
-  }, [])
 
   // Handle change date input 
   const handleDateInputOnChange = (name: 'start' | 'end', value: Date | undefined) => {
@@ -92,7 +69,7 @@ const ListContainer = (props: ListContainerProps):JSX.Element => {
               endAttendanceId={todayData.endLogId} 
             />
             {
-              !isLoading ? 
+              !loading ? 
               data && data.map((item, index) => (
                 <motion.div 
                   key={index}

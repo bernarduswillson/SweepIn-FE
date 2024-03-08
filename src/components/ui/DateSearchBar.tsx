@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Image from 'next/image';
 
 // Asset
-import Icon from '@/images/Presensi/CalendarIcon.svg';
+import Icon from '@public/icons/calendar-ic.svg';
 
 // Interfaces
 import MonthRange from '@/interface/MonthRange';
