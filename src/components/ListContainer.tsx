@@ -24,8 +24,8 @@ const ListContainer = (props: ListContainerProps):JSX.Element => {
 
   // Month range value
   const [monthRange, setMonthRange] = useState<MonthRange>({
-    start: new Date(),
-    end: new Date(),
+    start: undefined,
+    end: undefined,
   });
 
   const handleDateInputOnChange = (name: 'start' | 'end', value: Date | undefined) => {

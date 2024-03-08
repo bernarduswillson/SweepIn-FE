@@ -19,23 +19,32 @@ interface SearchBarProps {
 const SearchBar = (props: SearchBarProps): JSX.Element => {
   const { monthRange, onChange } = props;
 
-  // Date values
-  const [dateFrom, setDateFrom] = useState<Date | undefined>(monthRange.start);
-  const [dateTo, setDateTo] = useState<Date | undefined>(monthRange.end);
-  useEffect(() => {
-    onChange('start', dateFrom);
-    onChange('end', dateTo);
-  }, [dateFrom, dateTo])
-
   // Show calendar form
   const [showCalendarFrom, setShowCalendarFrom] = useState(false);
   const [showCalendarTo, setShowCalendarTo] = useState(false);
 
-  // Hanlde select date
-  const handleOkeButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.stopPropagation();
+  // Date values
+  const [dateFrom, setDateFrom] = useState<Date | undefined>(monthRange.start);
+  const [dateTo, setDateTo] = useState<Date | undefined>(monthRange.end);
+  
+  // End date validation
+  const [isRangeValid, setIsRangeValid] = useState<Boolean>(false); 
+
+  // Handle change date value 
+  useEffect(() => {
     setDateFrom(dateFrom);
     setDateTo(dateTo);
+    onChange('start', dateFrom);
+    onChange('end', dateTo);
+
+    if (dateTo && dateFrom) {
+      setIsRangeValid(dateTo >= dateFrom)
+    }
+  }, [dateFrom, dateTo])
+
+  // Hanlde select date
+  const handleOkeButtonClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
     setShowCalendarFrom(false);
     setShowCalendarTo(false);
   };
@@ -48,17 +57,17 @@ const SearchBar = (props: SearchBarProps): JSX.Element => {
       const year = date.getFullYear().toString().slice(-2);
       return `${day}/${month}/${year}`;
     }
-    return 'NaN'
+    return undefined;
   };
 
   return (
-    <div className='w-full flex'>
+    <div className='w-full flex gap-2'>
 
-      {/* Start button */}
-      <button className='flex justify-between w-[40%] border-2 rounded-xl text-text_grey py-1 px-2 mr-2' 
+      {/* Start date input */}
+      <button className={`w-[40%] flex justify-between items-center py-1 px-2 pl-3 border-grey border-2 rounded-xl poppins-medium ${monthRange.start ? 'text-black' : 'text-grey_text'}`} 
         onClick={() => setShowCalendarFrom(true)}
       >
-        {monthRange.start && convertDateToString(monthRange.start)}
+        {monthRange.start ? convertDateToString(monthRange.start) : 'Mulai'}
 
         {/* Calendar icon */}
         <Image src={Icon} alt='Calendar' width={25} />
@@ -66,27 +75,27 @@ const SearchBar = (props: SearchBarProps): JSX.Element => {
         {/* Calendar form */}
         {showCalendarFrom && (
           <>
-            <div className='fixed top-0 left-0 w-full h-full bg-black opacity-50 z-10'></div>
-            <div className='fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20 bg-white rounded-md border shadow'>
-              <div className='text-black pt-3 font-bold'>Pilih tanggal dari</div>
+            <div className='fixed top-0 left-0 w-full h-full bg-black opacity-50 z-10' onClick={handleOkeButtonClick}></div>
+            <div className='fixed top-1/2 left-1/2 flex flex-col py-5 px-5 items-center gap-5 transform -translate-x-1/2 -translate-y-1/2 z-20 bg-white rounded-md border shadow'>
+              <div className='text-black poppins-bold'>Pilih Tanggal Mulai</div>
               <Calendar
                 mode="single"
                 selected={monthRange.start}
                 onSelect={setDateFrom}
               />
-              <button className='bg-blue_main text-white px-4 py-1 rounded-xl mb-3 font-bold hover:opacity-80' onClick={(e) => handleOkeButtonClick(e)}>
-                Pilih
+              <button className='w-[80px]' onClick={(e) => handleOkeButtonClick(e)}>
+                <Button text='Pilih' />
               </button>
             </div>
           </>
         )}
       </button>
 
-      {/* End button */}
-      <button className='flex justify-between w-[40%] border-2 rounded-xl text-text_grey py-1 px-2 mr-2' 
+      {/* End date input */}
+      <button className={`w-[40%] flex justify-between items-center py-1 px-2 pl-3 border-2 rounded-xl poppins-medium ${!monthRange.start ? 'text-grey_text border-grey' : isRangeValid ? 'text-black border-grey' : 'text-red_main border-red_main'}`} 
         onClick={() => setShowCalendarTo(true)}
       >
-        {monthRange.end && convertDateToString(monthRange.end)}
+        {monthRange.end ? convertDateToString(monthRange.end) : 'Akhir'}
 
         {/* Calendar icon */}
         <Image src={Icon} alt='Calendar' width={25} />
@@ -94,25 +103,31 @@ const SearchBar = (props: SearchBarProps): JSX.Element => {
         {/* Calendar form */}
         {showCalendarTo && (
           <>
-            <div className='fixed top-0 left-0 w-full h-full bg-black opacity-50 z-10'></div>
-            <div className='fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20 bg-white rounded-md border shadow'>
-              <div className='text-black pt-3 font-bold'>Pilih tanggal sampai</div>
+            <div className='fixed top-0 left-0 w-full h-full bg-black opacity-50 z-10' onClick={handleOkeButtonClick}></div>
+            <div className='fixed top-1/2 left-1/2 flex flex-col py-5 px-5 items-center gap-5 transform -translate-x-1/2 -translate-y-1/2 z-20 bg-white rounded-md border shadow'>
+              <div className='text-black poppins-bold'>Pilih Tanggal Akhir</div>
               <Calendar
                 mode="single"
                 selected={monthRange.end}
                 onSelect={setDateTo}
               />
-              <button className='bg-blue_main text-white px-4 py-1 rounded-xl mb-3 font-bold hover:opacity-80' onClick={(e) => handleOkeButtonClick(e)}>
-                Pilih
-              </button>
+              <div className='w-full h-fit flex flex-col items-center gap-2'>
+                {
+                  !isRangeValid && 
+                  <span className='text-sm text-red_main poppins-medium'>Tanggal akhir harus setelah tanggal awal</span>
+                }
+                <button className='w-[80px]' onClick={(e) => handleOkeButtonClick(e)}>
+                  <Button text='Pilih' disable={!isRangeValid} />
+                </button>
+              </div>
             </div>
           </>
         )}
       </button>
 
       {/* Cari */}
-      <div className='w-[120px] h-full'>
-        <Button text="Cari" />
+      <div className='w-[20%]'>
+        <Button text="Cari" disable={!isRangeValid} />
       </div>
     </div>
   )

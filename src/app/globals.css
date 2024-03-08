@@ -60,7 +60,7 @@
 }
 
 .button-animation {
-  @apply transition-colors duration-150 ease-in-out;
+  @apply transition duration-150 ease-in-out;
 }
 
 .poppins-regular {
