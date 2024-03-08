@@ -6,7 +6,6 @@ const Navbar = (): JSX.Element => {
   return (
     <div className='w-full flex justify-between items-center mt-5'>
       <ToggleButton state={'Presensi'} />
-
       <LogoutButton />
     </div>
   );

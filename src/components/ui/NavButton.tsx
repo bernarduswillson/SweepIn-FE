@@ -9,23 +9,32 @@ interface ToggleButtonProps {
 const ToggleButton = (props: ToggleButtonProps): JSX.Element => {
   const { state } = props;
 
-  const [value, setValue] = useState<String>(state);
+  const [active, setActive] = useState<String>(state);
 
-  const handleToggleClick = () => {
-    if (value === 'Presensi') {
-      setValue('Laporan');
-    } else {
-      setValue('Presensi');
+  const handleToggleClick = (owner: String) => {
+    if (active === 'Presensi' && owner != 'Presensi') {
+      setActive('Laporan');
+    }
+    if (active === 'Laporan' && owner != 'Laporan') {
+      setActive('Presensi');
     }
   }
 
   return (
     <button className='w-fit relative flex py-2 '>
       <div className='z-[10] flex'>
-        <div className={`px-5 poppins-medium transition-all ease-in-out duration-500 ${value === 'Presensi' ? 'text-blue_main' : 'text-white'}`} onClick={handleToggleClick}>Presensi</div>
-        <div className={`px-5 poppins-medium transition-all ease-in-out duration-500 ${value === 'Laporan' ? 'text-blue_main' : 'text-white'}`} onClick={handleToggleClick}>Laporan</div>
+        <div className={`px-5 poppins-medium transition-all ease-in-out duration-500 ${active === 'Presensi' ? 'text-blue_main' : 'text-white'}`} 
+          onClick={() => handleToggleClick('Presensi')}
+        >
+          Presensi
+        </div>
+        <div className={`px-5 poppins-medium transition-all ease-in-out duration-500 ${active === 'Laporan' ? 'text-blue_main' : 'text-white'}`} 
+          onClick={() => handleToggleClick('Laporan')}
+        >
+          Laporan
+        </div>
       </div>
-      <div className={`bg-white absolute h-full w-[50%] rounded-md top-0 transition-all ease-in-out duration-500 ${value === 'Presensi' ? 'left-0' : 'left-1/2'}`} />
+      <div className={`bg-white absolute h-full w-[50%] rounded-md top-0 transition-all ease-in-out duration-500 ${active === 'Presensi' ? 'left-0' : 'left-1/2'}`} />
     </button>
   );
 };

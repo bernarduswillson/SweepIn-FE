@@ -1,37 +1,68 @@
-"use client"
-
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Image from 'next/image';
 
-import Icon from '@/images/Presensi/CalendarIcon.svg'
-import { Calendar } from "@/components/ui/calendar"
+// Asset
+import Icon from '@/images/Presensi/CalendarIcon.svg';
 
-const SearchBar = (): JSX.Element => {
+// Interfaces
+import MonthRange from '@/app/interface/MonthRange';
+
+// Components
+import { Calendar } from "@/components/ui/calendar";
+
+interface SearchBarProps {
+  monthRange: MonthRange
+  onChange: (name: 'start' | 'end', value: Date | undefined) => void, 
+};
+
+const SearchBar = (props: SearchBarProps): JSX.Element => {
+  const { monthRange, onChange } = props;
+
+  // Date values
+  const [dateFrom, setDateFrom] = useState<Date | undefined>(monthRange.start);
+  const [dateTo, setDateTo] = useState<Date | undefined>(monthRange.end);
+  useEffect(() => {
+    onChange('start', dateFrom);
+    onChange('end', dateTo);
+  }, [dateFrom, dateTo])
+
+  // Show calendar form
   const [showCalendarFrom, setShowCalendarFrom] = useState(false);
   const [showCalendarTo, setShowCalendarTo] = useState(false);
-  const [dateFrom, setDateFrom] = React.useState<Date | undefined>(new Date());
-  const [dateTo, setDateTo] = React.useState<Date | undefined>(new Date());
 
+  // Hanlde select date
   const handleOkeButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
     setDateFrom(dateFrom);
     setDateTo(dateTo);
     setShowCalendarFrom(false);
     setShowCalendarTo(false);
-  }
+  };
 
-  const convertDate = (date: Date) => {
-    const day = date.getDate();
-    const month = date.getMonth() + 1;
-    const year = date.getFullYear().toString().slice(-2);
-    return `${day}/${month}/${year}`;
-  }
+  // Conver date from Date to String (dd/mm/yyyy)
+  const convertDateToString = (date: Date) => {
+    if (date instanceof Date) {
+      const day = date.getDate();
+      const month = date.getMonth() + 1;
+      const year = date.getFullYear().toString().slice(-2);
+      return `${day}/${month}/${year}`;
+    }
+    return 'NaN'
+  };
 
   return (
     <div className='w-full flex'>
-      <button className='flex justify-between w-[40%] border-2 rounded-xl text-text_grey py-1 px-2 mr-2' onClick={() => setShowCalendarFrom(true)}>
-        {dateFrom ? convertDate(dateFrom) : 'dari'}
+
+      {/* Start button */}
+      <button className='flex justify-between w-[40%] border-2 rounded-xl text-text_grey py-1 px-2 mr-2' 
+        onClick={() => setShowCalendarFrom(true)}
+      >
+        {monthRange.start && convertDateToString(monthRange.start)}
+
+        {/* Calendar icon */}
         <Image src={Icon} alt='Calendar' width={25} />
+
+        {/* Calendar form */}
         {showCalendarFrom && (
           <>
             <div className='fixed top-0 left-0 w-full h-full bg-black opacity-50 z-10'></div>
@@ -39,38 +70,45 @@ const SearchBar = (): JSX.Element => {
               <div className='text-black pt-3 font-bold'>Pilih tanggal dari</div>
               <Calendar
                 mode="single"
-                selected={dateFrom}
+                selected={monthRange.start}
                 onSelect={setDateFrom}
-                className=""
               />
               <button className='bg-blue_main text-white px-4 py-1 rounded-xl mb-3 font-bold hover:opacity-80' onClick={(e) => handleOkeButtonClick(e)}>
-                Okay
+                Pilih
               </button>
             </div>
           </>
         )}
       </button>
-      <button className='flex justify-between w-[40%] border-2 rounded-xl text-text_grey py-1 px-2 mr-2' onClick={() => setShowCalendarTo(true)}>
-        {dateTo ? convertDate(dateTo) : 'sampai'}
+
+      {/* End button */}
+      <button className='flex justify-between w-[40%] border-2 rounded-xl text-text_grey py-1 px-2 mr-2' 
+        onClick={() => setShowCalendarTo(true)}
+      >
+        {monthRange.end && convertDateToString(monthRange.end)}
+
+        {/* Calendar icon */}
         <Image src={Icon} alt='Calendar' width={25} />
+
+        {/* Calendar form */}
         {showCalendarTo && (
           <>
             <div className='fixed top-0 left-0 w-full h-full bg-black opacity-50 z-10'></div>
             <div className='fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20 bg-white rounded-md border shadow'>
-            <div className='text-black pt-3 font-bold'>Pilih tanggal sampai</div>
+              <div className='text-black pt-3 font-bold'>Pilih tanggal sampai</div>
               <Calendar
                 mode="single"
-                selected={dateTo}
+                selected={monthRange.end}
                 onSelect={setDateTo}
-                className=""
               />
               <button className='bg-blue_main text-white px-4 py-1 rounded-xl mb-3 font-bold hover:opacity-80' onClick={(e) => handleOkeButtonClick(e)}>
-                Okay
+                Pilih
               </button>
             </div>
           </>
         )}
       </button>
+
       <button className='w-[20%] bg-green_main text-white rounded-xl hover:opacity-80 font-bold'>Cari</button>
     </div>
   )
