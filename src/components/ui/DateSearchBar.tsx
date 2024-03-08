@@ -14,10 +14,11 @@ import Button from '@/components/ui/Button';
 interface SearchBarProps {
   monthRange: MonthRange
   onChange: (name: 'start' | 'end', value: Date | undefined) => void, 
+  onSearch: () => void
 };
 
 const SearchBar = (props: SearchBarProps): JSX.Element => {
-  const { monthRange, onChange } = props;
+  const { monthRange, onChange, onSearch } = props;
 
   // Show calendar form
   const [showCalendarFrom, setShowCalendarFrom] = useState(false);
@@ -127,7 +128,7 @@ const SearchBar = (props: SearchBarProps): JSX.Element => {
 
       {/* Cari */}
       <div className='w-[20%]'>
-        <Button text="Cari" disable={!isRangeValid} />
+        <Button text="Cari" disable={!isRangeValid} onClick={onSearch}/>
       </div>
     </div>
   )

@@ -1,6 +1,6 @@
 // Components
-import LogoutButton from '@components/ui/LogoutButton';
-import ToggleButton from '@components/ui/NavButton';
+import LogoutButton from '@/components/ui/LogoutButton';
+import ToggleButton from '@/components/ui/NavButton';
 
 const Navbar = (): JSX.Element => {
   return (
