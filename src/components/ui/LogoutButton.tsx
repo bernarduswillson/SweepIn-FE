@@ -14,6 +14,7 @@ const LogoutButton = ():JSX.Element => {
 
   // Logout
   const handleLogout = () => {
+    // TODO: Add loading
     signOut({ callbackUrl: process.env.NEXT_PUBLIC_BASE_URL + '/masuk'})
   };
 

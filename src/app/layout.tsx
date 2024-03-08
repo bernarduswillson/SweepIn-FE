@@ -12,7 +12,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning={true}>
-      <body className="w-screen overflow-y-auto overflow-x-hidden scroll-smooth">
+      <body className="w-screen min-h-screen overflow-y-auto overflow-x-hidden scroll-smooth">
         <SessionProvider>
           {children}
         </SessionProvider>

@@ -8,7 +8,7 @@ import Attendance from '@/interface/Attendance';
 
 // Components
 import DateSearchBar from '@/components/ui/DateSearchBar';
-import Card from '@/components/ui/Card';
+import Card from '@/components/ui/AttendanceCard';
 import SweepLoader from '@/components/ui/SweepLoader';
 
 interface ListContainerProps {
@@ -51,7 +51,7 @@ const ListContainer = (props: ListContainerProps):JSX.Element => {
   }
   
   return (
-    <div className="w-full max-w-[641px] flex justify-center bg-white rounded-t-[26px]">
+    <div className="w-full max-w-[641px] flex justify-center flex-grow bg-white rounded-t-[26px]">
       <div className='w-11/12 flex flex-col gap-6 pt-6'>
         <h1 className="text-black text-left text-2xl poppins-bold">{title}</h1>
         <DateSearchBar 
@@ -60,45 +60,43 @@ const ListContainer = (props: ListContainerProps):JSX.Element => {
           onSearch={handleSearch}
         />
 
-        <div className='flex-1 mt-5 rounded-xl'>
-          <div className='w-full h-fit flex flex-col items-center gap-1'>
-            <Card
-              id={todayData.id}
-              date={new Date(todayData.createdAt)} 
-              startAttendanceId={todayData.startLogId}
-              endAttendanceId={todayData.endLogId} 
-            />
-            {
-              !loading ? 
-              data && data.map((item, index) => (
-                <motion.div 
-                  key={index}
-                  initial={{
-                    opacity: 0,
-                    y: 50
-                  }}
-                  whileInView={{
-                    opacity: 1,
-                    y: 0,
-                    transition: {
-                      duration: 0.5,
-                      ease: easeInOut
-                    }
-                  }}
-                  viewport={{once: true}}  
-                  className='w-full'
-                >
-                  <Card
-                    id={item.id}
-                    date={new Date(item.createdAt)} 
-                    startAttendanceId={item.startLogId}
-                    endAttendanceId={item.endLogId} 
-                  />
-                </motion.div>
-              )) :
-              <SweepLoader />
-            } 
-          </div>
+        <div className='w-full h-fit flex flex-col items-center gap-1'>
+          <Card
+            id={todayData.id}
+            date={new Date(todayData.createdAt)} 
+            startAttendanceId={todayData.startLogId}
+            endAttendanceId={todayData.endLogId} 
+          />
+          {
+            !loading ? 
+            data && data.map((item, index) => (
+              <motion.div 
+                key={index}
+                initial={{
+                  opacity: 0,
+                  y: 50
+                }}
+                whileInView={{
+                  opacity: 1,
+                  y: 0,
+                  transition: {
+                    duration: 0.5,
+                    ease: easeInOut
+                  }
+                }}
+                viewport={{once: true}}  
+                className='w-full'
+              >
+                <Card
+                  id={item.id}
+                  date={new Date(item.createdAt)} 
+                  startAttendanceId={item.startLogId}
+                  endAttendanceId={item.endLogId} 
+                />
+              </motion.div>
+            )) :
+            <SweepLoader />
+          } 
         </div>
       </div>
     </div>

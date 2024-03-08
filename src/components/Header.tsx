@@ -3,7 +3,7 @@ import { useInView } from "framer-motion";
 import Image from "next/image";
 
 // Asset
-import Calendar from '@public/images/Calendar.svg';
+import Calendar from '@public/images/calendar.svg';
 
 interface HeaderProps {
   title: String
