@@ -11,6 +11,10 @@ import DateSearchBar from '@/components/ui/DateSearchBar';
 import AttendanceCard from '@/components/ui/AttendanceCard';
 import ReportCard from '@/components/ui/ReportCard';
 import SweepLoader from '@/components/ui/SweepLoader';
+import parseDate from '@/utils/parseDate';
+
+// Utils
+import getTodayString from '@/utils/getTodayString';
 
 interface ListContainerProps {
   title: 'Daftar Presensi' | 'Daftar Laporan',
@@ -26,6 +30,9 @@ const ListContainer = (props: ListContainerProps):JSX.Element => {
     start: undefined,
     end: undefined,
   });
+
+  console.log(parseDate(new Date(data[0].date)));
+  console.log(parseDate(new Date()));
 
   // Handle change date input 
   const handleDateInputOnChange = (name: 'start' | 'end', value: Date | undefined) => {
@@ -53,6 +60,45 @@ const ListContainer = (props: ListContainerProps):JSX.Element => {
 
         <div className='w-full h-fit flex flex-col items-center gap-1'>
           {
+            !loading && 
+            parseDate(new Date(data[0].date)) != parseDate(new Date()) &&
+            <motion.div 
+              initial={{
+                opacity: 0,
+                y: 50
+              }}
+              whileInView={{
+                opacity: 1,
+                y: 0,
+                transition: {
+                  duration: 0.5,
+                  ease: easeInOut
+                }
+              }}
+              viewport={{once: true}}  
+              className='w-full'
+            >
+              {
+                ('startLogId' in data[0]) &&
+                <AttendanceCard
+                id='baru'
+                date={new Date()} 
+                startAttendanceId={null}
+                endAttendanceId={null} 
+              />
+              }
+              {
+                ('numOfPhoto' in data[0]) &&
+                <ReportCard
+                  id='baru'
+                  numOfPhoto={0}
+                  date={new Date()}
+                  status='belum dikirim'
+                />
+              }
+            </motion.div>
+          }
+          {
             !loading ? 
             data && data.map((item: Attendance | Report, index) => (
               <motion.div 
@@ -76,7 +122,7 @@ const ListContainer = (props: ListContainerProps):JSX.Element => {
                   ('startLogId' in item) &&
                   <AttendanceCard
                     id={item.id}
-                    date={new Date(item.createdAt)} 
+                    date={new Date(item.date)} 
                     startAttendanceId={item.startLogId}
                     endAttendanceId={item.endLogId} 
                   />
