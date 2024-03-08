@@ -5,7 +5,7 @@ import Image from 'next/image';
 import Icon from '@/images/Presensi/CalendarIcon.svg';
 
 // Interfaces
-import MonthRange from '@/app/interface/MonthRange';
+import MonthRange from '@/interface/MonthRange';
 
 // Components
 import { Calendar } from "@/components/ui/calendar";

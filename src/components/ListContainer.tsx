@@ -1,12 +1,14 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { easeInOut, motion} from 'framer-motion';
 
 // Interfaces
-import MonthRange from '@/app/interface/MonthRange';
+import MonthRange from '@/interface/MonthRange';
+import AttendanceDataProps from '@/interface/Attendance';
 
 // Components
 import DateSearchBar from '@/components/ui/DateSearchBar';
 import Card from '@/components/ui/Card';
+import SweepLoader from '@/components/ui/SweepLoader';
 
 // Data
 import AttendanceData from "@/data/attendanceDummy.json";
@@ -18,14 +20,25 @@ interface ListContainerProps {
 const ListContainer = (props: ListContainerProps):JSX.Element => {
   const { title } = props;
 
+  // Loading state
+  const [isLoading, setIsLoading] = useState<Boolean>(true);
+
   // Data
-  const [data, setData] = useState(AttendanceData);
+  const [data, setData] = useState<AttendanceDataProps[] | undefined>(undefined);
 
   // Month range value
   const [monthRange, setMonthRange] = useState<MonthRange>({
     start: undefined,
     end: undefined,
   });
+
+  // Fetch data
+  useEffect(() => {
+    setTimeout(() => {
+      setData(AttendanceData);
+      setIsLoading(false);
+    }, 10000)
+  }, [])
 
   // Handle change date input 
   const handleDateInputOnChange = (name: 'start' | 'end', value: Date | undefined) => {
@@ -52,9 +65,10 @@ const ListContainer = (props: ListContainerProps):JSX.Element => {
         />
 
         <div className='flex-1 mt-5 rounded-xl'>
-          <div className='w-full h-fit gap-1'>
+          <div className='w-full h-fit flex flex-col items-center gap-1'>
             {
-              data.map((item, index) => (
+              !isLoading ? 
+              data && data.map((item, index) => (
                 <motion.div 
                   key={index}
                   initial={{
@@ -70,6 +84,7 @@ const ListContainer = (props: ListContainerProps):JSX.Element => {
                     }
                   }}
                   viewport={{once: true}}  
+                  className='w-full'
                 >
                   <Card
                     id={item.id}
@@ -78,7 +93,8 @@ const ListContainer = (props: ListContainerProps):JSX.Element => {
                     endAttendanceId={item.endAttendanceId} 
                   />
                 </motion.div>
-              ))
+              )) :
+              <SweepLoader />
             } 
           </div>
         </div>

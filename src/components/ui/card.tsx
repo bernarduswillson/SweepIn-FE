@@ -53,7 +53,7 @@ const Card = (props: CardProps): JSX.Element => {
   }
 
   return (
-    <div>
+    <div className='w-full'>
       <div className={`w-full relative rounded-xl flex justify-between items-center cursor-pointer ${isToday ? 'bg-blue_main' : 'bg-grey_bg'} p-3 mb-3 group`} onClick={handleClick}>
         <div className='w-full flex flex-col'>
 

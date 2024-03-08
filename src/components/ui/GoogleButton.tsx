@@ -5,8 +5,6 @@ import Lottie from "react-lottie";
 
 // Assets
 import Google from "@public/icons/google-ic.svg"
-
-// Loading animation
 import googleLoadingAnimation from "@public/lotties/google-loading.json";
 
 const GoogleButton = ():JSX.Element => {
