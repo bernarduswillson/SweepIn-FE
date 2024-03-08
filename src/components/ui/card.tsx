@@ -1,79 +1,120 @@
-import * as React from "react"
+"use client"
 
-import { cn } from "@/lib/utils"
+import React, { useState } from 'react';
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 
-const Card = React.forwardRef<
-  HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
->(({ className, ...props }, ref) => (
-  <div
-    ref={ref}
-    className={cn(
-      "rounded-lg border bg-card text-card-foreground shadow-sm",
-      className
-    )}
-    {...props}
-  />
-))
-Card.displayName = "Card"
+// Components
+import Modal from '@/components/ui/Modal';
 
-const CardHeader = React.forwardRef<
-  HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
->(({ className, ...props }, ref) => (
-  <div
-    ref={ref}
-    className={cn("flex flex-col space-y-1.5 p-6", className)}
-    {...props}
-  />
-))
-CardHeader.displayName = "CardHeader"
+// Asset
+import RightArrow from '@public/icons/right-arrow-ic';
+import UncheckedMark from '@public/icons/status-unchecked-ic.svg';
+import CheckedMark from '@public/icons/status-checked-ic.svg';
+import MapMissing from '@public/images/map-missing.svg'
 
-const CardTitle = React.forwardRef<
-  HTMLParagraphElement,
-  React.HTMLAttributes<HTMLHeadingElement>
->(({ className, ...props }, ref) => (
-  <h3
-    ref={ref}
-    className={cn(
-      "text-2xl font-semibold leading-none tracking-tight",
-      className
-    )}
-    {...props}
-  />
-))
-CardTitle.displayName = "CardTitle"
+interface CardProps {
+  id: String,
+  date: Date,
+  startAttendanceId: String | null,
+  endAttendanceId: String | null 
+}
 
-const CardDescription = React.forwardRef<
-  HTMLParagraphElement,
-  React.HTMLAttributes<HTMLParagraphElement>
->(({ className, ...props }, ref) => (
-  <p
-    ref={ref}
-    className={cn("text-sm text-muted-foreground", className)}
-    {...props}
-  />
-))
-CardDescription.displayName = "CardDescription"
+const Card = (props: CardProps): JSX.Element => {
+  const { id, date, startAttendanceId, endAttendanceId } = props;
 
-const CardContent = React.forwardRef<
-  HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
->(({ className, ...props }, ref) => (
-  <div ref={ref} className={cn("p-6 pt-0", className)} {...props} />
-))
-CardContent.displayName = "CardContent"
+  const route = useRouter();
 
-const CardFooter = React.forwardRef<
-  HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
->(({ className, ...props }, ref) => (
-  <div
-    ref={ref}
-    className={cn("flex items-center p-6 pt-0", className)}
-    {...props}
-  />
-))
-CardFooter.displayName = "CardFooter"
+  // Is today attendance?
+  const [isToday, setIsToday] = useState<Boolean>(date.getDate() === new Date().getDate());
 
-export { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent }
+  // Is modal shown?
+  const [showModal, setShowModal] = useState(false);
+
+  // Parse date to String (DAY, DD MONTH YYYY)
+  const parseDate = (date: Date) => {
+    const days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+    const months = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+    const day = days[date.getDay()];
+    const month = months[date.getMonth()];
+    const year = date.getFullYear();
+    return `${day}, ${date.getDate()} ${month} ${year}`;
+  }
+
+  // Handle card click
+  const handleClick = () => {
+    setShowModal(true);
+    // route.push(process.env.NEXT_PUBLIC_BASE_URL + '/presensi/' + id)
+  }
+
+  // Handle modal confirm
+  const handleConfirm = (): void => {
+    setShowModal(false)
+  }
+
+  return (
+    <div className='w-full'>
+      <div className={`w-full relative rounded-xl flex justify-between items-center cursor-pointer ${isToday ? 'bg-blue_main' : 'bg-grey_bg'} p-3 mb-3 group`} onClick={handleClick}>
+        <div className='w-full flex flex-col'>
+
+          {/* Label */}
+          <div className={`poppins-bold text-sm  ${isToday ? ' text-white' : 'text-blue_main'}`}>
+            Presensi
+          </div>
+
+          {/* Date */}
+          <div className={`poppins-bold text-2xl  ${isToday ? ' text-white' : 'text-black'}`}>
+            {
+              isToday ?
+              'Hari ini' :
+              parseDate(date)
+            }
+          </div>
+
+          {/* Status */}
+          <div className='w-full h-fit flex gap-3'>
+
+            {/* Start attendance status */}
+            <div className='w-fit h-fit flex items-center gap-1.5'>
+              {
+                startAttendanceId ?
+                <Image src={CheckedMark} alt='Centang'/> :
+                <Image src={UncheckedMark} alt='Silang'/>
+              }
+              <span className={`poppins-medium text-base ${isToday ? 'text-white' : 'text-black'}`}>Presensi Awal</span>
+            </div>
+
+            {/* End attendance status */}
+            <div className='w-fit h-fit flex items-center gap-1.5'>
+              {
+                endAttendanceId ?
+                <Image src={CheckedMark} alt='Centang'/> :
+                <Image src={UncheckedMark} alt='Silang'/> 
+              }
+              <span className={`poppins-medium text-base ${isToday ? 'text-white' : 'text-black'}`}>Presensi Akhir</span>
+            </div>
+            
+          </div>
+
+        </div>
+
+        <div className='transition-transform ease-in-out duration-150 mr-3 group-hover:translate-x-2'>
+          <RightArrow fillColor={isToday ? '#FCFCFC' : '#1C1C1C'} />
+        </div>
+
+      </div>
+      <Modal
+        title="Lokasi tidak ditemukan"
+        msg="Patikan lokasi pada HP Anda sudah aktif untuk melakukan presensi"
+        img={MapMissing}
+        type="info"
+        confirmText="Oke"
+        onConfirm={handleConfirm}
+        onClose={handleConfirm} 
+        isOpen={showModal}
+      />
+    </div>
+  );
+};
+
+export default Card

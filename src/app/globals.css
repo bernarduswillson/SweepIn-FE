@@ -60,7 +60,7 @@
 }
 
 .button-animation {
-  @apply transition-colors duration-150 ease-in-out;
+  @apply transition duration-150 ease-in-out;
 }
 
 .poppins-regular {
@@ -79,4 +79,25 @@
   font-family: "Poppins", sans-serif;
   font-style: normal;
   font-weight: 700;
+}
+
+.poppins-extrabold {
+  font-family: "Poppins", sans-serif;
+  font-style: normal;
+  font-weight: 800;
+}
+
+body::-webkit-scrollbar {
+  width: 10px;
+  background-color: #fcfcfc;
+}
+
+body::-webkit-scrollbar-track {
+  border-radius: 10px;
+  background-color: transparent;
+}
+
+body::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: #074a87;
 }

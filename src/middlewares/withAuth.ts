@@ -28,7 +28,7 @@ export default function withAuth(
       if (token) {
         // Handle authorized user and admin
         if (authPage.includes(pathname) || homePage.includes(pathname)) {
-          return NextResponse.redirect(new URL('/tes', req.url))
+          return NextResponse.redirect(new URL('/presensi', req.url))
         }
 
         // // Handle unauthorized user
