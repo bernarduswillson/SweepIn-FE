@@ -5,8 +5,8 @@ import Attendance from "@/interface/Attendance";
 export function useFetch(url:string) {
 
   const [data, setData] = useState<Attendance[]>([])
-  const [loading, setLoading] = useState<Boolean>(false)
-  const [error, setError] = useState<Boolean>(false)
+  const [loading, setLoading] = useState<boolean>(false)
+  const [error, setError] = useState<boolean>(false)
 
   useEffect(() => {
     (

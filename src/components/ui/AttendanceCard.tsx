@@ -13,14 +13,17 @@ import UncheckedMark from '@public/icons/status-unchecked-ic.svg';
 import CheckedMark from '@public/icons/status-checked-ic.svg';
 import MapMissing from '@public/images/map-missing.svg'
 
-interface CardProps {
+// Utils
+import parseDate from '@/utils/parseDate';
+
+interface AttendanceCardProps {
   id: String,
   date: Date,
   startAttendanceId: String | null,
   endAttendanceId: String | null 
 }
 
-const Card = (props: CardProps): JSX.Element => {
+const Card = (props: AttendanceCardProps): JSX.Element => {
   const { id, date, startAttendanceId, endAttendanceId } = props;
 
   const route = useRouter();
@@ -30,16 +33,6 @@ const Card = (props: CardProps): JSX.Element => {
 
   // Is modal shown?
   const [showModal, setShowModal] = useState(false);
-
-  // Parse date to String (DAY, DD MONTH YYYY)
-  const parseDate = (date: Date) => {
-    const days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
-    const months = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
-    const day = days[date.getDay()];
-    const month = months[date.getMonth()];
-    const year = date.getFullYear();
-    return `${day}, ${date.getDate()} ${month} ${year}`;
-  }
 
   // Handle card click
   const handleClick = () => {

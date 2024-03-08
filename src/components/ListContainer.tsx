@@ -1,40 +1,38 @@
 import { useState, useEffect } from 'react';
 import { easeInOut, motion} from 'framer-motion';
-import { useFetch } from '@/hooks/useFetch';
 
 // Interfaces
 import MonthRange from '@/interface/MonthRange';
 import Attendance from '@/interface/Attendance';
+import Report from '@/interface/Report';
 
 // Components
 import DateSearchBar from '@/components/ui/DateSearchBar';
-import Card from '@/components/ui/Card';
+import AttendanceCard from '@/components/ui/AttendanceCard';
+import ReportCard from '@/components/ui/ReportCard';
 import SweepLoader from '@/components/ui/SweepLoader';
+import parseDate from '@/utils/parseDate';
+
+// Utils
+import getTodayString from '@/utils/getTodayString';
 
 interface ListContainerProps {
-  title: 'Daftar Presensi' | 'Daftar Laporan'
+  title: 'Daftar Presensi' | 'Daftar Laporan',
+  data: (Attendance | Report)[],
+  loading: boolean,
 };
 
 const ListContainer = (props: ListContainerProps):JSX.Element => {
-  const { title } = props;
-
-  // Fetch data
-  // TODO: Get the user id from session
-  const { data, loading } = useFetch(`/api/activity/user/65e977f9ff15a6ab52da402a`)
-
-  // Today's data
-  const [todayData, setTodayData] = useState<Attendance>({
-    id: '',
-    createdAt: new Date().toISOString(),
-    startLogId: null,
-    endLogId: null
-  })
+  const { title, data, loading } = props;
 
   // Month range value
   const [monthRange, setMonthRange] = useState<MonthRange>({
     start: undefined,
     end: undefined,
   });
+
+  console.log(parseDate(new Date(data[0].date)));
+  console.log(parseDate(new Date()));
 
   // Handle change date input 
   const handleDateInputOnChange = (name: 'start' | 'end', value: Date | undefined) => {
@@ -51,7 +49,7 @@ const ListContainer = (props: ListContainerProps):JSX.Element => {
   }
   
   return (
-    <div className="w-full max-w-[641px] flex justify-center bg-white rounded-t-[26px]">
+    <div className="w-full max-w-[641px] flex justify-center flex-grow bg-white rounded-t-[26px]">
       <div className='w-11/12 flex flex-col gap-6 pt-6'>
         <h1 className="text-black text-left text-2xl poppins-bold">{title}</h1>
         <DateSearchBar 
@@ -60,45 +58,88 @@ const ListContainer = (props: ListContainerProps):JSX.Element => {
           onSearch={handleSearch}
         />
 
-        <div className='flex-1 mt-5 rounded-xl'>
-          <div className='w-full h-fit flex flex-col items-center gap-1'>
-            <Card
-              id={todayData.id}
-              date={new Date(todayData.createdAt)} 
-              startAttendanceId={todayData.startLogId}
-              endAttendanceId={todayData.endLogId} 
-            />
-            {
-              !loading ? 
-              data && data.map((item, index) => (
-                <motion.div 
-                  key={index}
-                  initial={{
-                    opacity: 0,
-                    y: 50
-                  }}
-                  whileInView={{
-                    opacity: 1,
-                    y: 0,
-                    transition: {
-                      duration: 0.5,
-                      ease: easeInOut
-                    }
-                  }}
-                  viewport={{once: true}}  
-                  className='w-full'
-                >
-                  <Card
+        <div className='w-full h-fit flex flex-col items-center gap-1'>
+          {
+            !loading && 
+            parseDate(new Date(data[0].date)) != parseDate(new Date()) &&
+            <motion.div 
+              initial={{
+                opacity: 0,
+                y: 50
+              }}
+              whileInView={{
+                opacity: 1,
+                y: 0,
+                transition: {
+                  duration: 0.5,
+                  ease: easeInOut
+                }
+              }}
+              viewport={{once: true}}  
+              className='w-full'
+            >
+              {
+                ('startLogId' in data[0]) &&
+                <AttendanceCard
+                id='baru'
+                date={new Date()} 
+                startAttendanceId={null}
+                endAttendanceId={null} 
+              />
+              }
+              {
+                ('numOfPhoto' in data[0]) &&
+                <ReportCard
+                  id='baru'
+                  numOfPhoto={0}
+                  date={new Date()}
+                  status='belum dikirim'
+                />
+              }
+            </motion.div>
+          }
+          {
+            !loading ? 
+            data && data.map((item: Attendance | Report, index) => (
+              <motion.div 
+                key={index}
+                initial={{
+                  opacity: 0,
+                  y: 50
+                }}
+                whileInView={{
+                  opacity: 1,
+                  y: 0,
+                  transition: {
+                    duration: 0.5,
+                    ease: easeInOut
+                  }
+                }}
+                viewport={{once: true}}  
+                className='w-full'
+              >
+                {
+                  ('startLogId' in item) &&
+                  <AttendanceCard
                     id={item.id}
-                    date={new Date(item.createdAt)} 
+                    date={new Date(item.date)} 
                     startAttendanceId={item.startLogId}
                     endAttendanceId={item.endLogId} 
                   />
-                </motion.div>
-              )) :
-              <SweepLoader />
-            } 
-          </div>
+                }
+                {
+                  ('numOfPhoto' in item) &&
+                  <ReportCard
+                    id={item.id}
+                    numOfPhoto={item.numOfPhoto}
+                    date={new Date(item.date)}
+                    status={item.status}
+                  />
+                }
+              </motion.div>
+            )) :
+            <SweepLoader />
+          } 
         </div>
       </div>
     </div>

@@ -1,6 +1,5 @@
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Dispatch, SetStateAction } from 'react';
 
 interface ModalProps {
   title: String,
