@@ -1,16 +1,17 @@
 import { useState, useEffect } from 'react';
 import { easeInOut, motion} from 'framer-motion';
+import axios from 'axios';
 
 // Interfaces
 import MonthRange from '@/interface/MonthRange';
-import AttendanceDataProps from '@/interface/Attendance';
+import Attendance from '@/interface/Attendance';
 
 // Components
 import DateSearchBar from '@/components/ui/DateSearchBar';
 import Card from '@/components/ui/Card';
 import SweepLoader from '@/components/ui/SweepLoader';
 
-// Data
+// Fetch
 import AttendanceData from "@/data/attendanceDummy.json";
 
 interface ListContainerProps {
@@ -23,8 +24,16 @@ const ListContainer = (props: ListContainerProps):JSX.Element => {
   // Loading state
   const [isLoading, setIsLoading] = useState<Boolean>(true);
 
+  // Today's data
+  const [todayData, setTodayData] = useState<Attendance>({
+    id: '',
+    createdAt: new Date().toISOString(),
+    startLogId: null,
+    endLogId: null
+  })
+
   // Data
-  const [data, setData] = useState<AttendanceDataProps[] | undefined>(undefined);
+  const [data, setData] = useState<Attendance[]>([]);
 
   // Month range value
   const [monthRange, setMonthRange] = useState<MonthRange>({
@@ -34,10 +43,20 @@ const ListContainer = (props: ListContainerProps):JSX.Element => {
 
   // Fetch data
   useEffect(() => {
-    setTimeout(() => {
-      setData(AttendanceData);
-      setIsLoading(false);
-    }, 10000)
+    const fetchData = async () => {
+      try {
+        setIsLoading(true);
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/activity/user/65e977f9ff15a6ab52da402a`)
+        if (response.status == 200) {
+          setData(response.data.data);
+        }
+      } catch (error) {
+      } finally {
+        setIsLoading(false);
+      }
+    }
+
+    fetchData();
   }, [])
 
   // Handle change date input 
@@ -66,6 +85,12 @@ const ListContainer = (props: ListContainerProps):JSX.Element => {
 
         <div className='flex-1 mt-5 rounded-xl'>
           <div className='w-full h-fit flex flex-col items-center gap-1'>
+            <Card
+              id={todayData.id}
+              date={new Date(todayData.createdAt)} 
+              startAttendanceId={todayData.startLogId}
+              endAttendanceId={todayData.endLogId} 
+            />
             {
               !isLoading ? 
               data && data.map((item, index) => (
@@ -88,9 +113,9 @@ const ListContainer = (props: ListContainerProps):JSX.Element => {
                 >
                   <Card
                     id={item.id}
-                    date={new Date(item.date)} 
-                    startAttendanceId={item.startAttendanceId}
-                    endAttendanceId={item.endAttendanceId} 
+                    date={new Date(item.createdAt)} 
+                    startAttendanceId={item.startLogId}
+                    endAttendanceId={item.endLogId} 
                   />
                 </motion.div>
               )) :

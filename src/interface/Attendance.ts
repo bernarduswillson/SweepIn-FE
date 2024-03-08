@@ -1,7 +1,6 @@
 export default interface Attendance {
   id: string,
-  userId: string,
-  date: string,
-  startAttendanceId: string | null,
-  endAttendanceId: string | null
+  createdAt: string,
+  startLogId: string | null,
+  endLogId: string | null
 };
