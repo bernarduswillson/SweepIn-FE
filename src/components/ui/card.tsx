@@ -103,18 +103,16 @@ const Card = (props: CardProps): JSX.Element => {
         </div>
 
       </div>
-      {
-        showModal && 
-        <Modal
-          title="Lokasi tidak ditemukan"
-          msg="Patikan lokasi pada HP Anda sudah aktif untuk melakukan presensi"
-          img={MapMissing}
-          type="info"
-          confirmText="Oke"
-          onConfirm={handleConfirm}
-          onClose={handleConfirm} 
-        />
-      }
+      <Modal
+        title="Lokasi tidak ditemukan"
+        msg="Patikan lokasi pada HP Anda sudah aktif untuk melakukan presensi"
+        img={MapMissing}
+        type="info"
+        confirmText="Oke"
+        onConfirm={handleConfirm}
+        onClose={handleConfirm} 
+        isOpen={showModal}
+      />
     </div>
   );
 };

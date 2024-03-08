@@ -1,5 +1,5 @@
-import { useState, useRef } from 'react';
-import { motion} from 'framer-motion';
+import { useState } from 'react';
+import { easeInOut, motion} from 'framer-motion';
 
 // Interfaces
 import MonthRange from '@/app/interface/MonthRange';
@@ -14,23 +14,6 @@ import AttendanceData from "@/data/attendanceDummy.json";
 interface ListContainerProps {
   title: 'Daftar Presensi' | 'Daftar Laporan'
 };
-
-// Animation config
-const fadeIn = {
-  initial: {
-    opacity: 0,
-    y: 50
-  },
-  animate: (index: number) => ({
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.5,
-      delay: 0.1 * index,
-      ease: 'easeInOut',
-    }
-  })
-}
 
 const ListContainer = (props: ListContainerProps):JSX.Element => {
   const { title } = props;
@@ -74,11 +57,19 @@ const ListContainer = (props: ListContainerProps):JSX.Element => {
               data.map((item, index) => (
                 <motion.div 
                   key={index}
-                  variants={fadeIn}
-                  initial='initial'
-                  whileInView="animate"
+                  initial={{
+                    opacity: 0,
+                    y: 50
+                  }}
+                  whileInView={{
+                    opacity: 1,
+                    y: 0,
+                    transition: {
+                      duration: 0.5,
+                      ease: easeInOut
+                    }
+                  }}
                   viewport={{once: true}}  
-                  custom={index}
                 >
                   <Card
                     id={item.id}

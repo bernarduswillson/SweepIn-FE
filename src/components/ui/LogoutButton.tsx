@@ -29,18 +29,16 @@ const LogoutButton = ():JSX.Element => {
 
   return (
     <div>
-      {
-        isModalOpen && 
-        <Modal 
-          title="Anda akan keluar"
-          msg="Anda akan keluar dari aplikasi ini. Apakah Anda yakin?"
-          type='danger'
-          confirmText='Keluar'
-          onConfirm={handleLogout} 
-          cancelText='Batal'
-          onClose={handleCloseModal}
-        />
-      }
+      <Modal 
+        title="Anda akan keluar"
+        msg="Anda akan keluar dari aplikasi ini. Apakah Anda yakin?"
+        type='danger'
+        confirmText='Keluar'
+        onConfirm={handleLogout} 
+        cancelText='Batal'
+        onClose={handleCloseModal}
+        isOpen={isModalOpen}
+      />
       <button className='flex items-center group' onClick={handleOpenModal}>
         <Image src={Logout} alt='Logout' className='transition-all duration-200 ease-in-out group-hover:-translate-x-2'/>
         <div className='ml-2 font-semibold text-white'>Keluar</div>

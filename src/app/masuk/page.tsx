@@ -59,17 +59,15 @@ const Masuk = (): JSX.Element => {
         </div>
 
         {/* Alert Box */}
-        {
-          showAlert && 
-            <Modal 
-              title="Akun tidak ditemukan"
-              type="info"
-              msg="Akun anda belum terdaftar, coba masuk menggunakan akun lain atau hubungi admin."
-              confirmText='Oke'
-              onConfirm={handleConfirm}
-              onClose={handleConfirm}
-            />
-          }
+        <Modal 
+          title="Akun tidak ditemukan"
+          type="info"
+          msg="Akun anda belum terdaftar, coba masuk menggunakan akun lain atau hubungi admin."
+          confirmText='Oke'
+          onConfirm={handleConfirm}
+          onClose={handleConfirm}
+          isOpen={showAlert}
+        />
       </div>
 
       {/* Bottom Illustration */}
