@@ -11,7 +11,6 @@ import SearchBar from '@/components/ui/searcbar';
 import Card from '@/components/ui/card';
 import AlertLog from '@/components/ui/alertLog';
 
-import Calendar from '@/images/Presensi/Calendar.svg'
 
 // Data
 import AttendanceData from "@data/attendanceDummy.json"
@@ -27,17 +26,13 @@ const Presensi = (): JSX.Element => {
   }
 
   return (
-    <div className="relative w-screen h-screen flex flex-col items-center bg-blue_main overflow-hidden">
+    <div className="w-screen h-screen flex flex-col items-center bg-blue_main overflow-hidden">
 
         {/* Header */}
         <div className='relative w-11/12 max-w-[641px] h-[40vh]'>
           <Navbar />
           
           <Header title='Presensi' />
-
-          <div className='absolute bottom-0 right-0 translate-x-[100px] translate-y-[50px]'>
-            <Image src={Calendar} alt='Calendar' />
-          </div>
         </div>
 
         {/* Body */}
