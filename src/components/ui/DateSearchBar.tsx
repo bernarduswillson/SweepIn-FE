@@ -9,6 +9,7 @@ import MonthRange from '@/app/interface/MonthRange';
 
 // Components
 import { Calendar } from "@/components/ui/calendar";
+import Button from '@/components/ui/Button';
 
 interface SearchBarProps {
   monthRange: MonthRange
@@ -109,7 +110,10 @@ const SearchBar = (props: SearchBarProps): JSX.Element => {
         )}
       </button>
 
-      <button className='w-[20%] bg-green_main text-white rounded-xl hover:opacity-80 font-bold'>Cari</button>
+      {/* Cari */}
+      <div className='w-[120px] h-full'>
+        <Button text="Cari" />
+      </div>
     </div>
   )
 }
