@@ -1,5 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
+import { motion, AnimatePresence, easeInOut } from 'framer-motion';
 
 // Component
 import Button from './Button';
@@ -43,9 +44,25 @@ const AttendancePhotoInput = (props: AttendancePhotoInputProps) => {
           </button>
         }
       </div>
-      <div className={`w-44 ${!photo ? 'opacity-0 pointer-events-none' : 'opacity-100 pointer-events-auto'}`}>
-        <Button text="Ambil ulang" color='white' onClick={capturePhoto} />
-      </div>
+      <AnimatePresence>
+        {
+          <motion.div 
+            className='w-44 pointer-events-auto'
+            initial={{
+              opacity: 0
+            }}
+            animate={{
+              opacity: photo ? 1 : 0,
+              transition: {
+                duration: 0.15,
+                ease: easeInOut
+              }
+            }}
+          >
+            <Button text="Ambil ulang" color='white' onClick={capturePhoto} />
+          </motion.div>
+        }
+      </AnimatePresence>
     </div>
   );
 };

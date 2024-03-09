@@ -121,7 +121,6 @@ const FormPresensi = () => {
 
           {/* Submit button */}
           <div className="flex flex-col items-center pt-10">
-            {/* <SubmitButton text='Kirim' onClick={() => {}} disable={!formData.photo || !formData.time || !formData.long || !formData.lat }/> */}
             <SubmitButton text='Kirim' onClick={handleSubmit} loading={isSubmitLoading} disable={!formData.photo || !formData.time || !formData.long || !formData.lat}/>
           </div>
         </div>

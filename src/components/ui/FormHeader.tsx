@@ -1,4 +1,5 @@
-import React from 'react'
+import React from 'react';
+import { easeInOut, motion } from 'framer-motion';
 
 // Utils
 import parseDate from '@/utils/parseDate';
@@ -13,8 +14,40 @@ const FormHeader = (props: FormHeaderProps) => {
 
   return (
     <div className="w-fit h-fit">
-      <h2 className="text-base text-center poppins-medium text-white -mb-1">{parseDate(date)}</h2>
-      <h1 className="text-3xl text-center poppins-bold text-white">{title}</h1>
+      <motion.h2 
+        className="text-base text-center poppins-medium text-white -mb-1"
+        initial={{
+          y: -18,
+          opacity: 0
+        }}
+        animate={{
+          y: 0,
+          opacity: 1,
+          transition: {
+            duration: 0.3,
+            ease: 'easeInOut'
+          }
+        }}
+      >
+        {parseDate(date)}
+      </motion.h2>
+      <motion.h1 
+        className="text-3xl text-center poppins-bold text-white"
+        initial={{
+          y: 18,
+          opacity: 0
+        }}
+        animate={{
+          y: 0,
+          opacity: 1,
+          transition: {
+            duration: 0.3,
+            ease: 'easeInOut'
+          }
+        }}
+      >
+        {title}
+      </motion.h1>
     </div>
   );
 };
