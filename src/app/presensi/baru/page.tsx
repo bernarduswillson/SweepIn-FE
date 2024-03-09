@@ -1,15 +1,20 @@
 "use client"
 
 // Imports
-import React, { useState } from 'react';
-import Image from 'next/image';
+import React, { useState, useEffect } from 'react';
 
 // Components
 import FormHeader from '@/components/ui/FormHeader';
+import AttendancePhotoInput from '@/components/ui/AttendancePhotoInput';
+import SubmitButton from '@/components/ui/SubmitButton';
 
 // Utils
 import getTodayDate from '@/utils/getTodayDate';
-import AttendancePhotoInput from '@/components/ui/AttendancePhotoInput';
+import getTodayString from '@/utils/getTodayString';
+import parseTime from '@/utils/parseTime';
+
+// Interface
+import Log from '@/interface/Log';
 
 // Data Presensi Props
 interface DataPresensiProps {
@@ -29,7 +34,7 @@ const dummyData: DataPresensiProps = {
 
 const FormPresensi = () => {
   // Form data
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<Log>({
     photo: '',
     time: undefined,
     lat: undefined,
@@ -44,56 +49,34 @@ const FormPresensi = () => {
     }))
   } 
 
-  // Get Today's Date
-  const getToday = () => {
-    const months = [
-        'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
-        'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
-    ];
-
-    const today = new Date();
-    const day = today.getDate();
-    const monthIndex = today.getMonth();
-    const year = today.getFullYear();
-    
-    const monthName = months[monthIndex];
-
-    return `${day} ${monthName} ${year}`;
-  }
-  
-  // Get Time
-  const [timeTaken, setTimeTaken] = useState('-');
-  const getTime = () => {
-    const today = new Date();
-    const hours = today.getHours();
-    const minutes = today.getMinutes();
-    return `${hours}.${minutes} WIB`;
-  }
-
-  // Capture Photo
-  const [photo, setPhoto] = useState<string>('');
-
   // Get Location
-  type Coordinates = {
-      lat: number;
-      lng: number;
-  };
-  const [coordinates, setCoordinates] = useState<Coordinates | null>(null);
   const defaultSettings = {
     enableHighAccuracy: true,
     timeout: 5000,
     maximumAge: 0
   };
-  const getLoc = () => {
+  const getLoc = ():number[] => {
+    let pos:number[] = []
     navigator.geolocation.getCurrentPosition((position) => {
-      setCoordinates({
-        lat: position.coords.latitude,
-        lng: position.coords.longitude
-      });
+      pos[0] = position.coords.latitude
+      pos[1] = position.coords.longitude
     }, (error) => {
       alert('Error getting location:');
     }, defaultSettings);
+    return pos
   }
+
+  useEffect(() => {
+    if (formData.photo) {
+      const pos = getLoc();
+      setFormData((prev) => ({
+        ...prev,
+        time: new Date(),
+        lat: pos[0],
+        long: pos[1]
+      }))
+    }
+  }, [formData.photo])
 
   return (
     <div className="w-screen min-h-screen h-fit flex flex-col items-center gap-5 bg-gradient-to-br from-green_main to-blue_main to-[50vh]">
@@ -104,26 +87,28 @@ const FormPresensi = () => {
         <AttendancePhotoInput photo={formData.photo} setPhoto={handleInputChange} />
       </div>
   
-      {/* <div className="h-auto max-w-[800px] w-full bg-white bottom-0 relative rounded-t-3xl flex flex-col py-10 px-[5vw]">
-        <div className='font-bold'>
-          <h4 className="text-green_main text-md">Nama</h4>
-          <h3 className="text-black text-xl ">{dummyData.nama}</h3>
-          <h4 className="text-green_main text-md mt-5">Tanggal</h4>
-          <h3 className="text-black text-xl">{getToday()}</h3>
-          <h4 className="text-green_main text-md mt-5">Waktu</h4>
-          <h3 className="text-black text-xl">{timeTaken}</h3>
-          <h4 className="text-green_main text-md mt-5">Lokasi</h4>
+      <div className="w-full max-w-[641px] flex justify-center flex-grow py-6 bg-white rounded-t-[26px]">
+        <div className='w-11/12 h-fit flex flex-col'>
+          <h4 className="text-green_main text-base poppins-bold">Nama</h4>
+          <h3 className="text-black text-xl poppins-medium">{dummyData.nama}</h3>
+          <h4 className="text-green_main text-base mt-5 poppins-bold">Tanggal</h4>
+          <h3 className="text-black text-xl poppins-medium">{getTodayString()}</h3>
+          <h4 className="text-green_main text-base mt-5 poppins-bold">Waktu</h4>
+          <h3 className="text-black text-xl poppins-medium">{formData.time ? parseTime(formData.time) : ':-:'}</h3>
+          <h4 className="text-green_main text-base mt-5 poppins-bold">Lokasi</h4>
 
-          {coordinates && (
-              <iframe src={`https://maps.google.com/maps?q=${coordinates.lat},${coordinates.lng}&z=15&output=embed`} width="100%" height="200" style={{border: 0}} allowFullScreen loading="lazy"></iframe>
-          )}
+          {
+            formData.long && 
+            formData.lat &&
+            <iframe src={`https://maps.google.com/maps?q=${formData.lat},${formData.long}&z=15&output=embed`} width="100%" height="200" style={{border: 0}} allowFullScreen loading="lazy"></iframe>
+          }
+
+          <div className="flex flex-col items-center pt-10">
+            <SubmitButton text='Kirim' onClick={() => {}} />
+          </div>
         </div>
 
-        <div className="flex flex-col items-center pt-10">
-          <button className={`bg-blue_main w-full max-w-[400px] text-white text-xl font-bold rounded-lg mt-2 py-1.5 ${photo ? 'opacity-100 hover:opacity-70 ' : 'opacity-40'}`} disabled={photo ? false : true}>Kirim</button>
-        </div>
-
-      </div> */}
+      </div>
     </div>
 
   );
