@@ -13,9 +13,6 @@ import ReportCard from '@/components/ui/ReportCard';
 import SweepLoader from '@/components/ui/SweepLoader';
 import parseDate from '@/utils/parseDate';
 
-// Utils
-import getTodayString from '@/utils/getTodayString';
-
 interface ListContainerProps {
   title: 'Daftar Presensi' | 'Daftar Laporan',
   data: (Attendance | Report)[],
