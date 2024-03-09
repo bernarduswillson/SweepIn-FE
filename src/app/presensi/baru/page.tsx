@@ -3,6 +3,7 @@
 // Imports
 import React, { useState } from 'react';
 import Image from 'next/image';
+import CreateFormHeader from '@/components/ui/CreateFormHeader';
 
 // Data Presensi Props
 interface DataPresensiProps {
@@ -105,10 +106,7 @@ const FormPresensi = () => {
 
       {/* Head */}
       <div className='py-10 flex flex-col items-center'>
-        <div className="text-white text-center">
-          <h2 className="text-md font-bold">{convertDate(dummyData.tanggal)}</h2>
-          <h1 className="text-3xl font-bold">Presensi Awal</h1>
-        </div>
+      <CreateFormHeader title='Presensi Awal' date={dummyData.tanggal} />
         <div className="relative border-[5px] border-white rounded-xl w-72 h-72 mt-10 mb-5">
           {photo ? (<Image src={photo} alt="photo" layout="fill" objectFit="cover" />) : (
             <button onClick={capturePhoto} className="w-full h-full bg-white text-black font-bold text-lg rounded-xl">Ambil Foto</button>
