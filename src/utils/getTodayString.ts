@@ -1,4 +1,4 @@
-const getToday = (withDay: boolean = false): string => {
+const getTodayString = (withDay: boolean = false): string => {
   const days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
   const months = [
       'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
@@ -16,4 +16,4 @@ const getToday = (withDay: boolean = false): string => {
   return `${withDay ? `${dayName}, ` : ''} ${day} ${monthName} ${year}`;
 }
 
-export default getToday;
+export default getTodayString;

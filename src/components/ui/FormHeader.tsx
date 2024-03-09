@@ -3,12 +3,12 @@ import React from 'react'
 // Utils
 import parseDate from '@/utils/parseDate';
 
-interface CreateFormHeaderProps {
+interface FormHeaderProps {
   title: string,
   date: Date,
 };
 
-const CreateFormHeader = (props: CreateFormHeaderProps) => {
+const FormHeader = (props: FormHeaderProps) => {
   const { title, date } = props;
 
   return (
@@ -19,4 +19,4 @@ const CreateFormHeader = (props: CreateFormHeaderProps) => {
   );
 };
 
-export default CreateFormHeader;
+export default FormHeader;
