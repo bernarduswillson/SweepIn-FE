@@ -46,27 +46,27 @@ const FormPresensi = () => {
     timeout: 5000,
     maximumAge: 0
   };
-  const getLoc = ():number[] => {
-    let pos:number[] = []
+  const getLoc = () => {
     navigator.geolocation.getCurrentPosition((position) => {
-      pos[0] = position.coords.latitude
-      pos[1] = position.coords.longitude
+      setFormData((prev) => ({
+        ...prev,
+        time: new Date(),
+        lat: position.coords.latitude,
+        long: position.coords.longitude
+      }))
     }, (error) => {
       alert('Error getting location:');
     }, defaultSettings);
-    return pos
   }
 
   // Update time and location when photo is updated
   useEffect(() => {
     if (formData.photo) {
-      const pos = getLoc();
       setFormData((prev) => ({
         ...prev,
         time: new Date(),
-        lat: pos[0],
-        long: pos[1]
       }))
+      getLoc();
     }
   }, [formData.photo]);
 
@@ -101,16 +101,21 @@ const FormPresensi = () => {
           <h4 className="text-green_main text-base mt-5 poppins-bold">Lokasi</h4>
 
           {/* Map */}
-          {
-            formData.long && 
-            formData.lat &&
-            <iframe src={`https://maps.google.com/maps?q=${formData.lat},${formData.long}&z=15&output=embed`} width="100%" height="200" style={{border: 0}} allowFullScreen loading="lazy"></iframe>
-          }
+          <div className='my-2'>
+            {
+              formData.long && 
+              formData.lat ?
+              <iframe src={`https://maps.google.com/maps?q=${formData.lat},${formData.long}&z=15&output=embed`} width="100%" height="200" style={{border: 0}} allowFullScreen loading="lazy"></iframe> :
+              <div className='opacity-50 pointer-events-none'>
+                <iframe src={`https://maps.google.com/maps?q=-6.914744,107.609810&z=15&output=embed`} width="100%" height="200" style={{border: 0}} allowFullScreen loading="lazy"></iframe>
+              </div>
+            }
+          </div>
 
           {/* Submit button */}
           <div className="flex flex-col items-center pt-10">
             {/* <SubmitButton text='Kirim' onClick={() => {}} disable={!formData.photo || !formData.time || !formData.long || !formData.lat }/> */}
-            <SubmitButton text='Kirim' onClick={handleSubmit} loading={isSubmitLoading} disable={!formData.photo || !formData.time }/>
+            <SubmitButton text='Kirim' onClick={handleSubmit} loading={isSubmitLoading} disable={!formData.photo || !formData.time || !formData.long || !formData.lat}/>
           </div>
         </div>
 
