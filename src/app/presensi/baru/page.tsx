@@ -101,7 +101,7 @@ const FormPresensi = () => {
           <h4 className="text-green_main text-base mt-5 poppins-bold">Lokasi</h4>
 
           {/* Map */}
-          <div className='my-2'>
+          <div className='my-2 rounded-xl overflow-hidden'>
             {
               formData.long && 
               formData.lat ?
