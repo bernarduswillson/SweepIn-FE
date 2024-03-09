@@ -16,25 +16,13 @@ import parseTime from '@/utils/parseTime';
 // Interface
 import Log from '@/interface/Log';
 
-// Data Presensi Props
-interface DataPresensiProps {
-  nama: string;
-  tanggal: Date;
-  waktu: string;
-  lokasi: string;
-}
-
-// Data Presensi Dummy
-const dummyData: DataPresensiProps = {
-  nama: 'Bernardus Willson',
-  tanggal: new Date('2022-10-10'),
-  waktu: '',
-  lokasi: ''
-}
+// Data
+import sessionDummy from '@/data/sessionDummy.json';
 
 const FormPresensi = () => {
   // Form data
   const [formData, setFormData] = useState<Log>({
+    userId: sessionDummy.userId,
     photo: '',
     time: undefined,
     lat: undefined,
@@ -66,6 +54,7 @@ const FormPresensi = () => {
     return pos
   }
 
+  // Update time and location when photo is updated
   useEffect(() => {
     if (formData.photo) {
       const pos = getLoc();
@@ -76,7 +65,12 @@ const FormPresensi = () => {
         long: pos[1]
       }))
     }
-  }, [formData.photo])
+  }, [formData.photo]);
+
+  // Handle submit
+  const handleSubmit = () => {
+    
+  };
 
   return (
     <div className="w-screen min-h-screen h-fit flex flex-col items-center gap-5 bg-gradient-to-br from-green_main to-blue_main to-[50vh]">
@@ -90,7 +84,7 @@ const FormPresensi = () => {
       <div className="w-full max-w-[641px] flex justify-center flex-grow py-6 bg-white rounded-t-[26px]">
         <div className='w-11/12 h-fit flex flex-col'>
           <h4 className="text-green_main text-base poppins-bold">Nama</h4>
-          <h3 className="text-black text-xl poppins-medium">{dummyData.nama}</h3>
+          <h3 className="text-black text-xl poppins-medium">{sessionDummy.name}</h3>
           <h4 className="text-green_main text-base mt-5 poppins-bold">Tanggal</h4>
           <h3 className="text-black text-xl poppins-medium">{getTodayString()}</h3>
           <h4 className="text-green_main text-base mt-5 poppins-bold">Waktu</h4>
@@ -104,7 +98,7 @@ const FormPresensi = () => {
           }
 
           <div className="flex flex-col items-center pt-10">
-            <SubmitButton text='Kirim' onClick={() => {}} />
+            <SubmitButton text='Kirim' onClick={() => {}} disable={!formData.photo || !formData.time || !formData.long || !formData.lat }/>
           </div>
         </div>
 

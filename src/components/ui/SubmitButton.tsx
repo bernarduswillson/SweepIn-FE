@@ -11,8 +11,8 @@ const SubmitButton = (props: SubmitButtonProps):JSX.Element => {
     <button 
       onClick={onClick} 
       disabled={!!disable} 
-      className={`w-full py-3 px-5 flex justify-center items-center bg-blue_main text-white hover:bg-blue_dark rounded-lg
-      ${disable ? 'opacity-50' : 'opacity-100'} text-xl poppins-bold button-animation`}
+      className={`w-full py-3 px-5 flex justify-center items-center bg-blue_main text-white rounded-lg
+      ${disable ? 'opacity-50' : 'opacity-100 hover:bg-blue_dark'} text-xl poppins-bold button-animation`}
     >
       {text}
     </button>
