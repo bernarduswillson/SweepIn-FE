@@ -3,10 +3,14 @@
 // Imports
 import React, { useState, useEffect } from 'react';
 
+// Asset
+import MapMissing from '@public/images/map-missing.svg'
+
 // Components
 import FormHeader from '@/components/ui/FormHeader';
 import AttendancePhotoInput from '@/components/ui/AttendancePhotoInput';
 import SubmitButton from '@/components/ui/SubmitButton';
+import Modal from '@/components/ui/Modal';
 
 // Utils
 import getTodayDate from '@/utils/getTodayDate';
@@ -22,6 +26,9 @@ import sessionDummy from '@/data/sessionDummy.json';
 const FormPresensi = () => {
   // Loading state
   const [isSubmitLoading, setIsSubmitLoading] = useState<boolean>(false);
+
+  // Location not found state
+  const [isLocationError, setIsLocationError] = useState<boolean>(false);
 
   // Form data
   const [formData, setFormData] = useState<Log>({
@@ -55,7 +62,7 @@ const FormPresensi = () => {
         long: position.coords.longitude
       }))
     }, (error) => {
-      alert('Error getting location:');
+      setIsLocationError(true)
     }, defaultSettings);
   }
 
@@ -120,6 +127,17 @@ const FormPresensi = () => {
         </div>
 
       </div>
+
+      <Modal
+        title="Lokasi tidak ditemukan"
+        msg="Patikan lokasi pada HP Anda sudah aktif untuk melakukan presensi"
+        img={MapMissing}
+        type="info"
+        confirmText="Oke"
+        onConfirm={() => {setIsLocationError(false)}}
+        onClose={() => {setIsLocationError(false)}} 
+        isOpen={isLocationError}
+      />
     </div>
 
   );
