@@ -1,9 +1,8 @@
-import DetailLaporan from "@/pages/DetailLaporan";
+"use client";
 
 const Page = (): JSX.Element => {
   return (
-    <div className="relative h-auto">
-      <DetailLaporan />
+    <div>
     </div>
   );
 };
