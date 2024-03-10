@@ -11,7 +11,7 @@ export default withAuth(mainMiddleware, [
   "/",
   "/tes",
   "/masuk",
-  // "/presensi/:path*",
+  "/presensi/:path*",
   "/laporan/:path*",
   "/admin/:path*",
 ]);

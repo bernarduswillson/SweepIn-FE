@@ -1,0 +1,18 @@
+{
+  "attendaceId": "65e98bc2c04ca217b192f095",
+  "date": "2024-03-08T09:41:21.112Z",
+  "startLog": {
+    "logId": "65e98f0efed33fb7e5838b7b",
+    "submitTime": "2024-03-08T07:41:21.112Z",
+    "verifiedImage": ["https://images.pexels.com/photos/995978/pexels-photo-995978.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"],
+    "lat": -6.8922515,
+    "long": 107.60527
+  },
+  "endLog": {
+    "logId": "65e98f0efed33fb7e5838b7b",
+    "submitTime": "2024-03-08T16:41:21.112Z",
+    "verifiedImage": ["https://images.pexels.com/photos/995978/pexels-photo-995978.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"],
+    "lat": -6.8922515,
+    "long": 107.60527
+  }
+}
