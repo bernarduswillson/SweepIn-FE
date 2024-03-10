@@ -1,100 +1,25 @@
 "use client"
 
-import React, { useState, useEffect } from 'react';
-
-// Asset
-import MapMissing from '@public/images/map-missing.svg'
-import { useRouter } from 'next/navigation';
+import React from 'react';
 
 // Components
 import FormHeader from '@/components/ui/FormHeader';
-import AttendancePhotoInput from '@/components/ui/AttendancePhotoInput';
-import SubmitButton from '@/components/ui/SubmitButton';
-import Modal from '@/components/ui/Modal';
 
 // Utils
 import { date2String, dateTimeRange2String } from '@/utils/date';
 
-// Interface
-import Log from '@/interface/Log';
-
 // Data TEST: Dummy
-import sessionDummy from '@/data/sessionDummy.json';
 import attendanceDetailDummy from '@/data/attendanceDetailDummy.json';
+import AttendancePhoto from '@/components/ui/AttendacePhoto';
 
 const FormPresensi = () => {
-  const route = useRouter();
-
-  // Loading state
-  const [isSubmitLoading, setIsSubmitLoading] = useState<boolean>(false);
-
-  // Location not found state
-  const [isLocationError, setIsLocationError] = useState<boolean>(false);
-
-  // Form data
-  const [formData, setFormData] = useState<Log>({
-    userId: sessionDummy.userId,
-    photo: '',
-    time: undefined,
-    lat: undefined,
-    long: undefined
-  });
-
-  // handle input change
-  const handleInputChange = (name: string, value: string | Date | number | undefined) => {
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value
-    }))
-  } 
-
-  // Get Location
-  const defaultSettings = {
-    enableHighAccuracy: true,
-    timeout: 5000,
-    maximumAge: 0
-  };
-  const getLoc = () => {
-    navigator.geolocation.getCurrentPosition((position) => {
-      setFormData((prev) => ({
-        ...prev,
-        time: new Date(),
-        lat: position.coords.latitude,
-        long: position.coords.longitude
-      }))
-    }, (error) => {
-      setIsLocationError(true)
-    }, defaultSettings);
-  }
-
-  // Update time and location when photo is updated
-  useEffect(() => {
-    if (formData.photo) {
-      setFormData((prev) => ({
-        ...prev,
-        time: new Date(),
-      }))
-      getLoc();
-    }
-  }, [formData.photo]);
-
-  // Handle submit
-  const handleSubmit = () => {
-    // TEST: Loading
-    setIsSubmitLoading(true);
-    setTimeout(() => {
-      setIsSubmitLoading(false);
-      route.push(`${process.env.NEXT_PUBLIC_BASE_URL}/presensi`);
-    }, 5000)
-  };
-
   return (
     <div className="w-screen min-h-screen h-fit flex flex-col items-center gap-5 bg-gradient-to-br from-green_main to-blue_main to-[50vh]">
 
       {/* Head */}
       <div className='w-11/12 max-w-[641px] py-10 flex flex-col items-center'>
         <FormHeader title='Presensi' date={new Date(attendanceDetailDummy.date)} />
-        <AttendancePhotoInput photo={formData.photo} setPhoto={handleInputChange} />
+        <AttendancePhoto startPhoto={attendanceDetailDummy.startLog.verifiedImage} endPhoto={attendanceDetailDummy.endLog.verifiedImage} />
       </div>
   
       {/* Body */}

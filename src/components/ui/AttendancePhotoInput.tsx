@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { motion, AnimatePresence, easeInOut } from 'framer-motion';
 
 // Component
-import Button from '@/components/ui/Button.tsx';
+import Button from '@/components/ui/Button';
 
 // Asset
 import shutterButton from '@public/icons/shutter-button.svg';
