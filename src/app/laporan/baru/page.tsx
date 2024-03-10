@@ -5,12 +5,12 @@ import { useRouter } from 'next/navigation';
 
 // Components
 import FormHeader from '@/components/ui/FormHeader';
+import ReportGalleryInput from '@/components/ui/ReportGalleryInput';
+import SubmitButton from '@/components/ui/SubmitButton';
 
 // Utils
 import getTodayDate from '@/utils/getTodayDate';
-import SubmitButton from '@/components/ui/SubmitButton';
 import getTodayString from '@/utils/getTodayString';
-import ReportGalleryInput from '@/components/ui/ReportGalleryInput';
 
 const FormLaporan = (): JSX.Element => {
   const route = useRouter();

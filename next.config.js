@@ -15,6 +15,6 @@ module.exports = {
     defaultLocale: "en-US",
   },
   images: {
-    domains: ["lh3.googleusercontent.com"],
+    domains: ["lh3.googleusercontent.com", "images.pexels.com"],
   },
 };

@@ -62,7 +62,7 @@ const ReportGalleryInput = (props: ReportGalleryInputProps) => {
           photos.length > 0 && 
           photos.map((photo, index) => (
             <div key={index} className="relative w-[170px] h-[170px] flex justify-center items-center overflow-hidden rounded-lg">
-              <Image src={URL.createObjectURL(photo)} alt='Foto laporan' width={170} height={170} />
+              <Image src={URL.createObjectURL(photo)} alt='Foto laporan' fill={true} objectFit='cover' />
               <div className="absolute top-2 right-2 rounded-sm">
                 <div
                   onClick={() => handleOnClickDelete(index)} 
