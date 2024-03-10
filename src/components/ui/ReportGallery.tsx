@@ -1,5 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
+import { motion } from 'framer-motion';
 
 interface ReportGalleryProps {
   photos: string[],
@@ -14,9 +15,25 @@ const ReportGallery = (props: ReportGalleryProps) => {
         {
           photos.length > 0 && 
           photos.map((photo, index) => (
-            <div key={index} className="relative w-[170px] h-[170px] bg-red-500 flex justify-center items-center overflow-hidden rounded-lg">
+            <motion.div 
+              key={index} 
+              className="relative w-[170px] h-[170px] bg-red-500 flex justify-center items-center overflow-hidden rounded-lg"
+              initial={{
+                scale: 0,
+                opacity: 0
+              }}
+              animate={{
+                scale: 1,
+                opacity: 1,
+                transition: {
+                  ease: 'backInOut',
+                  duration: 0.3,
+                  delay: 0.1 * index
+                }
+              }}
+            >
               <Image src={photo} alt='Foto laporan' fill={true} objectFit='cover'/>
-            </div>
+            </motion.div>
           ))
         }
       </div>
