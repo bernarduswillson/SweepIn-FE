@@ -25,20 +25,24 @@ const Card = (props: AttendanceCardProps): JSX.Element => {
   const route = useRouter();
 
   // Is today attendance?
-  const [isToday, setIsToday] = useState<Boolean>(date.getDate() === new Date().getDate());
-
-  // Is modal shown?
-  const [showModal, setShowModal] = useState(false);
+  const [isToday, setIsToday] = useState<Boolean>(() => {
+    const today = new Date();
+    return date.getDate() === today.getDate() && date.getMonth() === today.getMonth() && date.getFullYear() === today.getFullYear();
+  });
 
   // Handle card click
   const handleClick = () => {
-    setShowModal(true);
-    route.push(process.env.NEXT_PUBLIC_BASE_URL + '/presensi/' + id)
-  }
 
-  // Handle modal confirm
-  const handleConfirm = (): void => {
-    setShowModal(false)
+    // Routing to start log form
+    if (!startAttendanceId && !endAttendanceId) {
+      route.push(`${process.env.NEXT_PUBLIC_BASE_URL}/presensi/baru`)
+    // Routing to end log form
+    } else if (!endAttendanceId) {
+    route.push(`${process.env.NEXT_PUBLIC_BASE_URL}/presensi/baru/${id}`)
+    // Routing to attendance detail page
+    } else {
+      route.push(`${process.env.NEXT_PUBLIC_BASE_URL}/presensi/${id}`)
+    }
   }
 
   return (
