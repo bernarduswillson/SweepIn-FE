@@ -75,7 +75,7 @@ const ListContainer = (props: ListContainerProps):JSX.Element => {
               {
                 ('startLogId' in data[0]) &&
                 <AttendanceCard
-                id='baru'
+                id=''
                 date={new Date()} 
                 startAttendanceId={null}
                 endAttendanceId={null} 
@@ -84,7 +84,7 @@ const ListContainer = (props: ListContainerProps):JSX.Element => {
               {
                 ('numOfPhoto' in data[0]) &&
                 <ReportCard
-                  id='baru'
+                  id=''
                   numOfPhoto={0}
                   date={new Date()}
                   status='belum dikirim'
