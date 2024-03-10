@@ -4,14 +4,10 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
-// Components
-import Modal from '@/components/ui/Modal';
-
 // Asset
 import RightArrow from '@public/icons/right-arrow-ic';
 import UncheckedMark from '@public/icons/status-unchecked-ic.svg';
 import CheckedMark from '@public/icons/status-checked-ic.svg';
-import MapMissing from '@public/images/map-missing.svg'
 
 // Utils
 import parseDate from '@/utils/parseDate';
@@ -37,7 +33,7 @@ const Card = (props: AttendanceCardProps): JSX.Element => {
   // Handle card click
   const handleClick = () => {
     setShowModal(true);
-    // route.push(process.env.NEXT_PUBLIC_BASE_URL + '/presensi/' + id)
+    route.push(process.env.NEXT_PUBLIC_BASE_URL + '/presensi/' + id)
   }
 
   // Handle modal confirm
@@ -96,7 +92,7 @@ const Card = (props: AttendanceCardProps): JSX.Element => {
         </div>
 
       </div>
-      <Modal
+      {/* <Modal
         title="Lokasi tidak ditemukan"
         msg="Patikan lokasi pada HP Anda sudah aktif untuk melakukan presensi"
         img={MapMissing}
@@ -105,7 +101,7 @@ const Card = (props: AttendanceCardProps): JSX.Element => {
         onConfirm={handleConfirm}
         onClose={handleConfirm} 
         isOpen={showModal}
-      />
+      /> */}
     </div>
   );
 };
