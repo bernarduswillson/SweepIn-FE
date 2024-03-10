@@ -5,12 +5,11 @@ import { useRouter } from 'next/navigation';
 
 // Components
 import FormHeader from '@/components/ui/FormHeader';
+import ReportGalleryInput from '@/components/ui/ReportGalleryInput';
+import SubmitButton from '@/components/ui/SubmitButton';
 
 // Utils
-import getTodayDate from '@/utils/getTodayDate';
-import SubmitButton from '@/components/ui/SubmitButton';
-import getTodayString from '@/utils/getTodayString';
-import ReportGalleryInput from '@/components/ui/ReportGalleryInput';
+import { getTodayDate, date2String } from '@/utils/date';
 
 const FormLaporan = (): JSX.Element => {
   const route = useRouter();
@@ -66,11 +65,11 @@ const FormLaporan = (): JSX.Element => {
       <div className="w-full max-w-[641px] flex justify-center flex-grow py-6 bg-white rounded-t-[26px]">
         <div className='w-11/12 h-fit flex flex-col'>
           {/* Text input */}
-          <h4 className="text-green_main text-base poppins-bold">Nama</h4>
+          <label className="text-green_main text-base poppins-bold">Nama</label>
           <h3 className="text-black text-xl poppins-medium">Ditra Rizqa Amadia</h3>
-          <h4 className="text-green_main text-base mt-5 poppins-bold">Tanggal</h4>
-          <h3 className="text-black text-xl poppins-medium">{getTodayString()}</h3>
-          <h4 className="text-green_main text-base mt-5 poppins-bold">Deskripsi</h4>
+          <label className="text-green_main text-base mt-5 poppins-bold">Tanggal</label>
+          <h3 className="text-black text-xl poppins-medium">{date2String(getTodayDate(), false)}</h3>
+          <label className="text-green_main text-base mt-5 poppins-bold">Deskripsi</label>
           <textarea 
             rows={3} 
             value={desc}

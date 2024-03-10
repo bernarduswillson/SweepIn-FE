@@ -10,7 +10,7 @@ import UncheckedMark from '@public/icons/status-unchecked-ic.svg';
 import CheckedMark from '@public/icons/status-checked-ic.svg';
 
 // Utils
-import parseDate from '@/utils/parseDate';
+import { date2String } from '@/utils/date';
 
 interface AttendanceCardProps {
   id: String,
@@ -34,10 +34,10 @@ const Card = (props: AttendanceCardProps): JSX.Element => {
   const handleClick = () => {
 
     // Routing to start log form
-    if (!startAttendanceId && !endAttendanceId) {
+    if (isToday && !startAttendanceId && !endAttendanceId) {
       route.push(`${process.env.NEXT_PUBLIC_BASE_URL}/presensi/baru`)
     // Routing to end log form
-    } else if (!endAttendanceId) {
+    } else if (isToday && !endAttendanceId) {
     route.push(`${process.env.NEXT_PUBLIC_BASE_URL}/presensi/baru/${id}`)
     // Routing to attendance detail page
     } else {
@@ -60,7 +60,7 @@ const Card = (props: AttendanceCardProps): JSX.Element => {
             {
               isToday ?
               'Hari ini' :
-              parseDate(date)
+              date2String(date)
             }
           </div>
 
@@ -96,16 +96,6 @@ const Card = (props: AttendanceCardProps): JSX.Element => {
         </div>
 
       </div>
-      {/* <Modal
-        title="Lokasi tidak ditemukan"
-        msg="Patikan lokasi pada HP Anda sudah aktif untuk melakukan presensi"
-        img={MapMissing}
-        type="info"
-        confirmText="Oke"
-        onConfirm={handleConfirm}
-        onClose={handleConfirm} 
-        isOpen={showModal}
-      /> */}
     </div>
   );
 };

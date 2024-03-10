@@ -56,14 +56,13 @@ const ReportGalleryInput = (props: ReportGalleryInputProps) => {
   }
 
   return (
-    <div className="w-full mt-10">
-      <h2 className="text-white text-base poppins-bold">Foto Laporan (Maks 4)</h2>
-      <div className=" mt-6 flex flex-wrap justify-center gap-[15px]">
+    <div className="w-fit mt-10">
+      <div className="max-w-[355px] w-full flex flex-wrap justify-left gap-[15px]">
         {
           photos.length > 0 && 
           photos.map((photo, index) => (
             <div key={index} className="relative w-[170px] h-[170px] flex justify-center items-center overflow-hidden rounded-lg">
-              <Image src={URL.createObjectURL(photo)} alt='Foto laporan' width={170} height={170} />
+              <Image src={URL.createObjectURL(photo)} alt='Foto laporan' fill={true} objectFit='cover' />
               <div className="absolute top-2 right-2 rounded-sm">
                 <div
                   onClick={() => handleOnClickDelete(index)} 
@@ -81,7 +80,10 @@ const ReportGalleryInput = (props: ReportGalleryInputProps) => {
             onClick={openFile}
           >
             <Image src={AddIcon} alt='Foto kosong' width={24} height={24} className='transition-transform ease-in-out duration-150 group-hover:-translate-y-2'/>
-            <span className='poppins-medium text-white text-base'>Ambil foto</span>
+            <div className='flex flex-col'>
+              <span className='poppins-medium text-white text-base'>Tambah foto</span>
+              <span className='poppins-medium text-white text-base'>(maks 4)</span>
+            </div>
             <input type="file" accept="image/*" ref={inputRef} style={{ display: 'none' }} onChange={handleFileChange}/>
           </button>}
       </div>

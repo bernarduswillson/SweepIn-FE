@@ -5,4 +5,4 @@ const token = await jwt.sign({id:email}, process.env.NEXT_PUBLIC_JWT_SECRET_KEY 
     return token
 }
 
-export default SignToken;
+export { SignToken };

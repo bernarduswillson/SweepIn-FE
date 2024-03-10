@@ -2,7 +2,7 @@ import { NextAuthOptions } from "next-auth";
 import NextAuth from "next-auth/next";
 import GoogleProfile from "next-auth/providers/google";
 import axios from "axios";
-import SignToken from "@/utils/siginToken";
+import { SignToken } from "@/utils/token";
 
 const authOptions: NextAuthOptions = {
   session: {
