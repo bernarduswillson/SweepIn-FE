@@ -1,6 +1,7 @@
 "use client"
 
-import { ChangeEventHandler, useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 // Components
 import FormHeader from '@/components/ui/FormHeader';
@@ -12,6 +13,14 @@ import getTodayString from '@/utils/getTodayString';
 import ReportGalleryInput from '@/components/ui/ReportGalleryInput';
 
 const FormLaporan = (): JSX.Element => {
+  const route = useRouter();
+
+  // Are inputs valid
+  const [isInputValid, setIsInputValid] = useState<boolean>(false);
+
+  // Loading state
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
   // List of photos
   const [photos, setPhotos] = useState<File[]>([]);
 
@@ -21,6 +30,27 @@ const FormLaporan = (): JSX.Element => {
   // Handle description change
   const handleDescriptionChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setDesc(e.target.value);
+  }
+
+  // Check is inputs are valid
+  useEffect(() => {
+    if (photos.length > 0) {
+      setIsInputValid(true);
+    } else {
+      setIsInputValid(false);
+    }
+  }, [photos.length]);
+
+  // handle submit
+  const handleSubmit = () => {
+    if (isInputValid) {
+      setIsLoading(true)
+      // TODO: Post API
+      setTimeout(() => {
+        setIsLoading(false);
+        route.push(`${process.env.NEXT_PUBLIC_BASE_URL}/laporan`);
+      }, 5000)
+    }
   }
 
   return (
@@ -51,7 +81,7 @@ const FormLaporan = (): JSX.Element => {
 
           {/* Submit button */}
           <div className="flex flex-col items-center pt-10">
-            <SubmitButton text='Kirim' onClick={() => {}} loading={false} disable={false}/>
+            <SubmitButton text='Kirim' onClick={handleSubmit} loading={isLoading} disable={!isInputValid}/>
           </div>
         </div>
       </div>

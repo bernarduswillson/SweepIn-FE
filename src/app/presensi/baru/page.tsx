@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 
 // Asset
 import MapMissing from '@public/images/map-missing.svg'
+import { useRouter } from 'next/navigation';
 
 // Components
 import FormHeader from '@/components/ui/FormHeader';
@@ -23,6 +24,8 @@ import Log from '@/interface/Log';
 import sessionDummy from '@/data/sessionDummy.json';
 
 const FormPresensi = () => {
+  const route = useRouter();
+
   // Loading state
   const [isSubmitLoading, setIsSubmitLoading] = useState<boolean>(false);
 
@@ -82,6 +85,7 @@ const FormPresensi = () => {
     setIsSubmitLoading(true);
     setTimeout(() => {
       setIsSubmitLoading(false);
+      route.push(`${process.env.NEXT_PUBLIC_BASE_URL}/presensi`);
     }, 5000)
   };
 
