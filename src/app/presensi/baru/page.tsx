@@ -13,9 +13,7 @@ import SubmitButton from '@/components/ui/SubmitButton';
 import Modal from '@/components/ui/Modal';
 
 // Utils
-import getTodayDate from '@/utils/getTodayDate';
-import getTodayString from '@/utils/getTodayString';
-import parseTime from '@/utils/parseTime';
+import { getTodayDate, date2String, dateTime2String } from '@/utils/date';
 
 // Interface
 import Log from '@/interface/Log';
@@ -105,9 +103,9 @@ const FormPresensi = () => {
           <h4 className="text-green_main text-base poppins-bold">Nama</h4>
           <h3 className="text-black text-xl poppins-medium">{sessionDummy.name}</h3>
           <h4 className="text-green_main text-base mt-5 poppins-bold">Tanggal</h4>
-          <h3 className="text-black text-xl poppins-medium">{getTodayString()}</h3>
+          <h3 className="text-black text-xl poppins-medium">{date2String(getTodayDate(), false)}</h3>
           <h4 className="text-green_main text-base mt-5 poppins-bold">Waktu</h4>
-          <h3 className="text-black text-xl poppins-medium">{formData.time ? parseTime(formData.time) : ':-:'}</h3>
+          <h3 className="text-black text-xl poppins-medium">{formData.time ? dateTime2String(formData.time) : ':-:'}</h3>
           <h4 className="text-green_main text-base mt-5 poppins-bold">Lokasi</h4>
 
           {/* Map */}

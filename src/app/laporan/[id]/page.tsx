@@ -8,8 +8,7 @@ import ReportGallery from '@/components/ui/ReportGallery';
 import reportDetailDummy from '@/data/reportDetailDummy.json';
 
 // Utils
-import getTodayDate from '@/utils/getTodayDate';
-import parseDate from '@/utils/parseDate';
+import { getTodayDate, date2String } from '@/utils/date';
 
 const FormLaporan = (): JSX.Element => {
 
@@ -29,7 +28,7 @@ const FormLaporan = (): JSX.Element => {
           <label className="text-green_main text-base poppins-bold">Nama</label>
           <h3 className="text-black text-xl poppins-medium">{reportDetailDummy.name}</h3>
           <label className="text-green_main text-base mt-5 poppins-bold">Tanggal</label>
-          <h3 className="text-black text-xl poppins-medium">{parseDate(new Date(reportDetailDummy.date))}</h3>
+          <h3 className="text-black text-xl poppins-medium">{date2String(new Date(reportDetailDummy.date), false)}</h3>
           <label className="text-green_main text-base mt-5 poppins-bold">Deskripsi</label>
           <p className='text-base poppins-medium text-black'>{reportDetailDummy.description}</p>
         </div>

@@ -11,7 +11,7 @@ import DateSearchBar from '@/components/ui/DateSearchBar';
 import AttendanceCard from '@/components/ui/AttendanceCard';
 import ReportCard from '@/components/ui/ReportCard';
 import SweepLoader from '@/components/ui/SweepLoader';
-import parseDate from '@/utils/parseDate';
+import { date2String } from '@/utils/date';
 
 interface ListContainerProps {
   title: 'Daftar Presensi' | 'Daftar Laporan',
@@ -55,7 +55,7 @@ const ListContainer = (props: ListContainerProps):JSX.Element => {
         <div className='w-full h-fit flex flex-col items-center gap-1'>
           {
             !loading && 
-            parseDate(new Date(data[0].date)) != parseDate(new Date()) &&
+            date2String(new Date(data[0].date)) != date2String(new Date()) &&
             <motion.div 
               initial={{
                 opacity: 0,

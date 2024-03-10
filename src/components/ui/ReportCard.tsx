@@ -3,14 +3,11 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
-// Components
-import Modal from '@/components/ui/Modal';
-
 // Asset
 import RightArrow from '@public/icons/right-arrow-ic';
 
 // Utils
-import parseDate from '@/utils/parseDate';
+import { date2String } from '@/utils/date';
 
 interface ReportCardProps {
   id: string
@@ -51,7 +48,7 @@ const Card = (props: ReportCardProps): JSX.Element => {
             {
               isToday ?
               'Hari ini' :
-              parseDate(date)
+              date2String(date)
             }
           </div>
 

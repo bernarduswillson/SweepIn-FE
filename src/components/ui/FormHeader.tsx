@@ -2,7 +2,7 @@ import React from 'react';
 import { easeInOut, motion } from 'framer-motion';
 
 // Utils
-import parseDate from '@/utils/parseDate';
+import { date2String } from '@/utils/date';
 
 interface FormHeaderProps {
   title: string,
@@ -29,7 +29,7 @@ const FormHeader = (props: FormHeaderProps) => {
           }
         }}
       >
-        {parseDate(date)}
+        {date2String(date, false)}
       </motion.h2>
       <motion.h1 
         className="text-3xl text-center poppins-bold text-white"

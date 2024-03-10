@@ -10,7 +10,7 @@ import UncheckedMark from '@public/icons/status-unchecked-ic.svg';
 import CheckedMark from '@public/icons/status-checked-ic.svg';
 
 // Utils
-import parseDate from '@/utils/parseDate';
+import { date2String } from '@/utils/date';
 
 interface AttendanceCardProps {
   id: String,
@@ -60,7 +60,7 @@ const Card = (props: AttendanceCardProps): JSX.Element => {
             {
               isToday ?
               'Hari ini' :
-              parseDate(date)
+              date2String(date)
             }
           </div>
 

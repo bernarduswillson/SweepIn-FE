@@ -9,8 +9,7 @@ import ReportGalleryInput from '@/components/ui/ReportGalleryInput';
 import SubmitButton from '@/components/ui/SubmitButton';
 
 // Utils
-import getTodayDate from '@/utils/getTodayDate';
-import getTodayString from '@/utils/getTodayString';
+import { getTodayDate, date2String } from '@/utils/date';
 
 const FormLaporan = (): JSX.Element => {
   const route = useRouter();
@@ -69,7 +68,7 @@ const FormLaporan = (): JSX.Element => {
           <label className="text-green_main text-base poppins-bold">Nama</label>
           <h3 className="text-black text-xl poppins-medium">Ditra Rizqa Amadia</h3>
           <label className="text-green_main text-base mt-5 poppins-bold">Tanggal</label>
-          <h3 className="text-black text-xl poppins-medium">{getTodayString()}</h3>
+          <h3 className="text-black text-xl poppins-medium">{date2String(getTodayDate(), false)}</h3>
           <label className="text-green_main text-base mt-5 poppins-bold">Deskripsi</label>
           <textarea 
             rows={3} 
