@@ -1,9 +1,8 @@
-import FormLaporan from "@/pages/FormLaporan";
+"use client";
 
 const Page = (): JSX.Element => {
   return (
-    <div className="relative h-auto">
-      <FormLaporan />
+    <div>
     </div>
   );
 };
