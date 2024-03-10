@@ -1,6 +1,5 @@
 "use client"
 
-// Imports
 import React, { useState, useEffect } from 'react';
 
 // Asset
@@ -124,7 +123,6 @@ const FormPresensi = () => {
             <SubmitButton text='Kirim' onClick={handleSubmit} loading={isSubmitLoading} disable={!formData.photo || !formData.time || !formData.long || !formData.lat}/>
           </div>
         </div>
-
       </div>
 
       <Modal

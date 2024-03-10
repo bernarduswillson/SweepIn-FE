@@ -29,7 +29,11 @@ const Card = (props: ReportCardProps): JSX.Element => {
 
   // Handle card click
   const handleClick = () => {
-    // route.push(process.env.NEXT_PUBLIC_BASE_URL + '/presensi/' + id)
+    if (status === 'belum dikirim') {
+      route.push(`${process.env.NEXT_PUBLIC_BASE_URL}/laporan/baru`);
+    } else {
+      route.push(`${process.env.NEXT_PUBLIC_BASE_URL}/laporan/${id}`);
+    }
   }
 
   return (
