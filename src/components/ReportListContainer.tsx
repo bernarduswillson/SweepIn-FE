@@ -35,7 +35,7 @@ const ListContainer = (props: ListContainerProps):JSX.Element => {
       [name]: value
     }));
   };
-  
+
   // Handle search
   const handleSearch = () => {
     // TODO: Implement search
@@ -55,6 +55,8 @@ const ListContainer = (props: ListContainerProps):JSX.Element => {
         <div className='w-full h-fit flex flex-col items-center gap-1'>
           {
             !loading && 
+            data &&
+            data[0] &&
             date2String(new Date(data[0].date)) != date2String(new Date()) &&
             <motion.div 
               initial={{
@@ -73,13 +75,13 @@ const ListContainer = (props: ListContainerProps):JSX.Element => {
               className='w-full'
             >
               {
-                ('startLogId' in data[0]) &&
+                ('startLog' in data[0]) &&
                 <AttendanceCard
                 id=''
                 date={new Date()} 
                 startAttendanceId={null}
                 endAttendanceId={null} 
-              />
+                />
               }
               {
                 ('numOfPhoto' in data[0]) &&
@@ -113,12 +115,12 @@ const ListContainer = (props: ListContainerProps):JSX.Element => {
                 className='w-full'
               >
                 {
-                  ('startLogId' in item) &&
+                  ('startLog' in item) &&
                   <AttendanceCard
                     id={item.id}
                     date={new Date(item.date)} 
-                    startAttendanceId={item.startLogId}
-                    endAttendanceId={item.endLogId} 
+                    startAttendanceId={item?.startLog[0]?.id as string}
+                    endAttendanceId={item?.endLog[0]?.id as string} 
                   />
                 }
                 {

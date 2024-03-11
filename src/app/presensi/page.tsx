@@ -2,20 +2,23 @@
 
 // Hooks
 import { useFetch } from '@/hooks/useFetch';
+import { useSession } from 'next-auth/react';
 
 // Components
 import Navbar from '@/components/Navbar';
 import Header from '@/components/Header';
-import ListContainer from '@/components/ListContainer';
+import ListContainer from '@/components/AttendanceListContainer';
 
 // TEST: Data
 import attendanceDummy from '@/data/attendanceDummy.json';
 import Attendance from '@/interface/Attendance';
 
 const Presensi = (): JSX.Element => {
+  const { data: session } = useSession();
+  console.log(session);
+
   // Fetch data
-  // TODO: Get the user id from session
-  // const { data, loading } = useFetch(`/api/activity/user/65e977f9ff15a6ab52da402a`);
+  const { data, loading } = useFetch(`/attendance?user_id=${session?.user?.id}&page=1&per_page=10`);
 
   return (
     <div className="w-screen min-h-screen flex flex-col items-center bg-blue_main">
@@ -27,7 +30,7 @@ const Presensi = (): JSX.Element => {
         </div>
 
         {/* Body */}
-        <ListContainer title='Daftar Presensi' data={attendanceDummy as Attendance[]} loading={false}/>
+        <ListContainer data={data as Attendance[]} loading={loading}/>
 
     </div>
   );

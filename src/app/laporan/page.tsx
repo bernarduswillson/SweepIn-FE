@@ -3,7 +3,7 @@
 // Components
 import Navbar from '@/components/Navbar';
 import Header from '@/components/Header';
-import ListContainer from '@/components/ListContainer';
+import ListContainer from '@/components/AttendanceListContainer';
 
 // Interfaces
 import Report from '@/interface/Report';

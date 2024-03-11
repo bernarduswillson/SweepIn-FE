@@ -1,6 +1,9 @@
+import Log from "./Log"
+
 export default interface Attendance {
   id: string,
   date: string,
-  startLogId: string | null,
-  endLogId: string | null
+  userId: String,
+  startLog: Log[]
+  endLog: Log[]
 };

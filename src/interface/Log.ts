@@ -1,7 +1,10 @@
 export default interface Log {
-  userId: string,
-  photo: string,
-  time: Date | undefined,
-  lat: number | undefined,
-  long: number | undefined,
+  id: string,
+  date: string,
+  image: string,
+  latitude: number,
+  longitude: number,
+  attendanceStartId: string,
+  attendanceEndId: string
 };
+
