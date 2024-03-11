@@ -9,10 +9,11 @@ const Tes = (): JSX.Element => {
 
   return (
     <div>
+      {/* @Ignore id and role missing property */}
+      <h1>{session?.user?.id}</h1>
       <p>{session?.user?.email}</p>
-      {/* <h1>{session?.user?.userId}</h1> */}
       <p>{session?.user?.name}</p>
-      {/* <p>{session?.user?.role}</p> */}
+      <p>{session?.user?.role}</p>
       <button onClick={() => signOut({ callbackUrl: process.env.NEXT_PUBLIC_BASE_URL + '/masuk' })}>Keluar</button>
     </div>
   );
