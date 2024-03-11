@@ -21,7 +21,7 @@ const authOptions: NextAuthOptions = {
         const response = await axios.post(process.env.NEXT_PUBLIC_API_URL + "/login", {
           email: profile?.email
         });
-        if (response && response.data.status === "success") {
+        if (response && response.data.message === 'Login successful') {
           return true;
         }
         return '/masuk?error=AccessDenied';
@@ -37,6 +37,13 @@ const authOptions: NextAuthOptions = {
       return token
     },
     async session({session, token}: any) {
+      const response = await axios.post(process.env.NEXT_PUBLIC_API_URL + "/login", {
+        email: session.user.email
+      });
+      session.user.id = response.data.data.id;
+      session.user.email = response.data.data.email;
+      session.user.name = response.data.data.name;
+      session.user.role = response.data.data.role;
       session.loggedUser = token.userLoggedIn;
       return session;
     }
