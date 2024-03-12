@@ -12,7 +12,6 @@ export function useFetch(url:string) {
       async function() {
         try {
           setLoading(true);
-          console.log('Fetching data from: ', process.env.NEXT_PUBLIC_API_URL + url);
           const response = await axios.get(process.env.NEXT_PUBLIC_API_URL + url);
           if (response.status === 200) {
             setData(response.data);

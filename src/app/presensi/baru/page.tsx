@@ -1,6 +1,8 @@
 "use client"
 
 import React, { useState, useEffect } from 'react';
+import { useSubmit } from '@/hooks/useSubmit';
+import { useSession } from 'next-auth/react';
 
 // Asset
 import MapMissing from '@public/images/map-missing.svg'
@@ -18,11 +20,10 @@ import { getTodayDate, date2String, dateTime2String } from '@/utils/date';
 // Interface
 import Log from '@/interface/Log';
 
-// Data
-import sessionDummy from '@/data/sessionDummy.json';
-
 const FormPresensi = () => {
+  const { data: session } = useSession();
   const route = useRouter();
+  const { submit } = useSubmit();
 
   // Loading state
   const [isSubmitLoading, setIsSubmitLoading] = useState<boolean>(false);
@@ -32,15 +33,15 @@ const FormPresensi = () => {
 
   // Form data
   const [formData, setFormData] = useState<Log>({
-    userId: sessionDummy.userId,
-    photo: '',
-    time: undefined,
-    lat: undefined,
-    long: undefined
+    date: '',
+    image: undefined,
+    imageSrc: undefined,
+    latitude: 0,
+    longitude: 0,
   });
 
   // handle input change
-  const handleInputChange = (name: string, value: string | Date | number | undefined) => {
+  const handleInputChange = (name: string, value: File | string | Date | number | undefined) => {
     setFormData((prev) => ({
       ...prev,
       [name]: value
@@ -57,9 +58,8 @@ const FormPresensi = () => {
     navigator.geolocation.getCurrentPosition((position) => {
       setFormData((prev) => ({
         ...prev,
-        time: new Date(),
-        lat: position.coords.latitude,
-        long: position.coords.longitude
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude
       }))
     }, (error) => {
       setIsLocationError(true)
@@ -68,23 +68,32 @@ const FormPresensi = () => {
 
   // Update time and location when photo is updated
   useEffect(() => {
-    if (formData.photo) {
+    if (formData.image) {
       setFormData((prev) => ({
         ...prev,
-        time: new Date(),
+        date: new Date().toISOString(),
       }))
       getLoc();
     }
-  }, [formData.photo]);
+  }, [formData.image]);
 
   // Handle submit
   const handleSubmit = () => {
-    // TEST: Loading
     setIsSubmitLoading(true);
-    setTimeout(() => {
-      setIsSubmitLoading(false);
+    let formDataData = new FormData();
+    if (session?.user?.id) {
+      formDataData.append('userId', session?.user?.id);
+      formDataData.append('date', formData.date);
+      formDataData.append('latitude', formData.latitude.toString());
+      formDataData.append('longitude', formData.longitude.toString());
+      if (formData.image) {
+        formDataData.append('file', formData.image);
+      }
+      submit('/log', formDataData);
       route.push(`${process.env.NEXT_PUBLIC_BASE_URL}/presensi`);
-    }, 5000)
+    }
+
+    setIsSubmitLoading(false);
   };
 
   return (
@@ -93,7 +102,12 @@ const FormPresensi = () => {
       {/* Head */}
       <div className='w-11/12 max-w-[641px] py-10 flex flex-col items-center'>
         <FormHeader title='Presensi Awal' date={getTodayDate()} />
-        <AttendancePhotoInput photo={formData.photo} setPhoto={handleInputChange} />
+        <AttendancePhotoInput 
+          image={formData.image} 
+          setImage={handleInputChange}
+          imageSrc={formData.imageSrc} 
+          setImageSrc={handleInputChange}
+        />
       </div>
   
       {/* Body */}
@@ -101,19 +115,19 @@ const FormPresensi = () => {
         <div className='w-11/12 h-fit flex flex-col'>
           {/* Text input */}
           <h4 className="text-green_main text-base poppins-bold">Nama</h4>
-          <h3 className="text-black text-xl poppins-medium">{sessionDummy.name}</h3>
+          <h3 className="text-black text-xl poppins-medium">{session?.user?.name}</h3>
           <h4 className="text-green_main text-base mt-5 poppins-bold">Tanggal</h4>
           <h3 className="text-black text-xl poppins-medium">{date2String(getTodayDate(), false)}</h3>
           <h4 className="text-green_main text-base mt-5 poppins-bold">Waktu</h4>
-          <h3 className="text-black text-xl poppins-medium">{formData.time ? dateTime2String(formData.time) : ':-:'}</h3>
+          <h3 className="text-black text-xl poppins-medium">{formData.date ? dateTime2String(new Date(formData.date)) : ':-:'}</h3>
           <h4 className="text-green_main text-base mt-5 poppins-bold">Lokasi</h4>
 
           {/* Map */}
           <div className='my-2 rounded-xl overflow-hidden'>
             {
-              formData.long && 
-              formData.lat ?
-              <iframe src={`https://maps.google.com/maps?q=${formData.lat},${formData.long}&z=15&output=embed`} width="100%" height="200" style={{border: 0}} allowFullScreen loading="lazy"></iframe> :
+              formData.longitude && 
+              formData.latitude ?
+              <iframe src={`https://maps.google.com/maps?q=${formData.latitude},${formData.longitude}&z=15&output=embed`} width="100%" height="200" style={{border: 0}} allowFullScreen loading="lazy"></iframe> :
               <div className='opacity-50 pointer-events-none'>
                 <iframe src={`https://maps.google.com/maps?q=-6.914744,107.609810&z=15&output=embed`} width="100%" height="200" style={{border: 0}} allowFullScreen loading="lazy"></iframe>
               </div>
@@ -122,7 +136,7 @@ const FormPresensi = () => {
 
           {/* Submit button */}
           <div className="flex flex-col items-center pt-10">
-            <SubmitButton text='Kirim' onClick={handleSubmit} loading={isSubmitLoading} disable={!formData.photo || !formData.time || !formData.long || !formData.lat}/>
+            <SubmitButton text='Kirim' onClick={handleSubmit} loading={isSubmitLoading} disable={!formData.image || !formData.date || !formData.longitude || !formData.latitude}/>
           </div>
         </div>
       </div>

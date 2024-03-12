@@ -9,12 +9,14 @@ import Button from '@/components/ui/Button';
 import shutterButton from '@public/icons/shutter-button.svg';
 
 interface AttendancePhotoInputProps {
-  photo: string,
-  setPhoto: (name: string, value: string | Date | number | undefined) => void
+  image?: File,
+  setImage: (name: string, value: File) => void,
+  imageSrc?: string
+  setImageSrc: (name: string, value: string) => void,
 };
 
 const AttendancePhotoInput = (props: AttendancePhotoInputProps) => {
-  const { photo, setPhoto } = props;
+  const { image, setImage, imageSrc, setImageSrc } = props;
 
   // Capture photo
   const capturePhoto = async () => {
@@ -25,8 +27,9 @@ const AttendancePhotoInput = (props: AttendancePhotoInputProps) => {
     input.onchange = async (event) => {
       const file = (event.target as HTMLInputElement)?.files?.[0];
       if (file) {
-          const imageSrc = URL.createObjectURL(file);
-          setPhoto('photo', imageSrc);
+        const src = URL.createObjectURL(file);
+        setImage('image', file);
+        setImageSrc('imageSrc', src);
       }
     };
     input.click();
@@ -36,8 +39,8 @@ const AttendancePhotoInput = (props: AttendancePhotoInputProps) => {
     <div className='w-full h-fit mt-14 flex flex-col items-center gap-7'>
       <div className='relative w-72 h-72 overflow-hidden flex justify-center items-center border-[5px] border-white rounded-xl'>
         {
-          photo ? 
-          <Image src={photo} alt="Foto kehadiran" fill={true} objectFit='cover' className='rounded-[7px]'/> : 
+          imageSrc ? 
+          <Image src={imageSrc} alt="Foto kehadiran" fill={true} objectFit='cover' className='rounded-[7px]'/> : 
           <button onClick={capturePhoto} className='w-full h-full bg-grey_bg flex flex-col justify-center items-center gap-3 transition-opacity ease-in-out duration-150 group hover:opacity-90'>
             <Image src={shutterButton} alt='Foto kosong' width={50} height={50} className='transition-transform ease-in-out duration-150 group-hover:-translate-y-5'/>
             <span className='poppins-medium text-grey text-base'>Ambil foto</span>
@@ -52,7 +55,7 @@ const AttendancePhotoInput = (props: AttendancePhotoInputProps) => {
               opacity: 0
             }}
             animate={{
-              opacity: photo ? 1 : 0,
+              opacity: image ? 1 : 0,
               transition: {
                 duration: 0.15,
                 ease: easeInOut

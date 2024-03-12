@@ -1,10 +1,11 @@
 export default interface Log {
-  id: string,
+  id?: string,
   date: string,
-  image: string,
+  image?: File,
+  imageSrc?: string,
   latitude: number,
   longitude: number,
-  attendanceStartId: string,
-  attendanceEndId: string
+  attendanceStartId?: string,
+  attendanceEndId?: string
 };
 

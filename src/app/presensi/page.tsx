@@ -10,7 +10,6 @@ import Header from '@/components/Header';
 import ListContainer from '@/components/AttendanceListContainer';
 
 // TEST: Data
-import attendanceDummy from '@/data/attendanceDummy.json';
 import Attendance from '@/interface/Attendance';
 
 const Presensi = (): JSX.Element => {
