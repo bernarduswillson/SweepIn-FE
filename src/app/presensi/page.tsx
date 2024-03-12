@@ -15,7 +15,6 @@ import Attendance from '@/interface/Attendance';
 
 const Presensi = (): JSX.Element => {
   const { data: session } = useSession();
-  console.log(session);
 
   // Fetch data
   const { data, loading } = useFetch(`/attendance?user_id=${session?.user?.id}&page=1&per_page=10`);
@@ -30,7 +29,7 @@ const Presensi = (): JSX.Element => {
         </div>
 
         {/* Body */}
-        <ListContainer data={data as Attendance[]} loading={loading}/>
+        <ListContainer data={data.data as Attendance[]} loading={loading}/>
 
     </div>
   );

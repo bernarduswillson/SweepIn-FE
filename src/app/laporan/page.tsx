@@ -3,7 +3,7 @@
 // Components
 import Navbar from '@/components/Navbar';
 import Header from '@/components/Header';
-import ListContainer from '@/components/AttendanceListContainer';
+import ReportListContainer from '@/components/ReportListContainer';
 
 // Interfaces
 import Report from '@/interface/Report';
@@ -26,7 +26,7 @@ const Laporan = (): JSX.Element => {
       </div>
 
       {/* Body */}
-      <ListContainer title='Daftar Laporan' data={reportData as Report[]} loading={false}/>
+      <ReportListContainer data={reportData as Report[]} loading={false}/>
     
     </div>
   );

@@ -8,7 +8,7 @@ import carouselLeftArrow from '@public/icons/carousel-left-arrow-ic.svg';
 
 interface AttendancePhotoProps {
   startPhoto: string,
-  endPhoto: string,
+  endPhoto: string | null,
 };
 
 const AttendancePhoto = (props: AttendancePhotoProps) => {
@@ -65,7 +65,7 @@ const AttendancePhoto = (props: AttendancePhotoProps) => {
               </motion.div>
             }
             {
-              page === 1 &&
+              endPhoto && page === 1 &&
               <motion.div 
                 className={`absolute w-72 h-72 overflow-hidden flex justify-center items-center border-[5px] border-white rounded-xl`}
                 key={2}
@@ -99,7 +99,7 @@ const AttendancePhoto = (props: AttendancePhotoProps) => {
           </AnimatePresence>
         </div>
 
-        <div className={`relative w-10 h-10 transition-opacity duration-150 ease-in-out ${page === 1 ? 'opacity-0 pointer-events-none' : 'opacity-1 cursor-pointer'} hover:opacity-70`} onClick={() => paginate(1)}>
+        <div className={`relative w-10 h-10 transition-opacity duration-150 ease-in-out ${endPhoto && page === 1 ? 'opacity-0 pointer-events-none' : 'opacity-1 cursor-pointer'} hover:opacity-70`} onClick={() => paginate(1)}>
           <Image src={carouselRightArrow} alt='panah kanan' fill={true} objectFit='cover'/>
         </div>
 

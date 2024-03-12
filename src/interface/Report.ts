@@ -1,6 +1,8 @@
 export default interface Report {
   id: string
-  numOfPhoto: number,
+  userId: string
   date: string,
-  status: 'belum dikirim' | 'diproses' | 'diterima' | 'ditolak'
+  status: string
+  description: string,
+  images: string[]
 }

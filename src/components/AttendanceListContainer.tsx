@@ -10,6 +10,9 @@ import DateSearchBar from '@/components/ui/DateSearchBar';
 import AttendanceCard from '@/components/ui/AttendanceCard';
 import SweepLoader from '@/components/ui/SweepLoader';
 
+// Utils
+import { date2String } from '@/utils/date';
+
 interface ListContainerProps {
   data: Attendance[],
   loading: boolean,
@@ -49,9 +52,10 @@ const ListContainer = (props: ListContainerProps):JSX.Element => {
         />
 
         <div className='w-full h-fit flex flex-col items-center gap-1'>
-          {/* {
+          {
             !loading && 
             data &&
+            data[0] &&
             date2String(new Date(data[0].date)) != date2String(new Date()) &&
             <motion.div 
               initial={{
@@ -76,7 +80,7 @@ const ListContainer = (props: ListContainerProps):JSX.Element => {
               endAttendanceId={null} 
               />
             </motion.div>
-          } */}
+          }
           {
             !loading ? 
             data && data.map((item: Attendance, index) => (

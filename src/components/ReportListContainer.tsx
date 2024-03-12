@@ -3,24 +3,23 @@ import { easeInOut, motion} from 'framer-motion';
 
 // Interfaces
 import MonthRange from '@/interface/MonthRange';
-import Attendance from '@/interface/Attendance';
 import Report from '@/interface/Report';
 
 // Components
 import DateSearchBar from '@/components/ui/DateSearchBar';
-import AttendanceCard from '@/components/ui/AttendanceCard';
 import ReportCard from '@/components/ui/ReportCard';
 import SweepLoader from '@/components/ui/SweepLoader';
+
+// Utils
 import { date2String } from '@/utils/date';
 
 interface ListContainerProps {
-  title: 'Daftar Presensi' | 'Daftar Laporan',
-  data: (Attendance | Report)[],
+  data: Report[],
   loading: boolean,
 };
 
 const ListContainer = (props: ListContainerProps):JSX.Element => {
-  const { title, data, loading } = props;
+  const { data, loading } = props;
 
   // Month range value
   const [monthRange, setMonthRange] = useState<MonthRange>({
@@ -45,7 +44,7 @@ const ListContainer = (props: ListContainerProps):JSX.Element => {
   return (
     <div className="w-full max-w-[641px] flex justify-center flex-grow bg-white rounded-t-[26px]">
       <div className='w-11/12 flex flex-col gap-6 pt-6'>
-        <h1 className="text-black text-left text-2xl poppins-bold">{title}</h1>
+        <h1 className="text-black text-left text-2xl poppins-bold">Daftar Laporan</h1>
         <DateSearchBar 
           monthRange={monthRange}
           onChange={handleDateInputOnChange}
@@ -74,29 +73,17 @@ const ListContainer = (props: ListContainerProps):JSX.Element => {
               viewport={{once: true}}  
               className='w-full'
             >
-              {
-                ('startLog' in data[0]) &&
-                <AttendanceCard
+              <ReportCard
                 id=''
-                date={new Date()} 
-                startAttendanceId={null}
-                endAttendanceId={null} 
-                />
-              }
-              {
-                ('numOfPhoto' in data[0]) &&
-                <ReportCard
-                  id=''
-                  numOfPhoto={0}
-                  date={new Date()}
-                  status='belum dikirim'
-                />
-              }
+                numOfPhoto={0}
+                date={new Date()}
+                status='belum dikirim'
+              />
             </motion.div>
           }
           {
             !loading ? 
-            data && data.map((item: Attendance | Report, index) => (
+            data && data.map((item: Report, index) => (
               <motion.div 
                 key={index}
                 initial={{
@@ -114,24 +101,13 @@ const ListContainer = (props: ListContainerProps):JSX.Element => {
                 viewport={{once: true}}  
                 className='w-full'
               >
-                {
-                  ('startLog' in item) &&
-                  <AttendanceCard
-                    id={item.id}
-                    date={new Date(item.date)} 
-                    startAttendanceId={item?.startLog[0]?.id as string}
-                    endAttendanceId={item?.endLog[0]?.id as string} 
-                  />
-                }
-                {
-                  ('numOfPhoto' in item) &&
-                  <ReportCard
-                    id={item.id}
-                    numOfPhoto={item.numOfPhoto}
-                    date={new Date(item.date)}
-                    status={item.status}
-                  />
-                }
+                
+                <ReportCard
+                  id={item.id}
+                  numOfPhoto={5}
+                  date={new Date(item.date)}
+                  status={item.status}
+                />
               </motion.div>
             )) :
             <SweepLoader />
