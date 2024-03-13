@@ -15,9 +15,17 @@ import { getTodayDate, date2String } from '@/utils/date';
 
 // Interface
 import Report from '@/interface/Report';
+import User from '@/interface/User';
 
 const FormLaporan = (): JSX.Element => {
   const { data: session } = useSession();
+  const [user, setUser] = useState<User | null>(null);
+  useEffect(() => {
+    if (session) {
+      setUser(session.user as User);
+    }
+  }, [session]);
+
   const route = useRouter();
   const { submit } = useSubmit();
 
@@ -36,6 +44,7 @@ const FormLaporan = (): JSX.Element => {
   // Form data
   const [formData, setFormData] = useState<Report>({
     userId: '',
+    name: '',
     date: '',
     status: '',
     description: '',
@@ -69,8 +78,8 @@ const FormLaporan = (): JSX.Element => {
   const handleSubmit = () => {
     setIsSubmitLoading(true);
     let formDataData = new FormData();
-    if (session?.user?.id) {
-      formDataData.append('user_id', session?.user?.id);
+    if (user?.id) {
+      formDataData.append('user_id', user?.id);
       formDataData.append('description', formData.description);
       photos.forEach((photo) => {
         formDataData.append('images', photo);
@@ -100,7 +109,7 @@ const FormLaporan = (): JSX.Element => {
         <div className='w-11/12 h-fit flex flex-col'>
           {/* Text input */}
           <label className="text-green_main text-base poppins-bold">Nama</label>
-          <h3 className="text-black text-xl poppins-medium">{session?.user?.name}</h3>
+          <h3 className="text-black text-xl poppins-medium">{user?.name}</h3>
           <label className="text-green_main text-base mt-5 poppins-bold">Tanggal</label>
           <h3 className="text-black text-xl poppins-medium">{date2String(getTodayDate(), false)}</h3>
           <label className="text-green_main text-base mt-5 poppins-bold">Deskripsi</label>
