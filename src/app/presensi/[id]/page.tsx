@@ -16,6 +16,7 @@ import { date2String, dateTimeRange2String } from '@/utils/date';
 const DetailPresensi = () => {
   const { id } = useParams();
   const { data, loading } = useFetch(`/attendance/${id}`);
+  console.log(data)
 
   return (
     <AnimatePresence>

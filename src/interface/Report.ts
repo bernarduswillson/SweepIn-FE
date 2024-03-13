@@ -1,5 +1,5 @@
 export default interface Report {
-  id: string
+  id?: string
   userId: string
   date: string,
   status: string
