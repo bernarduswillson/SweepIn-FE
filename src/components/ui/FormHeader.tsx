@@ -6,7 +6,7 @@ import { date2String } from '@/utils/date';
 
 interface FormHeaderProps {
   title: string,
-  date: Date,
+  date: string
 };
 
 const FormHeader = (props: FormHeaderProps) => {
@@ -29,7 +29,7 @@ const FormHeader = (props: FormHeaderProps) => {
           }
         }}
       >
-        {date2String(date, false)}
+        {date}
       </motion.h2>
       <motion.h1 
         className="text-3xl text-center poppins-bold text-white"

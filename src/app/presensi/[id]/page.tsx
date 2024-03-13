@@ -1,9 +1,10 @@
 "use client"
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useParams } from 'next/navigation';
 import { useFetch } from '@/hooks/useFetch';
+import axios from 'axios';
 
 // Components
 import FormHeader from '@/components/ui/FormHeader';
@@ -15,7 +16,36 @@ import { date2String, dateTimeRange2String } from '@/utils/date';
 
 const DetailPresensi = () => {
   const { id } = useParams();
-  const { data, loading } = useFetch(`/attendance/${id}`);
+  const [imageStart, setImageStart] = useState<string>('');
+  const [imageEnd, setImageEnd] = useState<string>('');
+  const [date, setDate] = useState<string>('');
+  const [name, setName] = useState<string>('');
+  const [time, setTime] = useState<string>('');
+  const [startLocation, setStartLocation] = useState<string[]>([]);
+  const [endLocation, setEndLocation] = useState<string[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  // const { data, loading } = useFetch(`/attendance/${id}`);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(process.env.NEXT_PUBLIC_API_URL + `/attendance/${id}`);
+        const data = response.data.data;
+        console.log(data);
+        setImageStart(data.startLog[0].image);
+        setImageEnd(data.endLog[0].image);
+        setDate(date2String(new Date(data.date)));
+        setName(data.user.name);
+        setTime(dateTimeRange2String(new Date(data.startLog[0].date), new Date(data.endLog[0].date)));
+        setStartLocation([data.startLog[0].latitude, data.startLog[0].longitude]);
+        setEndLocation([data.endLog[0].latitude, data.endLog[0].longitude]);
+        setLoading(false);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    fetchData();
+  }, [id, startLocation]);
 
   return (
     <AnimatePresence>
@@ -45,8 +75,8 @@ const DetailPresensi = () => {
 
           {/* Head */}
           <div className='w-11/12 max-w-[641px] py-10 flex flex-col items-center'>
-            <FormHeader title='Presensi' date={new Date(data.data.date)} />
-            <AttendancePhoto startPhoto={data.data.startLog[0].image} endPhoto={data.data.endLog[0] ? data.data.endLog[0].image : null} />
+            <FormHeader title='Presensi' date={date} />
+            <AttendancePhoto startPhoto={imageStart} endPhoto={imageEnd} />
           </div>
       
           {/* Body */}
@@ -54,23 +84,23 @@ const DetailPresensi = () => {
             <div className='w-11/12 h-fit flex flex-col'>
               {/* Text input */}
               <h4 className="text-green_main text-base poppins-bold">Nama</h4>
-              <h3 className="text-black text-xl poppins-medium">{data.data.user.name}</h3>
+              <h3 className="text-black text-xl poppins-medium">{name}</h3>
               <h4 className="text-green_main text-base mt-5 poppins-bold">Tanggal</h4>
-              <h3 className="text-black text-xl poppins-medium">{date2String(new Date(data.data.date), false)}</h3>
+              <h3 className="text-black text-xl poppins-medium">{date}</h3>
               <h4 className="text-green_main text-base mt-5 poppins-bold">Waktu</h4>
-              <h3 className="text-black text-xl poppins-medium">{dateTimeRange2String(new Date(data.data.startLog[0].date), data.data.endLog[0] ? new Date(data.data.endLog[0].date) : null)}</h3>
+              <h3 className="text-black text-xl poppins-medium">{time}</h3>
 
               {/* Map */}
               <h4 className="text-green_main text-base mt-5 poppins-bold">Lokasi Awal</h4>
               <div className='my-2 rounded-xl overflow-hidden'>
-                <iframe src={`https://maps.google.com/maps?q=${data.data.startLog[0].lat},${data.data.startLog[0].long}&z=15&output=embed`} width="100%" height="200" style={{border: 0}} allowFullScreen loading="lazy"></iframe>
+                <iframe src={`https://maps.google.com/maps?q=${startLocation[0]},${startLocation[1]}&z=15&output=embed`} width="100%" height="200" style={{border: 0}} allowFullScreen loading="lazy"></iframe>
               </div>
               { 
-                data.data.endLog[0] &&
+                endLocation &&
                 <>
                   <h4 className="text-green_main text-base mt-5 poppins-bold">Lokasi Akhir</h4>
                   <div className='my-2 rounded-xl overflow-hidden'>
-                    <iframe src={`https://maps.google.com/maps?q=${data.data.endLog[0].lat},${data.data.endLog[0].long}&z=15&output=embed`} width="100%" height="200" style={{border: 0}} allowFullScreen loading="lazy"></iframe>
+                    <iframe src={`https://maps.google.com/maps?q=${endLocation[0]},${endLocation[1]}&z=15&output=embed`} width="100%" height="200" style={{border: 0}} allowFullScreen loading="lazy"></iframe>
                   </div>
                 </>
               }

@@ -19,9 +19,17 @@ import { getTodayDate, date2String, dateTime2String } from '@/utils/date';
 
 // Interface
 import Log from '@/interface/Log';
+import User from '@/interface/User';
 
 const FormPresensi = () => {
   const { data: session } = useSession();
+  const [user, setUser] = useState<User | null>(null);
+  useEffect(() => {
+    if (session) {
+      setUser(session.user as User);
+    }
+  }, [session]);
+
   const route = useRouter();
   const { submit } = useSubmit();
 
@@ -54,6 +62,7 @@ const FormPresensi = () => {
     timeout: 5000,
     maximumAge: 0
   };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const getLoc = () => {
     navigator.geolocation.getCurrentPosition((position) => {
       setFormData((prev) => ({
@@ -61,7 +70,7 @@ const FormPresensi = () => {
         latitude: position.coords.latitude,
         longitude: position.coords.longitude
       }))
-    }, (error) => {
+    }, () => {
       setIsLocationError(true)
     }, defaultSettings);
   }
@@ -75,14 +84,14 @@ const FormPresensi = () => {
       }))
       getLoc();
     }
-  }, [formData.image]);
+  }, [formData.image, getLoc]);
 
   // Handle submit
   const handleSubmit = () => {
     setIsSubmitLoading(true);
     let formDataData = new FormData();
-    if (session?.user?.id) {
-      formDataData.append('userId', session?.user?.id);
+    if (user) {
+      formDataData.append('userId', user.id);
       formDataData.append('date', formData.date);
       formDataData.append('latitude', formData.latitude.toString());
       formDataData.append('longitude', formData.longitude.toString());
@@ -101,7 +110,7 @@ const FormPresensi = () => {
 
       {/* Head */}
       <div className='w-11/12 max-w-[641px] py-10 flex flex-col items-center'>
-        <FormHeader title='Presensi Awal' date={getTodayDate()} />
+        <FormHeader title='Presensi Awal' date={date2String(getTodayDate(), false)} />
         <AttendancePhotoInput 
           image={formData.image} 
           setImage={handleInputChange}
