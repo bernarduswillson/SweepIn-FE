@@ -14,7 +14,6 @@ import ListContainer from '@/components/AttendanceListContainer';
 // Interface
 import Attendance from '@/interface/FetchedAttendance';
 import User from '@/interface/User';
-import { useFetch } from '@/hooks/useFetch';
 
 const Presensi = (): JSX.Element => {
   const { data: session } = useSession();

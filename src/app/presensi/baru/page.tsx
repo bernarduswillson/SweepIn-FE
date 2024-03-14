@@ -14,12 +14,13 @@ import AttendancePhotoInput from '@/components/ui/AttendancePhotoInput';
 import SubmitButton from '@/components/ui/SubmitButton';
 import Modal from '@/components/ui/Modal';
 
+// Interface
+import LogForm from '@/interface/LogForm';
+import User from '@/interface/User';
+
 // Utils
 import { getTodayDate, date2String, dateTime2String } from '@/utils/date';
 
-// Interface
-import Log from '@/interface/Log';
-import User from '@/interface/User';
 
 const FormPresensi = () => {
   const { data: session } = useSession();
@@ -40,7 +41,7 @@ const FormPresensi = () => {
   const [isLocationError, setIsLocationError] = useState<boolean>(false);
 
   // Form data
-  const [formData, setFormData] = useState<Log>({
+  const [formData, setFormData] = useState<LogForm>({
     date: '',
     image: undefined,
     imageSrc: undefined,
