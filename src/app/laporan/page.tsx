@@ -12,11 +12,13 @@ import Header from '@/components/Header';
 import ReportListContainer from '@/components/ReportListContainer';
 
 // Interfaces
-import Report from '@/interface/Report';
 import User from '@/interface/User';
+import FetchedReport from '@/interface/FetchedReport';
 
 const Laporan = (): JSX.Element => {
   const { data: session } = useSession();
+
+  // User data
   const [user, setUser] = useState<User | null>(null);
   useEffect(() => {
     if (session) {
@@ -25,19 +27,24 @@ const Laporan = (): JSX.Element => {
   }, [session]);
 
   // Fetch data
-  // const { data, loading } = useFetch(`/report?user_id=${session?.user?.id}&page=1&per_page=10`);
-  const [data, setData] = useState({ data: [], loading: true } as { data: Report[], loading: boolean });
-  const { loading } = data;
+  const [data, setData] = useState<FetchedReport[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
   useEffect(() => {
     const fetchData = async () => {
       try {
+        setLoading(true);
         const userId = user?.id;
-        const response = await axios.get(process.env.NEXT_PUBLIC_API_URL + `/report?user_id=${userId}&page=1&per_page=10`);
-        setData({ data: response.data.data, loading: false });
+        if (userId) {
+          const response = await axios.get(process.env.NEXT_PUBLIC_API_URL + `/report?user_id=${userId}&page=1&per_page=10`);
+          setData(response.data.data);
+        }
       } catch (error) {
         console.error(error);
+      } finally {
+        setLoading(false);
       }
     };
+
     fetchData();
   } , [user]);
 
@@ -51,7 +58,7 @@ const Laporan = (): JSX.Element => {
       </div>
 
       {/* Body */}
-      <ReportListContainer data={data.data as Report[]} loading={loading}/>
+      <ReportListContainer data={data as FetchedReport[]} loading={loading}/>
     
     </div>
   );

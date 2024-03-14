@@ -3,7 +3,7 @@ import { easeInOut, motion} from 'framer-motion';
 
 // Interfaces
 import MonthRange from '@/interface/MonthRange';
-import Report from '@/interface/Report';
+import Report from '@/interface/FetchedReport';
 
 // Components
 import DateSearchBar from '@/components/ui/DateSearchBar';

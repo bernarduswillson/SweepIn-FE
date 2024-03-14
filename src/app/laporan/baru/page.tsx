@@ -14,7 +14,7 @@ import SubmitButton from '@/components/ui/SubmitButton';
 import { getTodayDate, date2String } from '@/utils/date';
 
 // Interface
-import Report from '@/interface/Report';
+import Report from '@/interface/FetchedReport';
 import User from '@/interface/User';
 
 const FormLaporan = (): JSX.Element => {

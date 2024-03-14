@@ -1,7 +1,6 @@
-export default interface Report {
+export default interface FetchedReport {
   id?: string
   userId: string
-  name: string
   date: string,
   status: string
   description: string,

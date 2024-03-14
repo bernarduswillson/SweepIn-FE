@@ -12,7 +12,7 @@ import axios from 'axios';
 import { getTodayDate, date2String } from '@/utils/date';
 
 // Interface
-import Report from '@/interface/Report';
+import Report from '@/interface/FetchedReport';
 
 const FormLaporan = (): JSX.Element => {
   const { id } = useParams();
