@@ -14,10 +14,19 @@ import ListContainer from '@/components/AttendanceListContainer';
 // Interface
 import Attendance from '@/interface/Attendance';
 import User from '@/interface/User';
+import { useFetch } from '@/hooks/useFetch';
 
 const Presensi = (): JSX.Element => {
   const { data: session } = useSession();
+
+  // User data
   const [user, setUser] = useState<User | null>(null);
+
+  // Fetch data
+  const [data, setData] = useState<Attendance[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+
+  // Set user data from session
   useEffect(() => {
     if (session) {
       setUser(session.user as User);
@@ -25,19 +34,18 @@ const Presensi = (): JSX.Element => {
   }, [session]);
 
   // Fetch data
-  // const { data, loading } = useFetch(`/attendance?user_id=${session?.user?.id}&page=1&per_page=10`);
-  const [data, setData] = useState({ data: [], loading: true } as { data: Attendance[], loading: boolean });
-  const { loading } = data;
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const userId = user?.id;
-        if (userId) {
-          const response = await axios.get(process.env.NEXT_PUBLIC_API_URL + `/attendance?user_id=${userId}&page=1&per_page=10`);
-          setData({ data: response.data.data, loading: false });
+        setLoading(true);
+        if (user?.id) {
+          const response = await axios.get(process.env.NEXT_PUBLIC_API_URL + `/attendance?user_id=${user?.id}&page=1&per_page=10`);
+          setData(response.data.data);
         }
       } catch (error) {
         console.error(error);
+      } finally {
+        setLoading(false);
       }
     }
     fetchData();
@@ -53,7 +61,7 @@ const Presensi = (): JSX.Element => {
         </div>
 
         {/* Body */}
-        <ListContainer data={data.data as Attendance[]} loading={loading}/>
+        <ListContainer data={data as Attendance[]} loading={loading}/>
 
     </div>
   );
