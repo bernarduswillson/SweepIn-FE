@@ -7,8 +7,8 @@ import carouselRightArrow from '@public/icons/carousel-right-arrow-ic.svg';
 import carouselLeftArrow from '@public/icons/carousel-left-arrow-ic.svg';
 
 interface AttendancePhotoProps {
-  startPhoto: string,
-  endPhoto: string | null,
+  startPhoto: string | undefined,
+  endPhoto: string | undefined,
 };
 
 const AttendancePhoto = (props: AttendancePhotoProps) => {
@@ -34,6 +34,7 @@ const AttendancePhoto = (props: AttendancePhotoProps) => {
           <AnimatePresence initial={false}>
             {
               page === 0 &&
+              startPhoto &&
               <motion.div
                 key={1} 
                 className={`absolute w-72 h-72 overflow-hidden flex justify-center items-center border-[5px] border-white rounded-xl`}
@@ -65,7 +66,8 @@ const AttendancePhoto = (props: AttendancePhotoProps) => {
               </motion.div>
             }
             {
-              endPhoto && page === 1 &&
+              endPhoto && 
+              page === 1 &&
               <motion.div 
                 className={`absolute w-72 h-72 overflow-hidden flex justify-center items-center border-[5px] border-white rounded-xl`}
                 key={2}

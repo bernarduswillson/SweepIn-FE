@@ -12,7 +12,7 @@ import Header from '@/components/Header';
 import ListContainer from '@/components/AttendanceListContainer';
 
 // Interface
-import Attendance from '@/interface/Attendance';
+import Attendance from '@/interface/FetchedAttendance';
 import User from '@/interface/User';
 import { useFetch } from '@/hooks/useFetch';
 

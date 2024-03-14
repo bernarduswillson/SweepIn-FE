@@ -1,5 +1,5 @@
 import React from 'react';
-import { easeInOut, motion } from 'framer-motion';
+import { motion } from 'framer-motion';
 
 // Utils
 import { date2String } from '@/utils/date';
@@ -29,7 +29,7 @@ const FormHeader = (props: FormHeaderProps) => {
           }
         }}
       >
-        {date}
+        {date2String(new Date(date))}
       </motion.h2>
       <motion.h1 
         className="text-3xl text-center poppins-bold text-white"
