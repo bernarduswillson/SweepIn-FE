@@ -70,7 +70,7 @@ const DetailPresensi = () => {
           {/* Head */}
           <div className='w-11/12 max-w-[641px] py-10 flex flex-col items-center'>
             <FormHeader title='Presensi' date={data.date} />
-            <AttendancePhoto startPhoto={data.startLog[0].image} endPhoto={data.endLog[0].image} />
+            <AttendancePhoto startPhoto={data.startLog[0].image} endPhoto={data.endLog[0]?.image} />
           </div>
       
           {/* Body */}
@@ -82,7 +82,7 @@ const DetailPresensi = () => {
               <h4 className="text-green_main text-base mt-5 poppins-bold">Tanggal</h4>
               <h3 className="text-black text-xl poppins-medium">{date2String(new Date(data.date))}</h3>
               <h4 className="text-green_main text-base mt-5 poppins-bold">Waktu</h4>
-              <h3 className="text-black text-xl poppins-medium">{data.endLog ? dateTimeRange2String(new Date(data.startLog[0].date), new Date(data.endLog[0].date)) : dateTime2String(new Date(data.startLog[0].date))}</h3>
+              <h3 className="text-black text-xl poppins-medium">{data.endLog[0] ? dateTimeRange2String(new Date(data.startLog[0].date), new Date(data.endLog[0].date)) : dateTime2String(new Date(data.startLog[0].date))}</h3>
 
               {/* Map */}
               <h4 className="text-green_main text-base mt-5 poppins-bold">Lokasi Awal</h4>
@@ -90,7 +90,7 @@ const DetailPresensi = () => {
                 <iframe src={`https://maps.google.com/maps?q=${data.startLog[0].latitude},${data.startLog[0].longitude}&z=15&output=embed`} width="100%" height="200" style={{border: 0}} allowFullScreen loading="lazy"></iframe>
               </div>
               { 
-                data.endLog &&
+                data.endLog[0] &&
                 <>
                   <h4 className="text-green_main text-base mt-5 poppins-bold">Lokasi Akhir</h4>
                   <div className='my-2 rounded-xl overflow-hidden'>
