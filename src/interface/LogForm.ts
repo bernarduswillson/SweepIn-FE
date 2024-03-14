@@ -1,4 +1,6 @@
-export default interface Log {
+export default interface LogForm {
+  userId?: string,
+  attendanceId?: string,
   id?: string,
   date: string,
   image?: File,
