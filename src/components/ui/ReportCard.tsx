@@ -13,7 +13,7 @@ interface ReportCardProps {
   id: string
   numOfPhoto: number,
   date: Date,
-  status: 'belum dikirim' | 'diproses' | 'diterima' | 'ditolak'
+  status: string
 }
 
 const Card = (props: ReportCardProps): JSX.Element => {

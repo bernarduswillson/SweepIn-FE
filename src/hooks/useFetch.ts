@@ -1,32 +1,29 @@
 import { useState, useEffect } from "react";
 import axios from 'axios';
-import Attendance from "@/interface/Attendance";
 
-export function useFetch(url:string) {
-
-  const [data, setData] = useState<Attendance[]>([])
-  const [loading, setLoading] = useState<boolean>(false)
-  const [error, setError] = useState<boolean>(false)
+export function useFetch(url: string) {
+  const [error, setError] = useState<any>({});
+  const [data, setData] = useState<any>({});
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    (
-      async function() {
-        try {
-          setLoading(true);
-          const response = await axios.get(process.env.NEXT_PUBLIC_API_URL + url);
-          if (response.status === 200) {
-            setData(response.data.data);
-          } else {
-            setError(true);
-          }
-        } catch (err) {
-          setError(true);
-        } finally {
-          setLoading(false);
-        }
+    async function call() {
+      setLoading(true);
+      
+      try {
+        const res = await axios.get(url);
+        const data = await res?.data;
+        setData(data);  
+      } catch (err) {
+        setError(err);
+      } finally {
+        setLoading(false);
       }
-    )()
+    
+    }
+    
+    call();
   }, [url]);
 
-  return { data, loading, error };
-};
+  return {data, loading, error};
+}

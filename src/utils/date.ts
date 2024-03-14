@@ -29,12 +29,15 @@ const dateTime2String = (date: Date): string => {
 }
 
 /*** Parse date time range to String (HH:MM-HH:MM WIB) */ 
-const dateTimeRange2String = (startDate: Date, endDate: Date): string => {
+const dateTimeRange2String = (startDate: Date, endDate: Date | null): string => {
   const startHours = startDate.getHours();
   const startMinutes = startDate.getMinutes();
+  const str1 = `${startHours < 10 ? `0${startHours}` : startHours}.${startMinutes < 10 ? `0${startMinutes}` : startMinutes}`;
+  if (!endDate) {
+    return `${str1} WIB`
+  }
   const endHours = endDate.getHours();
   const endMinutes = endDate.getMinutes();
-  const str1 = `${startHours < 10 ? `0${startHours}` : startHours}.${startMinutes < 10 ? `0${startMinutes}` : startMinutes}`;
   const str2 = `${endHours < 10 ? `0${endHours}` : endHours}.${endMinutes < 10 ? `0${endMinutes}` : endMinutes}`;
   return `${str1} - ${str2} WIB`
 }

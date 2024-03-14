@@ -15,6 +15,19 @@ module.exports = {
     defaultLocale: "en-US",
   },
   images: {
-    domains: ["lh3.googleusercontent.com", "images.pexels.com"],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "images.pexels.com",
+        port: "",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "firebasestorage.googleapis.com",
+        port: "",
+        pathname: "/v0/b/sweepin.appspot.com/o/**",
+      },
+    ],
   },
 };
