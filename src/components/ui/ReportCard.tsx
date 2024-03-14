@@ -8,6 +8,7 @@ import RightArrow from '@public/icons/right-arrow-ic';
 
 // Utils
 import { date2String } from '@/utils/date';
+import { parseStatus } from '@/utils/status';
 
 interface ReportCardProps {
   id: string
@@ -54,8 +55,8 @@ const Card = (props: ReportCardProps): JSX.Element => {
 
           {/* Status */}
           <div className='w-fit h-fit flex items-center gap-1.5'>
-            <div className={`w-[10px] h-[10px] rounded-full ${status === 'belum dikirim' ? 'bg-red-500' : status === 'diproses' ? 'bg-orange_main' : status === 'diterima' ? 'bg-green_main' : 'bg-red_main'}`}></div>
-            <span className={`poppins-medium text-base ${isToday ? 'text-white' : 'text-black'}`}>Laporan {status}</span>
+            <div className={`w-[10px] h-[10px] rounded-full ${status === 'WAITING' ? 'bg-orange_main' : status === 'ACCEPTED' ? 'bg-green_main' : 'bg-red_main'}`}></div>
+            <span className={`poppins-medium text-base ${isToday ? 'text-white' : 'text-black'}`}>Laporan {parseStatus(status)}</span>
           </div>
 
         </div>

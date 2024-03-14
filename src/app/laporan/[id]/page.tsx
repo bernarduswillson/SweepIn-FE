@@ -5,26 +5,40 @@ import { useEffect, useState } from 'react';
 import FormHeader from '@/components/ui/FormHeader';
 import ReportGallery from '@/components/ui/ReportGallery';
 import { useParams } from 'next/navigation';
-import { useFetch } from '@/hooks/useFetch';
 import axios from 'axios';
 
 // Utils
 import { getTodayDate, date2String } from '@/utils/date';
 
 // Interface
-import Report from '@/interface/FetchedReport';
+import FetchedReport from '@/interface/FetchedReport';
+import { useSession } from 'next-auth/react';
+import { User } from 'next-auth';
+import { parseStatus } from '@/utils/status';
 
 const FormLaporan = (): JSX.Element => {
   const { id } = useParams();
-  const [report, setReport] = useState<Report>({
+
+  const { data: session } = useSession();
+
+  // User data
+  const [user, setUser] = useState<User | null>(null);
+  useEffect(() => {
+    if (session) {
+      setUser(session.user as User);
+    }
+  }, [session]);
+
+  // Fetched data
+  const [report, setReport] = useState<FetchedReport>({
     userId: '',
-    name: '',
     date: '',
     status: '',
     description: '',
     images: [],
   });
 
+  // Fetch data
   useEffect(() => {(
     async function() {
       try {
@@ -34,7 +48,6 @@ const FormLaporan = (): JSX.Element => {
           console.log(data);
           setReport({
             userId: data.data.userId,
-            name: data.data.user.name,
             date: date2String(new Date(data.data.date), false),
             status: data.data.status,
             description: data.data.description,
@@ -54,7 +67,7 @@ const FormLaporan = (): JSX.Element => {
     
       {/* Head */}
       <div className='w-11/12 max-w-[641px] py-10 flex flex-col items-center'>
-        <FormHeader title='Laporan Kerja' date={getTodayDate()} />
+        <FormHeader title='Laporan Kerja' date={date2String(getTodayDate())} />
         <ReportGallery photos={report.images} />
       </div>
 
@@ -63,11 +76,11 @@ const FormLaporan = (): JSX.Element => {
         <div className='w-11/12 h-fit flex flex-col'>
           {/* Text input */}
           <label className="text-green_main text-base poppins-bold">Nama</label>
-          <h3 className="text-black text-xl poppins-medium">{report.name}</h3>
+          <h3 className="text-black text-xl poppins-medium">{user?.name}</h3>
           <label className="text-green_main text-base mt-5 poppins-bold">Tanggal</label>
           <h3 className="text-black text-xl poppins-medium">{report.date}</h3>
           <label className="text-green_main text-base mt-5 poppins-bold">Status</label>
-          <h3 className="text-black text-xl poppins-medium">{report.status}</h3>
+          <h3 className="text-black text-xl poppins-medium">Laporan {parseStatus(report.status)}</h3>
           <label className="text-green_main text-base mt-5 poppins-bold">Deskripsi</label>
           <p className='text-base poppins-medium text-black'>{report.description}</p>
         </div>

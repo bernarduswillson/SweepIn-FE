@@ -19,6 +19,8 @@ import User from '@/interface/User';
 
 const FormLaporan = (): JSX.Element => {
   const { data: session } = useSession();
+
+  // User data
   const [user, setUser] = useState<User | null>(null);
   useEffect(() => {
     if (session) {
@@ -44,7 +46,6 @@ const FormLaporan = (): JSX.Element => {
   // Form data
   const [formData, setFormData] = useState<Report>({
     userId: '',
-    name: '',
     date: '',
     status: '',
     description: '',
@@ -97,7 +98,7 @@ const FormLaporan = (): JSX.Element => {
     
       {/* Head */}
       <div className='w-11/12 max-w-[641px] py-10 flex flex-col items-center'>
-        <FormHeader title='Laporan Kerja' date={getTodayDate()} />
+        <FormHeader title='Laporan Kerja' date={date2String(getTodayDate())} />
         <ReportGalleryInput
           photos={photos}
           setPhotos={setPhotos}
