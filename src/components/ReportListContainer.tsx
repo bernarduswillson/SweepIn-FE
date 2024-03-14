@@ -3,7 +3,7 @@ import { easeInOut, motion} from 'framer-motion';
 
 // Interfaces
 import MonthRange from '@/interface/MonthRange';
-import Report from '@/interface/Report';
+import Report from '@/interface/FetchedReport';
 
 // Components
 import DateSearchBar from '@/components/ui/DateSearchBar';
@@ -103,8 +103,8 @@ const ListContainer = (props: ListContainerProps):JSX.Element => {
               >
                 
                 <ReportCard
-                  id={item.id}
-                  numOfPhoto={5}
+                  id={item.id as string}
+                  numOfPhoto={item.images.length}
                   date={new Date(item.date)}
                   status={item.status}
                 />

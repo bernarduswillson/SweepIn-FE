@@ -1,20 +1,52 @@
 "use client"
 
+// Hooks
+import { useFetch } from '@/hooks/useFetch';
+import { useSession } from 'next-auth/react';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+
 // Components
 import Navbar from '@/components/Navbar';
 import Header from '@/components/Header';
 import ReportListContainer from '@/components/ReportListContainer';
 
 // Interfaces
-import Report from '@/interface/Report';
-
-// TEST: Data
-import reportData from '@/data/reportDummy.json';
+import User from '@/interface/User';
+import FetchedReport from '@/interface/FetchedReport';
 
 const Laporan = (): JSX.Element => {
+  const { data: session } = useSession();
+
+  // User data
+  const [user, setUser] = useState<User | null>(null);
+  useEffect(() => {
+    if (session) {
+      setUser(session.user as User);
+    }
+  }, [session]);
+
   // Fetch data
-  // TODO: Get the user id from session
-  // const { data, loading } = useFetch(`/api/activity/user/65e977f9ff15a6ab52da402a`);
+  const [data, setData] = useState<FetchedReport[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        const userId = user?.id;
+        if (userId) {
+          const response = await axios.get(process.env.NEXT_PUBLIC_API_URL + `/report?user_id=${userId}&page=1&per_page=10`);
+          setData(response.data.data);
+        }
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  } , [user]);
 
   return (
     <div className="w-screen min-h-screen flex flex-col items-center bg-blue_main">
@@ -26,7 +58,7 @@ const Laporan = (): JSX.Element => {
       </div>
 
       {/* Body */}
-      <ReportListContainer data={reportData as Report[]} loading={false}/>
+      <ReportListContainer data={data as FetchedReport[]} loading={loading}/>
     
     </div>
   );

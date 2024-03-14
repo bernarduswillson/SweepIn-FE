@@ -17,7 +17,7 @@ const ReportGallery = (props: ReportGalleryProps) => {
           photos.map((photo, index) => (
             <motion.div 
               key={index} 
-              className="relative w-[170px] h-[170px] bg-red-500 flex justify-center items-center overflow-hidden rounded-lg"
+              className="relative w-[170px] h-[170px] bg-grey_bg flex justify-center items-center overflow-hidden rounded-lg"
               initial={{
                 scale: 0,
                 opacity: 0
