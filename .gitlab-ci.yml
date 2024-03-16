@@ -8,13 +8,6 @@ install_dependencies:
     - echo "Installing dependencies..."
     - npm install
     - echo "Dependencies installed"
-  artifacts:
-    paths:
-      - node_modules/
-  cache:
-    key: ${CI_COMMIT_REF_SLUG}
-    paths:
-      - node_modules/
 
 test:
   stage: test
