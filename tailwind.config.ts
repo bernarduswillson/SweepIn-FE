@@ -33,6 +33,9 @@ module.exports = {
       },
       screen: {
         md: '768px' 
+      },
+      transitionProperty: {
+        'width': 'width'
       }
     }
   },
