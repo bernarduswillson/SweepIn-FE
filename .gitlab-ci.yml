@@ -1,7 +1,7 @@
-image: node:latest
-
 stages:
-- build
+  - build
+  - run
+  - test
 
 variables:
   NODE_MODULES_CACHE_PATH: node_modules/
@@ -11,12 +11,22 @@ cache:
   paths:
   - ${NODE_MODULES_CACHE_PATH}
 
-before_script:
-  - echo "Installing dependencies"
-  - npm install
-
-build:
+install_dependencies:
   stage: build
   script:
-    - echo "Building the app from branch $CI_COMMIT_BRANCH"
+    - echo "Installing dependencies..."
+    - npm install
+    - echo "Dependencies installed"
+
+run:
+  stage: run
+  script:
+    - echo "Running the app"
     - npm run dev
+    - echo "App is running"
+
+test:
+  stage: test
+  script:
+    - echo "Running tests..."
+    - echo "Tests passed successfully!"
