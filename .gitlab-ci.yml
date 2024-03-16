@@ -14,6 +14,7 @@ run_dev:
   stage: run_dev
   script:
     - echo "Running development server..."
+    - npm install
     - npm run dev
 
 test:
