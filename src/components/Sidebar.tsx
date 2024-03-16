@@ -31,7 +31,7 @@ const Sidebar = (props: SidebarProps) => {
   };
 
   return (
-    <div className={`absolute top-0 left-0 bottom-0 ${isOpen ? 'w-[240px]' : 'w-[30px]'} h-full p-3 border-r-4 border-grey_bg transition-width duration-200 ease-in-out`}>
+    <div className={`relative top-0 left-0 bottom-0 ${isOpen ? 'w-[240px]' : 'w-[30px]'} h-full p-3 border-r-4 border-grey_bg transition-width duration-200 ease-in-out`}>
       
       <Modal 
         title="Anda akan keluar"

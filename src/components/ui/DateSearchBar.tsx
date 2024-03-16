@@ -8,8 +8,8 @@ import Icon from '@public/icons/calendar-ic.svg';
 import MonthRange from '@/interface/MonthRange';
 
 // Components
-import { Calendar } from "@/components/ui/Calendar";
-import Button from '@/components/ui/Button';
+import { Calendar } from "@/components/ui/calendar";
+import Button from '@/components/ui/button';
 
 interface SearchBarProps {
   monthRange: MonthRange
