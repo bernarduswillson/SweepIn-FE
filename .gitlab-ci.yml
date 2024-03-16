@@ -1,6 +1,5 @@
 stages:
   - install_dependencies
-  - run_dev
   - test
 
 install_dependencies:
@@ -9,13 +8,6 @@ install_dependencies:
     - echo "Installing dependencies..."
     - npm install
     - echo "Dependencies installed"
-
-run_dev:
-  stage: run_dev
-  script:
-    - echo "Running development server..."
-    - npm install
-    - npm run dev
 
 test:
   stage: test
