@@ -1,29 +1,20 @@
 stages:
-  - build
-  - run
+  - install_dependencies
   - test
 
-variables:
-  NODE_MODULES_CACHE_PATH: node_modules/
-
-cache:
-  key: ${CI_COMMIT_REF_SLUG}
-  paths:
-  - ${NODE_MODULES_CACHE_PATH}
-
 install_dependencies:
-  stage: build
+  stage: install_dependencies
   script:
     - echo "Installing dependencies..."
     - npm install
     - echo "Dependencies installed"
-
-run:
-  stage: run
-  script:
-    - echo "Running the app"
-    - npm run dev
-    - echo "App is running"
+  artifacts:
+    paths:
+      - node_modules/
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}
+    paths:
+      - node_modules/
 
 test:
   stage: test
