@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Image from 'next/image';
+import Link from 'next/link';
 
 // Components
 import Button from '@/components/ui/button';
@@ -45,15 +46,7 @@ const SearchBar = (props: SearchBarProps): JSX.Element => {
   return (
     <div className='w-full gap-2'>
 
-      {/* Name search field */}
-      <input 
-        className={`w-full flex justify-between items-center py-1 px-2 pl-3 border-grey border-2 rounded-xl poppins-medium `} 
-        type="text"
-        placeholder="Cari berdasarkan nama"
-        onChange={(e) => handleValueChange('name', e.target.value)}
-      />
-
-      <div className='flex mt-2 gap-3'>
+      <div className='flex mb-4 gap-3'>
 
         {/* Location dropdown */}
         <Dropdown 
@@ -65,6 +58,7 @@ const SearchBar = (props: SearchBarProps): JSX.Element => {
             'GANESHA',
             'JATINANGOR',
             'CIREBON',
+            'BOSSCHA',
           ]}
         />
 
@@ -80,8 +74,22 @@ const SearchBar = (props: SearchBarProps): JSX.Element => {
             'SECURITY',
           ]}
         />
+
       </div>
-      
+
+      <div className='flex gap-3 h-10'>
+
+        {/* Name search field */}
+        <input 
+          className={`w-full flex justify-between items-center py-1 px-2 pl-3 border-grey border-2 rounded-xl poppins-medium `} 
+          type="text"
+          placeholder="Cari berdasarkan nama"
+          onChange={(e) => handleValueChange('name', e.target.value)}
+        />
+
+        <Link className='flex items-center justify-center bg-green_dark text-white rounded-xl w-[250px] poppins-medium' href='user/baru'>Tambah User +</Link>
+
+      </div>
 
     </div>
   )

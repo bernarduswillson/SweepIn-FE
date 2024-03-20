@@ -119,7 +119,7 @@ const ListContainer = (props: ListContainerProps):JSX.Element => {
                 className='w-full'
               >
                 <UserCard
-                  id={item.id}
+                  id={item.id as string}
                   name={item.name}
                   email={item.email}
                   role={item.role}
