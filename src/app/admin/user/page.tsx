@@ -69,7 +69,7 @@ const User = (): JSX.Element => {
   }, [location, name, page, role, user?.id]);
   
   return (
-    <div className='flex w-screen min-h-screen'>
+    <div className='flex w-screen h-screen'>
       {/* Sidebar */}
       <Sidebar active='user'/>
 
