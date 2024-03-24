@@ -1,6 +1,7 @@
 "use client"
 
 import React, { useState } from 'react'
+import { useRouter } from 'next/navigation'
 
 interface ToggleButtonProps {
   state: 'Presensi' | 'Laporan'
@@ -9,14 +10,22 @@ interface ToggleButtonProps {
 const ToggleButton = (props: ToggleButtonProps): JSX.Element => {
   const { state } = props;
 
+  const route = useRouter();
+
   const [active, setActive] = useState<String>(state);
 
   const handleToggleClick = (owner: String) => {
     if (active === 'Presensi' && owner != 'Presensi') {
       setActive('Laporan');
+      setTimeout(() => {
+        route.push(`${process.env.NEXT_PUBLIC_BASE_URL}/laporan`)
+      }, 500)
     }
     if (active === 'Laporan' && owner != 'Laporan') {
       setActive('Presensi');
+      setTimeout(() => {
+        route.push(`${process.env.NEXT_PUBLIC_BASE_URL}/presensi`)
+      }, 500)
     }
   }
 

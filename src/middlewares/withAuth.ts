@@ -1,4 +1,5 @@
 import { getToken } from "next-auth/jwt";
+import { getSession } from "next-auth/react";
 import { NextResponse } from "next/server";
 import type { NextFetchEvent, NextMiddleware, NextRequest } from "next/server";
 

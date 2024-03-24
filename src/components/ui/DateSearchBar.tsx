@@ -9,7 +9,7 @@ import MonthRange from '@/interface/MonthRange';
 
 // Components
 import { Calendar } from "@/components/ui/calendar";
-import Button from '@/components/ui/Button';
+import Button from '@/components/ui/button';
 
 interface SearchBarProps {
   monthRange: MonthRange
@@ -85,7 +85,7 @@ const SearchBar = (props: SearchBarProps): JSX.Element => {
                 onSelect={setDateFrom}
               />
               <button className='w-[80px]' onClick={(e) => handleOkeButtonClick(e)}>
-                <Button text='Pilih' />
+                <Button text='Pilih' color='green' />
               </button>
             </div>
           </>
@@ -118,7 +118,7 @@ const SearchBar = (props: SearchBarProps): JSX.Element => {
                   <span className='text-sm text-red_main poppins-medium'>Tanggal akhir harus setelah tanggal awal</span>
                 }
                 <button className='w-[80px]' onClick={(e) => handleOkeButtonClick(e)}>
-                  <Button text='Pilih' disable={!isRangeValid} />
+                  <Button color='green' text='Pilih' disable={!isRangeValid} />
                 </button>
               </div>
             </div>
@@ -128,7 +128,7 @@ const SearchBar = (props: SearchBarProps): JSX.Element => {
 
       {/* Cari */}
       <div className='w-[20%]'>
-        <Button text="Cari" disable={!isRangeValid} onClick={onSearch}/>
+        <Button text="Cari" color='green' disable={!isRangeValid} onClick={onSearch}/>
       </div>
     </div>
   )

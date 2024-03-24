@@ -4,52 +4,45 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
-// Components
-import Modal from '@/components/ui/Modal';
-
 // Asset
 import RightArrow from '@public/icons/right-arrow-ic';
 import UncheckedMark from '@public/icons/status-unchecked-ic.svg';
 import CheckedMark from '@public/icons/status-checked-ic.svg';
-import MapMissing from '@public/images/map-missing.svg'
 
-interface CardProps {
+// Utils
+import { date2String } from '@/utils/date';
+
+interface AttendanceCardProps {
   id: String,
   date: Date,
   startAttendanceId: String | null,
   endAttendanceId: String | null 
 }
 
-const Card = (props: CardProps): JSX.Element => {
+const Card = (props: AttendanceCardProps): JSX.Element => {
   const { id, date, startAttendanceId, endAttendanceId } = props;
 
   const route = useRouter();
 
   // Is today attendance?
-  const [isToday, setIsToday] = useState<Boolean>(date.getDate() === new Date().getDate());
-
-  // Is modal shown?
-  const [showModal, setShowModal] = useState(false);
-
-  // Parse date to String (DAY, DD MONTH YYYY)
-  const parseDate = (date: Date) => {
-    const days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
-    const months = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
-    const day = days[date.getDay()];
-    const month = months[date.getMonth()];
-    const year = date.getFullYear();
-    return `${day}, ${date.getDate()} ${month} ${year}`;
-  }
+  const [isToday, setIsToday] = useState<Boolean>(() => {
+    const today = new Date();
+    return date.getDate() === today.getDate() && date.getMonth() === today.getMonth() && date.getFullYear() === today.getFullYear();
+  });
 
   // Handle card click
   const handleClick = () => {
-    setShowModal(true);
-    // route.push(process.env.NEXT_PUBLIC_BASE_URL + '/presensi/' + id)
-  }
 
-  // Handle modal confirm
-  const handleConfirm = (): void => {
-    setShowModal(false)
+    // Routing to start log form
+    if (isToday && !startAttendanceId && !endAttendanceId) {
+      route.push(`${process.env.NEXT_PUBLIC_BASE_URL}/presensi/baru`)
+    // Routing to end log form
+    } else if (isToday && !endAttendanceId) {
+    route.push(`${process.env.NEXT_PUBLIC_BASE_URL}/presensi/baru/${id}`)
+    // Routing to attendance detail page
+    } else {
+      route.push(`${process.env.NEXT_PUBLIC_BASE_URL}/presensi/${id}`)
+    }
   }
 
   return (
@@ -67,7 +60,7 @@ const Card = (props: CardProps): JSX.Element => {
             {
               isToday ?
               'Hari ini' :
-              parseDate(date)
+              date2String(date)
             }
           </div>
 
@@ -103,16 +96,6 @@ const Card = (props: CardProps): JSX.Element => {
         </div>
 
       </div>
-      <Modal
-        title="Lokasi tidak ditemukan"
-        msg="Patikan lokasi pada HP Anda sudah aktif untuk melakukan presensi"
-        img={MapMissing}
-        type="info"
-        confirmText="Oke"
-        onConfirm={handleConfirm}
-        onClose={handleConfirm} 
-        isOpen={showModal}
-      />
     </div>
   );
 };

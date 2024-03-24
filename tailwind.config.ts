@@ -19,7 +19,7 @@ module.exports = {
         grey_bg: '#EDF1F6',
         red_main: '#FF5959',
         red_dark: '#d43535',
-        orange: '#F9AF42'
+        orange_main: '#F9AF42'
       },
       fontSize: {
         sm: '0.8rem',
@@ -33,6 +33,9 @@ module.exports = {
       },
       screen: {
         md: '768px' 
+      },
+      transitionProperty: {
+        'width': 'width'
       }
     }
   },
