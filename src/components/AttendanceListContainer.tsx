@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { easeInOut, motion} from 'framer-motion';
 
 // Interfaces
@@ -20,6 +21,7 @@ interface ListContainerProps {
 
 const ListContainer = (props: ListContainerProps):JSX.Element => {
   const { data, loading } = props;
+  const router = useRouter();
 
   // Month range value
   const [monthRange, setMonthRange] = useState<MonthRange>({
@@ -37,8 +39,10 @@ const ListContainer = (props: ListContainerProps):JSX.Element => {
 
   // Handle search
   const handleSearch = () => {
-    // TODO: Implement search
-    console.log(monthRange);
+    let startDate = new Date(monthRange.start as Date).toISOString();
+    let endDate0 = new Date(monthRange.end as Date).setDate((monthRange.end as Date).getDate() + 1);
+    let endDate = new Date(endDate0).toISOString();
+    router.push(`/presensi?start_date=${startDate}&end_date=${endDate}`);
   }
   
   return (
