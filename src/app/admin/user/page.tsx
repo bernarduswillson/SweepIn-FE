@@ -69,10 +69,7 @@ const User = (): JSX.Element => {
   }, [location, name, page, role, user?.id]);
   
   return (
-    <div className='flex w-screen h-screen'>
-      {/* Sidebar */}
-      <Sidebar active='user'/>
-
+    <div className='flex flex-row-reverse w-screen h-screen'>
       <div className="w-full flex flex-col items-center bg-white">
 
           {/* Header */}
@@ -84,6 +81,9 @@ const User = (): JSX.Element => {
           <ListContainer data={data as User[]} count={count} loading={loading}/>
 
       </div>
+
+      {/* Sidebar */}
+      <Sidebar active='user'/>
     </div>
   );
 };

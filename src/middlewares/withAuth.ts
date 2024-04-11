@@ -1,11 +1,11 @@
 import { getToken } from "next-auth/jwt";
-import { getSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import { NextResponse } from "next/server";
 import type { NextFetchEvent, NextMiddleware, NextRequest } from "next/server";
 
-// const onlyAdminPage = [];
 const authPage = ['/masuk']; 
-const homePage = ['/']
+const homePage = ['/'];
+const onlyAdminPage = ['/admin/:path*'];
 
 export default function withAuth(
   middleware: NextMiddleware,
@@ -33,7 +33,7 @@ export default function withAuth(
         }
 
         // // Handle unauthorized user
-        // if (token.role !== 'admin' && onlyAdminPage.includes(pathname)) {
+        // if (token.role !== 'ADMIN' && onlyAdminPage.includes(pathname)) {
         //   return NextResponse.redirect(new URL('/presensi', req.url));
         // }
       }
