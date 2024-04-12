@@ -85,7 +85,7 @@ const FormPresensi = () => {
       }))
       getLoc();
     }
-  }, [formData.image, getLoc]);
+  }, [formData.image]);
 
   // Handle submit
   const handleSubmit = () => {

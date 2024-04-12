@@ -6,6 +6,6 @@ export default interface Attendance {
   date: string,
   userId: String,
   user: FetchedUser,
-  startLog: FetchedLog[],
-  endLog: FetchedLog[]
+  startLog: FetchedLog,
+  endLog: FetchedLog
 };
