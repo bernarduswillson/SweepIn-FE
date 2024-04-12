@@ -45,6 +45,7 @@ const Laporan = (): JSX.Element => {
         if (userId) {
           const response = await axios.get(process.env.NEXT_PUBLIC_API_URL + `/report?user_id=${userId}&page=1&per_page=10&start_date=${startDate}&end_date=${endDate}`);
           setData(response.data.data);
+          console.log(response.data.data);
         }
       } catch (error) {
         console.error(error);

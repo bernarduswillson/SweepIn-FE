@@ -4,5 +4,8 @@ export default interface FetchedReport {
   date: string,
   status: string
   description: string,
-  images: string[]
+  images: {
+    type: string,
+    data: number[],
+  }[],
 }
