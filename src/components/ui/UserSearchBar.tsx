@@ -46,38 +46,43 @@ const SearchBar = (props: SearchBarProps): JSX.Element => {
   return (
     <div className='w-full gap-2'>
 
-      <div className='flex mb-4 gap-3'>
+      <div className='flex justify-between mb-4'>
+        <div className='w-[400px] flex gap-3'>
+          {/* Location dropdown */}
+          <Dropdown 
+            label="Lokasi"
+            placeholder='Pilih Lokasi'
+            onChange={(value) => handleValueChange('location', value)}
+            options={[
+              'Semua Lokasi',
+              'GANESHA',
+              'JATINANGOR',
+              'CIREBON',
+              'BOSSCHA',
+            ]}
+          />
 
-        {/* Location dropdown */}
-        <Dropdown 
-          label="Lokasi"
-          placeholder='Pilih Lokasi'
-          onChange={(value) => handleValueChange('location', value)}
-          options={[
-            'Semua Lokasi',
-            'GANESHA',
-            'JATINANGOR',
-            'CIREBON',
-            'BOSSCHA',
-          ]}
-        />
+          {/* Role dropdown */}
+          <Dropdown 
+            label="Role"
+            placeholder='Pilih Role'
+            onChange={(value) => handleValueChange('role', value)}
+            options={[
+              'Semua Role',
+              'ADMIN',
+              'CLEANER',
+              'SECURITY',
+            ]}
+          />
+        </div>
 
-        {/* Role dropdown */}
-        <Dropdown 
-          label="Role"
-          placeholder='Pilih Role'
-          onChange={(value) => handleValueChange('role', value)}
-          options={[
-            'Semua Role',
-            'ADMIN',
-            'CLEANER',
-            'SECURITY',
-          ]}
-        />
-
+        <div>
+          {/* Add user button */}
+          <Link className='flex h-full items-center justify-center bg-green_main text-white rounded-lg w-[150px] poppins-medium' href='user/baru'>+ Tambah User</Link>
+        </div>
       </div>
 
-      <div className='flex gap-3 h-10'>
+      <div className='h-10'>
 
         {/* Name search field */}
         <input 
@@ -86,8 +91,6 @@ const SearchBar = (props: SearchBarProps): JSX.Element => {
           placeholder="Cari berdasarkan nama"
           onChange={(e) => handleValueChange('name', e.target.value)}
         />
-
-        <Link className='flex items-center justify-center bg-green_dark text-white rounded-xl w-[250px] poppins-medium' href='user/baru'>Tambah User +</Link>
 
       </div>
 
