@@ -78,7 +78,7 @@ const ListContainer = (props: ListContainerProps):JSX.Element => {
                 
                 <ReportCard
                   id={item.id as string}
-                  numOfPhoto={item.images.length}
+                  numOfPhoto={item.images ? item.images : 0}
                   date={new Date(item.date)}
                   status={item.status}
                 />

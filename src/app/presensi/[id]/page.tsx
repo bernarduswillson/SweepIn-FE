@@ -78,8 +78,7 @@ const DetailPresensi = () => {
             <div className='w-11/12 h-fit flex flex-col'>
               {/* Text input */}
               <h4 className="text-green_main text-base poppins-bold">Nama</h4>
-              INI HARUS NGUBAH BACKEND
-              {/* <h3 className="text-black text-xl poppins-medium">{data.user.name}</h3> */}
+              <h3 className="text-black text-xl poppins-medium">{data.user.name}</h3>
               <h4 className="text-green_main text-base mt-5 poppins-bold">Tanggal</h4>
               <h3 className="text-black text-xl poppins-medium">{date2String(new Date(data.date))}</h3>
               <h4 className="text-green_main text-base mt-5 poppins-bold">Waktu</h4>

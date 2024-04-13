@@ -4,7 +4,7 @@ import Lottie from 'react-lottie';
 import spinnerLoaderAnimation from '@public/lotties/spinner-loading.json';
 
 interface SubmitButtonProps {
-  width?: string,
+  bgColor?: string,
   text: string,
   disable?: boolean,
   onClick?: () => void,
@@ -12,7 +12,7 @@ interface SubmitButtonProps {
 };
 
 const SubmitButton = (props: SubmitButtonProps):JSX.Element => {
-  const { text, disable, onClick, loading } = props;
+  const { bgColor, text, disable, onClick, loading } = props;
 
   // Lottie Configuration
   const spinnerLoaderAnimationOptions = {
@@ -28,8 +28,8 @@ const SubmitButton = (props: SubmitButtonProps):JSX.Element => {
     <button 
       onClick={onClick} 
       disabled={!!disable || loading} 
-      className={`w-full h-10 py-3 flex gap-5 justify-center items-center bg-blue_main text-white rounded-lg
-      ${disable || loading ? 'opacity-50' : 'opacity-100 hover:bg-blue_dark'} text-xl poppins-bold button-animation`}
+      className={`w-full h-10 py-3 flex gap-5 justify-center items-center text-white rounded-md ${bgColor ? `bg-${bgColor}_main` : 'bg-blue_main'}
+      ${disable || loading ? 'opacity-50' : `opacity-100 ${bgColor ? `hover:bg-${bgColor}_dark` : 'hover:bg-blue_dark'}`} text-xl poppins-bold button-animation`}
     >
       {
         loading ?
@@ -42,7 +42,7 @@ const SubmitButton = (props: SubmitButtonProps):JSX.Element => {
         </div> :
         null
       }
-      <span>{loading ? 'Mengirim' : "Kirim"}</span>
+      <span>{loading ? 'Loading...' : text}</span>
     </button>
   )
 }

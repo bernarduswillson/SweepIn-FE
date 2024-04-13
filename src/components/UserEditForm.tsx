@@ -5,10 +5,12 @@ import { useState, useEffect } from "react";
 import { useRouter } from 'next/navigation';
 import { useSubmit } from '@/hooks/useSubmit';
 import { useParams } from 'next/navigation';
+import axios from 'axios';
 
 // Components
 import Dropdown from "@/components/ui/customDropdown";
 import SubmitButton from "@/components/ui/SubmitButton";
+import DeleteButton from "@/components/ui/DeleteButton";
 
 // Interface
 import User from "@/interface/User";
@@ -69,28 +71,39 @@ const UserForm = (props: UserFormProps): JSX.Element => {
 	};
 
 	// Handle submit
-	const handleSubmit = () => {
+	const handleSubmit = async () => {
 		// Set loading
 		setIsSubmitLoading(true);
 
-		// Submit
-		submit('/edit', formData);
-		route.push(`${process.env.NEXT_PUBLIC_BASE_URL}/admin/user`);
+		// Edit
+    try {
+      const response = await axios.patch(`${process.env.NEXT_PUBLIC_API_URL}/user/${id}`, formData);
+      console.log(response);
+      route.push(`${process.env.NEXT_PUBLIC_BASE_URL}/admin/user`);
+    } catch (error) {
+      console.error("Error updating user:", error);
+    }
 		
 		setIsSubmitLoading(false);
 	}
 
   // Handle delete
-  const handleDelete = () => {
-		// Set loading
-		setIsDeleteLoading(true);
+  const HandleDelete = async () => {
+    // Set loading
+    setIsDeleteLoading(true);
 
-		// Delete
-		submit('/delete', id);
-		route.push(`${process.env.NEXT_PUBLIC_BASE_URL}/admin/user`);
-		
-		setIsDeleteLoading(false);
-	}
+    // Delete
+    try {
+      const response = await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/user/${id}`);
+      console.log(response);
+      route.push(`${process.env.NEXT_PUBLIC_BASE_URL}/admin/user`);
+    } catch (error) {
+      console.error("Error deleting user:", error);
+    }
+
+    setIsDeleteLoading(false);
+  }
+
 
   return (
     <div className="">
@@ -156,12 +169,10 @@ const UserForm = (props: UserFormProps): JSX.Element => {
       <div className="flex justify-end">
         <div className="w-[400px] flex gap-5">
           {/* Submit button */}
-          {/* TODO: Change text and bg color */}
-          <SubmitButton text='Tambah User' onClick={handleSubmit} loading={isSubmitLoading} disable={!isInputValid}/>
+          <SubmitButton text='Save changes' onClick={handleSubmit} loading={isSubmitLoading} disable={!isInputValid} bgColor="green"/>
         
           {/* Delete button */}
-          {/* TODO: Change text and bg color */}
-          <SubmitButton text='Tambah User' onClick={handleDelete} loading={isDeleteLoading}/>
+          <DeleteButton text='Delete' onClick={HandleDelete} loading={isDeleteLoading} username={formData.name} />
         </div>
       </div>
 

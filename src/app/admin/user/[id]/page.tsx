@@ -45,7 +45,7 @@ const DetailUser = (): JSX.Element => {
 	const [container, setContainer] = useState<'Presensi' | 'Laporan'>('Presensi');
 
   // Fetch data
-  const [userData, setUserData] = useState<User[]>([]);
+  const [userData, setUserData] = useState<User>({id: '', name: '', email: '', location: '', role: '' });
 	const [attendanceData, setAttendanceData] = useState<Attendance[]>([]);
 	const [reportData, setReportData] = useState<Report[]>([]);
 
@@ -57,105 +57,55 @@ const DetailUser = (): JSX.Element => {
   }, [session]);
 
 	// Fetch user data
-	// useEffect(() => {
-	// 	const fetchData = async () => {
-	// 		try {
-	// 			if (id) {
-	// 				const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/user/${id}`);
-	// 				setUserData(response.data.data);
-	// 			}
-	// 		} catch (error) {
-	// 			console.error(error);
-	// 		}
-	// 	}
-	// 	fetchData();
-	// }, [id]);
+	useEffect(() => {
+		const fetchData = async () => {
+			try {
+				if (id) {
+					const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/user/${id}`);
+					setUserData(response.data.data);
+				}
+			} catch (error) {
+				console.error(error);
+			}
+		}
+		fetchData();
+	}, [id]);
 
 	// Fetch attendance data
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       setLoading(true);
-  //       if (user?.id) {
-  //         const response = await axios.get(process.env.NEXT_PUBLIC_API_URL + `/attendance?user_id=${user?.id}&page=1&per_page=10&start_date=${startDate}&end_date=${endDate}`);
-  //         setAttendanceData(response.data.data);
-  //       }
-  //     } catch (error) {
-  //       console.error(error);
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   }
-  //   fetchData();
-  // }, [user?.id, startDate, endDate]);
+	useEffect(() => {
+		const fetchData = async () => {
+		try {
+			setLoading(true);
+			if (id) {
+			const response = await axios.get(process.env.NEXT_PUBLIC_API_URL + `/attendance?user_id=${id}&page=1&per_page=10&start_date=${startDate}&end_date=${endDate}`);
+			setAttendanceData(response.data.data);
+			}
+		} catch (error) {
+			console.error(error);
+		} finally {
+			setLoading(false);
+		}
+		}
+		fetchData();
+	}, [id, startDate, endDate]);
 
 	// Fetch report data
-	// useEffect(() => {
-	// 	const fetchData = async () => {
-	// 		try {
-	// 			setLoading(true);
-	// 			if (user?.id) {
-	// 				const response = await axios.get(process.env.NEXT_PUBLIC_API_URL + `/report?user_id=${user?.id}&page=1&per_page=10&start_date=${startDate}&end_date=${endDate}`);
-	// 				setReportData(response.data.data);
-	// 			}
-	// 		} catch (error) {
-	// 			console.error(error);
-	// 		} finally {
-	// 			setLoading(false);
-	// 		}
-	// 	}
-	// 	fetchData();
-	// }, [user?.id, startDate, endDate]);
-
-	// dummy data
 	useEffect(() => {
-		setUserData([{
-			id: '1',
-			name: 'John Doe',
-			email: 'johndoe@gmail.com',
-			location: 'GANESHA',
-			role: 'ADMIN',
-		}]);
-		setAttendanceData([
-			{
-				id: '1',
-				date: '2022-01-01',
-				userId: '1',
-				user: {
-					id: '1',
-					name: 'John Doe'
-				},
-				startLog: [{
-					id: '1',
-					date: '2022-01-01',
-					image: 'https://via.placeholder.com/150',
-					latitude: -6.1234,
-					longitude: 106.1234,
-					attendanceStartId: null,
-					attendanceEndId: '1'
-				}],
-				endLog: [{
-					id: '2',
-					date: '2022-01-01',
-					image: 'https://via.placeholder.com/150',
-					latitude: -6.1234,
-					longitude: 106.1234,
-					attendanceStartId: '1',
-					attendanceEndId: null
-				}]
+		const fetchData = async () => {
+			try {
+				setLoading(true);
+				if (id) {
+					const response = await axios.get(process.env.NEXT_PUBLIC_API_URL + `/report?user_id=${id}&page=1&per_page=10&start_date=${startDate}&end_date=${endDate}`);
+					setReportData(response.data.data);
+				}
+			} catch (error) {
+				console.error(error);
+			} finally {
+				setLoading(false);
 			}
-		]);
-		setReportData([
-			{
-				userId: '1',
-				date: '2022-01-01',
-				status: 'ACCEPTED',
-				description: 'Lorem ipsum dolor sit amet',
-				images: ['https://via.placeholder.com/150']
-			}
-		]);
-		setLoading(false);
-	}, []);
+		}
+		fetchData();
+	}, [id, startDate, endDate]);
   
   return (
     <div className='flex flex-row-reverse w-screen h-screen'>
@@ -169,7 +119,7 @@ const DetailUser = (): JSX.Element => {
 				{/* Body */}
 		  	<div className='w-11/12'>
 					<h2 className='poppins-extrabold text-lg mb-5'>Profil</h2>
-					<UserEditForm data={userData[0]} />
+					<UserEditForm data={userData as User} />
 
 					<h2 className='poppins-extrabold text-lg mb-5 mt-10'>Aktivitas</h2>
 					<ToggleButton active={container} setActive={setContainer} />
