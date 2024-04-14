@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 
 // Asset
 import RightArrow from '@public/icons/right-arrow-ic';
@@ -23,6 +23,8 @@ const Card = (props: AttendanceCardProps): JSX.Element => {
   const { id, date, startAttendanceId, endAttendanceId } = props;
 
   const route = useRouter();
+  const url = usePathname();
+  const page = url.split('/')[1];
 
   // Is today attendance?
   const [isToday, setIsToday] = useState<Boolean>(() => {
@@ -33,8 +35,10 @@ const Card = (props: AttendanceCardProps): JSX.Element => {
   // Handle card click
   const handleClick = () => {
 
+    if (page === 'admin') {
+      route.push(`${process.env.NEXT_PUBLIC_BASE_URL}/admin/presensi/${id}`);
     // Routing to start log form
-    if (isToday && !startAttendanceId && !endAttendanceId) {
+    } else if (isToday && !startAttendanceId && !endAttendanceId) {
       route.push(`${process.env.NEXT_PUBLIC_BASE_URL}/presensi/baru`)
     // Routing to end log form
     } else if (isToday && !endAttendanceId) {

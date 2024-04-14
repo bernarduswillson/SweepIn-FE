@@ -74,17 +74,17 @@ const DetailUser = (): JSX.Element => {
 	// Fetch attendance data
 	useEffect(() => {
 		const fetchData = async () => {
-		try {
-			setLoading(true);
-			if (id) {
-			const response = await axios.get(process.env.NEXT_PUBLIC_API_URL + `/attendance?user_id=${id}&page=1&per_page=10&start_date=${startDate}&end_date=${endDate}`);
-			setAttendanceData(response.data.data);
+			try {
+				setLoading(true);
+				if (id) {
+				const response = await axios.get(process.env.NEXT_PUBLIC_API_URL + `/attendance?user_id=${id}&page=1&per_page=10&start_date=${startDate}&end_date=${endDate}`);
+				setAttendanceData(response.data.data);
+				}
+			} catch (error) {
+				console.error(error);
+			} finally {
+				setLoading(false);
 			}
-		} catch (error) {
-			console.error(error);
-		} finally {
-			setLoading(false);
-		}
 		}
 		fetchData();
 	}, [id, startDate, endDate]);

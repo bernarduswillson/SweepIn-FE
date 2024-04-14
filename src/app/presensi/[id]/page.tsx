@@ -94,7 +94,7 @@ const DetailPresensi = () => {
                 <>
                   <h4 className="text-green_main text-base mt-5 poppins-bold">Lokasi Akhir</h4>
                   <div className='my-2 rounded-xl overflow-hidden'>
-                    <iframe src={`https://maps.google.com/maps?q=${data.endLog.latitude},${data.startLog.longitude}&z=15&output=embed`} width="100%" height="200" style={{border: 0}} allowFullScreen loading="lazy"></iframe>
+                    <iframe src={`https://maps.google.com/maps?q=${data.endLog.latitude},${data.endLog.longitude}&z=15&output=embed`} width="100%" height="200" style={{border: 0}} allowFullScreen loading="lazy"></iframe>
                   </div>
                 </>
               }

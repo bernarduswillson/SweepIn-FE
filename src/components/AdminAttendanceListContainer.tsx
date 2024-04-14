@@ -78,8 +78,8 @@ const ListContainer = (props: ListContainerProps):JSX.Element => {
                 <AttendanceCard
                   id={item.id}
                   date={new Date(item.date)} 
-                  startAttendanceId={item?.startLog[0]?.id as string}
-                  endAttendanceId={item?.endLog[0]?.id as string} 
+                  startAttendanceId={item?.startLog?.id as string}
+                  endAttendanceId={item?.endLog?.id as string} 
                 />
               </motion.div>
             )) :

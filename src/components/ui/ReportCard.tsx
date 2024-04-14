@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 
 // Asset
 import RightArrow from '@public/icons/right-arrow-ic';
@@ -21,13 +21,17 @@ const Card = (props: ReportCardProps): JSX.Element => {
   const { id, numOfPhoto, date, status } = props;
 
   const route = useRouter();
+  const url = usePathname();
+  const page = url.split('/')[1];
 
   // Is today attendance?
   const [isToday, setIsToday] = useState<Boolean>(date.getDate() === new Date().getDate());
 
   // Handle card click
   const handleClick = () => {
-    if (status === 'belum dikirim') {
+    if (page === 'admin') {
+      route.push(`${process.env.NEXT_PUBLIC_BASE_URL}/admin/laporan/${id}`);
+    } else if (status === 'belum dikirim') {
       route.push(`${process.env.NEXT_PUBLIC_BASE_URL}/laporan/baru`);
     } else {
       route.push(`${process.env.NEXT_PUBLIC_BASE_URL}/laporan/${id}`);

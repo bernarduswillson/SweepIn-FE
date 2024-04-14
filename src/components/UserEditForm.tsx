@@ -21,6 +21,8 @@ interface UserFormProps {
 }
 
 const UserForm = (props: UserFormProps): JSX.Element => {
+  const { data } = props;
+
 	const route = useRouter();
   const { submit } = useSubmit();
 
@@ -45,10 +47,10 @@ const UserForm = (props: UserFormProps): JSX.Element => {
 
   // Set form data
   useEffect(() => {
-    if (props.data) {
-      setFormData(props.data);
+    if (data) {
+      setFormData(data);
     }
-  }, [props.data]);
+  }, [data]);
 	
 	// Handle value change
 	const handleValueChange = (name: 'name' | 'email' | 'location' | 'role', value: string) => {
