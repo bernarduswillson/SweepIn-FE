@@ -40,7 +40,7 @@ const LogDetails = (props: LogDetailsProps): JSX.Element => {
         <h3 className="text-black text-xl poppins-medium">{dateTime2String(new Date(data.date))}</h3>
       </div>
 
-      {/* Lokasi */}
+      {/* Location */}
       <div className='mb-7'>
         <h2 className="poppins-bold text-blue_main">Lokasi</h2>
         <div className='my-2 rounded-xl overflow-hidden'>

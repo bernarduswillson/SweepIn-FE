@@ -3,8 +3,8 @@ import { useRouter } from 'next/navigation';
 import { easeInOut, motion} from 'framer-motion';
 
 // Interfaces
+import Report from '@/interface/ReportCard';
 import MonthRange from '@/interface/MonthRange';
-import Report from '@/interface/FetchedReport';
 
 // Components
 import DateSearchBar from '@/components/ui/DateSearchBar';
@@ -57,7 +57,7 @@ const ListContainer = (props: ListContainerProps):JSX.Element => {
         <div className='w-full h-fit flex flex-col items-center gap-1'>
           {
             !loading ? 
-            data && data.map((item: Report, index) => (
+            data && data.map((item: Report, index: number) => (
               <motion.div 
                 key={index}
                 initial={{

@@ -4,7 +4,7 @@ import { easeInOut, motion} from 'framer-motion';
 
 // Interfaces
 import MonthRange from '@/interface/MonthRange';
-import Attendance from '@/interface/FetchedAttendance';
+import Attendance from '@/interface/AttendanceCard';
 
 // Components
 import DateSearchBar from '@/components/ui/DateSearchBar';
@@ -87,7 +87,7 @@ const ListContainer = (props: ListContainerProps):JSX.Element => {
           }
           {
             !loading ? 
-            data && data.map((item: Attendance, index) => (
+            data && data.map((item: Attendance, index: number) => (
               <motion.div 
                 key={index}
                 initial={{
@@ -107,8 +107,7 @@ const ListContainer = (props: ListContainerProps):JSX.Element => {
               >
                 <AttendanceCard
                   id={item.id}
-                  date={new Date(item.date)} 
-                  // benerin di backend
+                  date={new Date(item.date)}
                   startAttendanceId={item?.startLog?.[0]?.id as string} 
                   endAttendanceId={item?.endLog?.[0]?.id as string} 
                 />
