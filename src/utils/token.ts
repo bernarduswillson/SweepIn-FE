@@ -1,8 +1,12 @@
-import jwt from 'jsonwebtoken';
+import jwt from 'jsonwebtoken'
 
-const SignToken = async (email: String)=> {
-const token = await jwt.sign({id:email}, process.env.NEXT_PUBLIC_JWT_SECRET_KEY || "", {expiresIn: '1d'});
-    return token
+const SignToken = async (email: String) => {
+  const token = await jwt.sign(
+    { id: email },
+    process.env.NEXT_PUBLIC_JWT_SECRET_KEY || '',
+    { expiresIn: '1d' }
+  )
+  return token
 }
 
-export { SignToken };
+export { SignToken }

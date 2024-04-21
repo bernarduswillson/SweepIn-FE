@@ -1,10 +1,7 @@
-"use client";
+'use client'
 
 const Page = (): JSX.Element => {
-  return (
-    <div>
-    </div>
-  );
-};
+  return <div></div>
+}
 
-export default Page;
+export default Page
