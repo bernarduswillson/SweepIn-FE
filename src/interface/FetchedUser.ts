@@ -1,5 +1,4 @@
 export default interface FetchedUser {
-  id: string,
+  id: string
   name: string
-};
-
+}

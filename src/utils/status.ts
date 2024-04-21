@@ -1,21 +1,21 @@
-/*** 
+/***
  * Parse report status to formatted string
- * undefined: belum dikirim 
- * WAITING: diproses 
- * REJECTED: ditolak 
- * ACCEPTED: diterima 
- */ 
+ * undefined: belum dikirim
+ * WAITING: diproses
+ * REJECTED: ditolak
+ * ACCEPTED: diterima
+ */
 const parseStatus = (status: string): string => {
   switch (status) {
     case 'WAITING':
-      return ('diproses');
+      return 'diproses'
     case 'REJECTED':
-      return ('ditolak');
+      return 'ditolak'
     case 'ACCEPTED':
-      return ('diterima');
+      return 'diterima'
     default:
-      return ('belum dikirim');
+      return 'belum dikirim'
   }
-};
+}
 
-export { parseStatus };
+export { parseStatus }

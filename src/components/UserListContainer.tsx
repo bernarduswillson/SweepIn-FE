@@ -1,94 +1,96 @@
-import { useState, useEffect, useRef, useLayoutEffect } from 'react';
-import { easeInOut, motion} from 'framer-motion';
-import { useSearchParams, useRouter } from 'next/navigation';
+import { useState, useEffect, useRef, useLayoutEffect } from 'react'
+import { easeInOut, motion } from 'framer-motion'
+import { useSearchParams, useRouter } from 'next/navigation'
 
 // Interfaces
-import MonthRange from '@/interface/MonthRange';
-import User from '@/interface/User';
+import MonthRange from '@/interface/MonthRange'
+import User from '@/interface/User'
 
 // Components
-import UserSearchBar from '@/components/ui/UserSearchBar';
-import UserCard from '@/components/ui/UserCard';
-import SweepLoader from '@/components/ui/SweepLoader';
-import Pagination from '@/components/ui/customPagination';
-import { set } from 'date-fns';
+import UserSearchBar from '@/components/ui/UserSearchBar'
+import UserCard from '@/components/ui/UserCard'
+import SweepLoader from '@/components/ui/SweepLoader'
+import Pagination from '@/components/ui/customPagination'
+import { set } from 'date-fns'
 
 interface ListContainerProps {
-  data: User[],
-  count: number[],
+  data: User[]
+  count: number[]
   loading: boolean
-};
+}
 
-const ListContainer = (props: ListContainerProps):JSX.Element => {
-  const { data, count, loading } = props;
+const ListContainer = (props: ListContainerProps): JSX.Element => {
+  const { data, count, loading } = props
 
   // Params
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const page = Number(searchParams.get('page')) || 1;
+  const router = useRouter()
+  const searchParams = useSearchParams()
+  const page = Number(searchParams.get('page')) || 1
 
   // Name values
-  const [nameValue, setNameValue] = useState<string>('');
+  const [nameValue, setNameValue] = useState<string>('')
 
   // Location values
-  const [locationValue, setLocationValue] = useState<string>('');
+  const [locationValue, setLocationValue] = useState<string>('')
 
   // Role values
-  const [roleValue, setRoleValue] = useState<string>('');
+  const [roleValue, setRoleValue] = useState<string>('')
 
   // Page values
-  const [pageValue, setPageValue] = useState<number>(page);
+  const [pageValue, setPageValue] = useState<number>(page)
 
-  const [valueChanged, setValueChanged] = useState<boolean>(false);
+  const [valueChanged, setValueChanged] = useState<boolean>(false)
 
   // Handle value change
-  const handleValueChange = (name: 'name' | 'location' | 'role', value: string) => {
+  const handleValueChange = (
+    name: 'name' | 'location' | 'role',
+    value: string
+  ) => {
     switch (name) {
       case 'name':
-        setNameValue(value);
-        break;
+        setNameValue(value)
+        break
       case 'location':
-        setLocationValue(value);
-        break;
+        setLocationValue(value)
+        break
       case 'role':
-        setRoleValue(value);
-        break;
+        setRoleValue(value)
+        break
     }
-    setValueChanged(true);
+    setValueChanged(true)
   }
 
   // Handle page change
   const handlePageChange = (page: number) => {
-    setPageValue(page);
+    setPageValue(page)
   }
 
   // Debounce search
   useEffect(() => {
     const debounceTimer = setTimeout(() => {
-      const queryParams = new URLSearchParams();
+      const queryParams = new URLSearchParams()
 
       if (valueChanged) {
-        setPageValue(1);
+        setPageValue(1)
       }
 
-      if (pageValue) queryParams.append('page', pageValue.toString());
-      if (nameValue) queryParams.append('name', nameValue);
-      if (locationValue) queryParams.append('location', locationValue);
-      if (roleValue) queryParams.append('role', roleValue);
+      if (pageValue) queryParams.append('page', pageValue.toString())
+      if (nameValue) queryParams.append('name', nameValue)
+      if (locationValue) queryParams.append('location', locationValue)
+      if (roleValue) queryParams.append('role', roleValue)
 
-      const queryString = queryParams.toString();
-      const newPath = `${window.location.pathname}?${queryString}`;
-      router.push(newPath);
-      setValueChanged(false);
+      const queryString = queryParams.toString()
+      const newPath = `${window.location.pathname}?${queryString}`
+      router.push(newPath)
+      setValueChanged(false)
+    }, 500)
 
-    }, 500);
+    return () => clearTimeout(debounceTimer)
+  }, [pageValue, nameValue, locationValue, roleValue])
 
-    return () => clearTimeout(debounceTimer);
-  }, [pageValue, nameValue, locationValue, roleValue]);
-  
   return (
     <div className="w-full flex justify-center flex-grow bg-white rounded-t-[26px]">
-      <div className='w-11/12 flex flex-col gap-6 pt-6'>
+      <div className="w-11/12 flex flex-col gap-6 pt-6">
         <UserSearchBar
           name={nameValue}
           location={locationValue}
@@ -96,12 +98,11 @@ const ListContainer = (props: ListContainerProps):JSX.Element => {
           onChange={handleValueChange}
         />
 
-
-        <div className='w-full h-fit flex flex-col items-center gap-1'>
-          {
-            !loading ?
-            data && data.map((item: User, index) => (
-              <motion.div 
+        <div className="w-full h-fit flex flex-col items-center gap-1">
+          {!loading ? (
+            data &&
+            data.map((item: User, index) => (
+              <motion.div
                 key={index}
                 initial={{
                   opacity: 0,
@@ -115,8 +116,8 @@ const ListContainer = (props: ListContainerProps):JSX.Element => {
                     ease: easeInOut
                   }
                 }}
-                viewport={{once: true}}  
-                className='w-full'
+                viewport={{ once: true }}
+                className="w-full"
               >
                 <UserCard
                   id={item.id as string}
@@ -126,14 +127,20 @@ const ListContainer = (props: ListContainerProps):JSX.Element => {
                   location={item.location}
                 />
               </motion.div>
-            )) :
+            ))
+          ) : (
             <SweepLoader />
-          } 
+          )}
         </div>
-        <Pagination page={page} totalItem={count[0]} perPage={count[1]} onChange={handlePageChange} />
+        <Pagination
+          page={page}
+          totalItem={count[0]}
+          perPage={count[1]}
+          onChange={handlePageChange}
+        />
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default ListContainer;
+export default ListContainer

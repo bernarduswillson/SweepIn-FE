@@ -1,18 +1,18 @@
-import { getToken } from "next-auth/jwt";
-import { useSession } from "next-auth/react";
-import { NextResponse } from "next/server";
-import type { NextFetchEvent, NextMiddleware, NextRequest } from "next/server";
+import { getToken } from 'next-auth/jwt'
+import { useSession } from 'next-auth/react'
+import { NextResponse } from 'next/server'
+import type { NextFetchEvent, NextMiddleware, NextRequest } from 'next/server'
 
-const authPage = ['/masuk']; 
-const homePage = ['/'];
-const onlyAdminPage = ['/admin/:path*'];
+const authPage = ['/masuk']
+const homePage = ['/']
+const onlyAdminPage = ['/admin/:path*']
 
 export default function withAuth(
   middleware: NextMiddleware,
-  requireAuth: string[] = [],
+  requireAuth: string[] = []
 ) {
   return async (req: NextRequest, next: NextFetchEvent) => {
-    const pathname = req.nextUrl.pathname;
+    const pathname = req.nextUrl.pathname
 
     if (requireAuth.includes(pathname)) {
       // Get token
@@ -20,10 +20,10 @@ export default function withAuth(
         req,
         secret: process.env.NEXTAUTH_SECRET
       })
-      
+
       // Handle not logged in
       if (!token && !authPage.includes(pathname)) {
-        return NextResponse.redirect(new URL('/masuk', req.url));
+        return NextResponse.redirect(new URL('/masuk', req.url))
       }
 
       if (token) {
@@ -39,6 +39,6 @@ export default function withAuth(
       }
     }
 
-    return middleware(req, next);
+    return middleware(req, next)
   }
 }

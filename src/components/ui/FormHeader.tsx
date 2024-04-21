@@ -1,20 +1,20 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React from 'react'
+import { motion } from 'framer-motion'
 
 // Utils
-import { date2String } from '@/utils/date';
+import { date2String } from '@/utils/date'
 
 interface FormHeaderProps {
-  title: string,
+  title: string
   date: string
-};
+}
 
 const FormHeader = (props: FormHeaderProps) => {
-  const { title, date } = props;
+  const { title, date } = props
 
   return (
     <div className="w-fit h-fit">
-      <motion.h2 
+      <motion.h2
         className="text-base text-center poppins-medium text-white -mb-1"
         initial={{
           y: -18,
@@ -31,7 +31,7 @@ const FormHeader = (props: FormHeaderProps) => {
       >
         {date2String(new Date(date))}
       </motion.h2>
-      <motion.h1 
+      <motion.h1
         className="text-3xl text-center poppins-bold text-white"
         initial={{
           y: 18,
@@ -49,7 +49,7 @@ const FormHeader = (props: FormHeaderProps) => {
         {title}
       </motion.h1>
     </div>
-  );
-};
+  )
+}
 
-export default FormHeader;
+export default FormHeader
