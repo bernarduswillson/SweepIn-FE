@@ -1,42 +1,64 @@
-import React, { useState } from 'react';
-import Image from 'next/image';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useState } from 'react'
+import Image from 'next/image'
+import { motion, AnimatePresence } from 'framer-motion'
 
 // Asset
-import carouselRightArrow from '@public/icons/carousel-right-arrow-ic.svg';
-import carouselLeftArrow from '@public/icons/carousel-left-arrow-ic.svg';
+import carouselRightArrow from '@public/icons/carousel-right-arrow-ic.svg'
+import carouselLeftArrow from '@public/icons/carousel-left-arrow-ic.svg'
+
+// Utils
+import bufferToBase64 from '@/utils/image'
 
 interface AttendancePhotoProps {
-  startPhoto: string | undefined,
-  endPhoto: string | undefined,
-};
+  startPhoto:
+    | {
+        type: string
+        data: number[]
+      }
+    | undefined
+  endPhoto:
+    | {
+        type: string
+        data: number[]
+      }
+    | undefined
+}
 
-const AttendancePhoto = (props: AttendancePhotoProps) => {
-  const { startPhoto, endPhoto } = props;
+const AttendancePhoto: React.FC<AttendancePhotoProps> = ({
+  startPhoto,
+  endPhoto
+}) => {
+  const [page, setPage] = useState<number>(0)
 
-  // In view photo state
-  const [page, setPage] = useState<number>(0);
-
-  // Handle paginate carousel
   const paginate = (newPage: number) => {
-    setPage(newPage);
-  };
+    setPage(newPage)
+  }
+
+  const startPhotoBase64 = startPhoto
+    ? bufferToBase64(startPhoto.data)
+    : undefined
+  const endPhotoBase64 = endPhoto ? bufferToBase64(endPhoto.data) : undefined
 
   return (
-    <div className='w-full relative h-fit mt-14 flex justify-center'>
-      <div className='w-fit h-72 flex justify-between items-center gap-5'>
-      
-        <div className={`relative w-10 h-10 transition-opacity duration-150 ease-in-out ${!endPhoto || page === 0 ? 'opacity-0 pointer-events-none' : 'opacity-1 cursor-pointer'} hover:opacity-70`} onClick={() => paginate(0)}>
-          <Image src={carouselLeftArrow} alt='panah kiri' fill={true} objectFit='cover'/>
+    <div className="w-full relative h-fit mt-14 flex justify-center">
+      <div className="w-fit h-72 flex justify-between items-center gap-5">
+        <div
+          className={`relative w-10 h-10 transition-opacity duration-150 ease-in-out ${!endPhoto || page === 0 ? 'opacity-0 pointer-events-none' : 'opacity-1 cursor-pointer'} hover:opacity-70`}
+          onClick={() => paginate(0)}
+        >
+          <Image
+            src={carouselLeftArrow}
+            alt="panah kiri"
+            fill={true}
+            objectFit="cover"
+          />
         </div>
 
-        <div className='relative w-72 h-72 flex justify-between items-center'>
+        <div className="relative w-72 h-72 flex justify-between items-center">
           <AnimatePresence initial={false}>
-            {
-              page === 0 &&
-              startPhoto &&
+            {page === 0 && startPhotoBase64 && (
               <motion.div
-                key={1} 
+                key={1}
                 className={`absolute w-72 h-72 overflow-hidden flex justify-center items-center border-[5px] border-white rounded-xl`}
                 initial={{
                   zIndex: 0,
@@ -62,15 +84,19 @@ const AttendancePhoto = (props: AttendancePhotoProps) => {
                   }
                 }}
               >
-                <Image src={startPhoto} alt="Foto kehadiran" fill={true} objectFit='cover' className='rounded-[7px]'/>
+                <Image
+                  src={`data:image/png;base64,${startPhotoBase64}`}
+                  alt="Foto kehadiran"
+                  fill={true}
+                  objectFit="cover"
+                  className="rounded-[7px]"
+                />
               </motion.div>
-            }
-            {
-              endPhoto && 
-              page === 1 &&
-              <motion.div 
-                className={`absolute w-72 h-72 overflow-hidden flex justify-center items-center border-[5px] border-white rounded-xl`}
+            )}
+            {endPhotoBase64 && page === 1 && (
+              <motion.div
                 key={2}
+                className={`absolute w-72 h-72 overflow-hidden flex justify-center items-center border-[5px] border-white rounded-xl`}
                 initial={{
                   zIndex: 0,
                   opacity: 0,
@@ -95,19 +121,32 @@ const AttendancePhoto = (props: AttendancePhotoProps) => {
                   }
                 }}
               >
-                <Image src={endPhoto} alt="Foto kehadiran" fill={true} objectFit='cover' className='rounded-[7px]'/>
+                <Image
+                  src={`data:image/png;base64,${endPhotoBase64}`}
+                  alt="Foto kehadiran"
+                  fill={true}
+                  objectFit="cover"
+                  className="rounded-[7px]"
+                />
               </motion.div>
-            }
+            )}
           </AnimatePresence>
         </div>
 
-        <div className={`relative w-10 h-10 transition-opacity duration-150 ease-in-out ${!endPhoto || page === 1 ? 'opacity-0 pointer-events-none' : 'opacity-1 cursor-pointer'} hover:opacity-70`} onClick={() => paginate(1)}>
-          <Image src={carouselRightArrow} alt='panah kanan' fill={true} objectFit='cover'/>
+        <div
+          className={`relative w-10 h-10 transition-opacity duration-150 ease-in-out ${!endPhoto || page === 1 ? 'opacity-0 pointer-events-none' : 'opacity-1 cursor-pointer'} hover:opacity-70`}
+          onClick={() => paginate(1)}
+        >
+          <Image
+            src={carouselRightArrow}
+            alt="panah kanan"
+            fill={true}
+            objectFit="cover"
+          />
         </div>
-
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default AttendancePhoto;
+export default AttendancePhoto

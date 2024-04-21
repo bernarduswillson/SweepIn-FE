@@ -1,7 +1,5 @@
 module.exports = {
-  content: [
-    './src/**/*.{js,ts,jsx,tsx}'
-  ],
+  content: ['./src/**/*.{js,ts,jsx,tsx}'],
   darkMode: 'class',
   theme: {
     extend: {
@@ -32,13 +30,13 @@ module.exports = {
         '5xl': '3.052rem'
       },
       screen: {
-        md: '768px' 
+        md: '768px'
       },
       transitionProperty: {
-        'width': 'width'
+        width: 'width'
       }
     }
   },
-  variants: {},
+  variants: {}
   // plugins: [require('@tailwindcss/typography'), require('@tailwindcss/forms')]
 }

@@ -1,4 +1,4 @@
-import * as React from "react"
+import * as React from 'react'
 
 import {
   Select,
@@ -7,10 +7,12 @@ import {
   SelectItem,
   SelectLabel,
   SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
+  SelectValue
+} from '@/components/ui/select'
 
 interface DropdownProps {
+  value?: string
+  width?: string
   placeholder: string
   label: string
   options: string[]
@@ -18,7 +20,7 @@ interface DropdownProps {
 }
 
 const Dropdown = (props: DropdownProps): JSX.Element => {
-  const { placeholder, label, options, onChange } = props
+  const { value, width, placeholder, label, options, onChange } = props
 
   // Handle value change
   const handleValueChange = (value: string) => {
@@ -26,8 +28,8 @@ const Dropdown = (props: DropdownProps): JSX.Element => {
   }
 
   return (
-    <Select onValueChange={handleValueChange}>
-      <SelectTrigger className="w-[180px]">
+    <Select onValueChange={handleValueChange} value={value}>
+      <SelectTrigger className={`w-${width}`}>
         <SelectValue placeholder={placeholder} />
       </SelectTrigger>
       <SelectContent>
