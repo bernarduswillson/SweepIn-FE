@@ -1,4 +1,4 @@
-import * as React from "react"
+import * as React from 'react'
 
 import {
   Select,
@@ -7,8 +7,8 @@ import {
   SelectItem,
   SelectLabel,
   SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
+  SelectValue
+} from '@/components/ui/select'
 
 interface DropdownProps {
   value?: string

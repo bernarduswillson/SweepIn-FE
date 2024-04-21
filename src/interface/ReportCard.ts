@@ -1,4 +1,4 @@
-import FetchedUser from "./FetchedUser"
+import FetchedUser from './FetchedUser'
 
 export default interface FetchedReport {
   id: string

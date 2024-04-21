@@ -1,81 +1,81 @@
-"use client"
+'use client'
 
 // Hooks
 // import { useFetch } from '@/hooks/useFetch';
-import { useSession } from 'next-auth/react';
-import { useEffect, useState } from 'react';
-import axios from 'axios';
-import { useParams } from 'next/navigation';
+import { useSession } from 'next-auth/react'
+import { useEffect, useState } from 'react'
+import axios from 'axios'
+import { useParams } from 'next/navigation'
 
 // Components
-import Header from '@/components/AdminHeader';
-import Sidebar from '@/components/Sidebar';
-import ReportDetails from '@/components/ReportDetails';
+import Header from '@/components/AdminHeader'
+import Sidebar from '@/components/Sidebar'
+import ReportDetails from '@/components/ReportDetails'
 
 // Interface
-import User from '@/interface/User';
-import Report from '@/interface/FetchedReport';
-import { set } from 'date-fns';
+import User from '@/interface/User'
+import Report from '@/interface/FetchedReport'
+import { set } from 'date-fns'
 
 const DetailLaporan = (): JSX.Element => {
-  const { data: session } = useSession();
+  const { data: session } = useSession()
 
   // Get attendance id
-  const { id } = useParams();
+  const { id } = useParams()
 
   // User data
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<User | null>(null)
 
-	// Loading state
-	const [loading, setLoading] = useState<boolean>(true);
+  // Loading state
+  const [loading, setLoading] = useState<boolean>(true)
 
   // Fetch data
-  const [reportData, setReportData] = useState<Report>();
+  const [reportData, setReportData] = useState<Report>()
 
   // Set user data from session
   useEffect(() => {
     if (session) {
-      setUser(session.user as User);
+      setUser(session.user as User)
     }
-  }, [session]);
+  }, [session])
 
-	// Fetch report data
-	useEffect(() => {
+  // Fetch report data
+  useEffect(() => {
     const fetchData = async () => {
       try {
-        setLoading(true);
-        const response = await axios.get(process.env.NEXT_PUBLIC_API_URL + `/report/${id}`);
-        console.log(response.data.data);
-        setReportData(response.data.data);
-        setLoading(false);
+        setLoading(true)
+        const response = await axios.get(
+          process.env.NEXT_PUBLIC_API_URL + `/report/${id}`
+        )
+        console.log(response.data.data)
+        setReportData(response.data.data)
+        setLoading(false)
       } catch (error) {
-        console.error(error);
+        console.error(error)
       }
     }
 
-    fetchData();
-  }, [id]);
-  
+    fetchData()
+  }, [id])
+
   return (
-    <div className='flex flex-row-reverse w-screen h-screen'>
+    <div className="flex flex-row-reverse w-screen h-screen">
       <div className="w-full flex flex-col items-center bg-white">
+        {/* Header */}
+        <div className="w-11/12">
+          <Header title="Detail Laporan" />
+        </div>
 
-				{/* Header */}
-				<div className='w-11/12'>
-					<Header title='Detail Laporan' />
-				</div>
-
-				{/* Body */}
-		  	<div className='w-11/12'>
+        {/* Body */}
+        <div className="w-11/12">
           <ReportDetails data={reportData as Report} loading={loading} />
-		  	</div>
-
+        </div>
       </div>
 
       {/* Sidebar */}
-      <Sidebar active='user'/>
+      <Sidebar active="user" />
     </div>
-  );
-};
-  
-export default DetailLaporan;
+  )
+}
+
+export default DetailLaporan

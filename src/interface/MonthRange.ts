@@ -1,4 +1,4 @@
 export default interface MonthRange {
-  start: Date | undefined,
+  start: Date | undefined
   end: Date | undefined
 }

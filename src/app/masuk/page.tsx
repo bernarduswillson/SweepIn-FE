@@ -1,28 +1,28 @@
-"use client"
+'use client'
 
-import Image from "next/image";
-import { useEffect, useState } from "react";
+import Image from 'next/image'
+import { useEffect, useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 
 // Assets
-import WaveTop from "@public/images/wave-top-illustration.svg"
-import WaveBot from "@public/images/wave-bottom-illustration.svg"
-import ITB from "@public/icons/itb-ic.svg"
+import WaveTop from '@public/images/wave-top-illustration.svg'
+import WaveBot from '@public/images/wave-bottom-illustration.svg'
+import ITB from '@public/icons/itb-ic.svg'
 
 // Components
-import GoogleButton from "@/components/ui/GoogleButton";
-import Modal from "@/components/ui/Modal";
+import GoogleButton from '@/components/ui/GoogleButton'
+import Modal from '@/components/ui/Modal'
 
 const Masuk = (): JSX.Element => {
-  const router = useRouter();
+  const router = useRouter()
 
-  const [showAlert, setShowAlert] = useState(false);
+  const [showAlert, setShowAlert] = useState(false)
   const searchParams = useSearchParams()
   const search = searchParams?.get('error')
-  
+
   // Show modal alert if access in unauthorized
   useEffect(() => {
-    if (search === "AccessDenied") {
+    if (search === 'AccessDenied') {
       setShowAlert(true)
     }
   }, [search, router])
@@ -41,16 +41,15 @@ const Masuk = (): JSX.Element => {
 
       {/* Body */}
       <div className="flex flex-col items-center z-[10]">
-
         {/* Title */}
         <div>
           <h1 className="text-[50px] poppins-bold text-center text-blue_main font-extrabold">
             Sweep
-            <span className="outline-title text-white">
-              In
-            </span>
+            <span className="outline-title text-white">In</span>
           </h1>
-          <p className="text-center text-md poppins-medium text-text_grey">Masuk untuk melanjutkan</p>
+          <p className="text-center text-md poppins-medium text-text_grey">
+            Masuk untuk melanjutkan
+          </p>
         </div>
 
         {/* Google Login Button */}
@@ -59,11 +58,11 @@ const Masuk = (): JSX.Element => {
         </div>
 
         {/* Alert Box */}
-        <Modal 
+        <Modal
           title="Akun tidak ditemukan"
           type="info"
           msg="Akun anda belum terdaftar, coba masuk menggunakan akun lain atau hubungi admin."
-          confirmText='Oke'
+          confirmText="Oke"
           onConfirm={handleConfirm}
           onClose={handleConfirm}
           isOpen={showAlert}
@@ -78,7 +77,7 @@ const Masuk = (): JSX.Element => {
         <Image src={WaveBot} alt="WaveBot" className="w-full" />
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Masuk;
+export default Masuk

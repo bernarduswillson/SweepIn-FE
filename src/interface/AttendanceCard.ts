@@ -7,4 +7,4 @@ export default interface Attendance {
   endLog: {
     id: string
   }[]
-};
+}

@@ -1,7 +1,7 @@
 image: node:latest
 
 stages:
-- build
+  - build
 
 variables:
   NODE_MODULES_CACHE_PATH: node_modules/
@@ -9,7 +9,7 @@ variables:
 cache:
   key: ${CI_COMMIT_REF_SLUG}
   paths:
-  - ${NODE_MODULES_CACHE_PATH}
+    - ${NODE_MODULES_CACHE_PATH}
 
 before_script:
   - echo "Installing dependencies"
