@@ -82,7 +82,7 @@ const ReportGalleryInput = (props: ReportGalleryInputProps) => {
               </div>
             </div>
           ))}
-        {photos.length !== 4 && (
+        {photos.length < 10 && (
           <button
             className="w-[170px] h-[170px] bg-transparent flex flex-col justify-center items-center gap-3 cursor-pointer rounded-lg border-dashed border-white border-2 transition-opacity ease-in-out duration-150 group"
             onClick={openFile}
@@ -99,7 +99,7 @@ const ReportGalleryInput = (props: ReportGalleryInputProps) => {
                 Tambah foto
               </span>
               <span className="poppins-medium text-white text-base">
-                (maks 4)
+                (maks 10)
               </span>
             </div>
             <input
