@@ -6,6 +6,7 @@ import { useSession } from 'next-auth/react'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
 import { useSearchParams } from 'next/navigation'
+import Link from 'next/link'
 
 // Components
 import Header from '@/components/AdminHeader'
@@ -75,7 +76,16 @@ const User = (): JSX.Element => {
       <div className="w-full flex flex-col items-center bg-white">
         {/* Header */}
         <div className="w-11/12">
-          <Header title="Daftar User" />
+          <div className='flex justify-between items-center'>
+            <Header title="Daftar User"/>
+            {/* Add user button */}
+            <Link
+              className="flex items-center justify-center bg-green_main text-white rounded-lg w-[150px] py-2 poppins-medium"
+              href="user/baru"
+            >
+              + Tambah User
+            </Link>
+          </div>
         </div>
 
         {/* Body */}
@@ -83,7 +93,7 @@ const User = (): JSX.Element => {
       </div>
 
       {/* Sidebar */}
-      <Sidebar active="user" />
+      <Sidebar active='user'/>
     </div>
   )
 }

@@ -27,21 +27,24 @@ const Card = (props: UserCardProps): JSX.Element => {
   return (
     <div className="w-full">
       <div
-        className="w-full relative rounded-xl flex justify-between items-center cursor-pointer bg-grey_bg p-3 mb-3 group"
+        className="w-full relative rounded-xl flex justify-between items-center cursor-pointer bg-grey_bg p-3 group"
         onClick={handleClick}
       >
-        <div className="w-full flex flex-col">
-          {/* Role */}
-          <div className="poppins-bold text-sm text-blue_main">{role}</div>
-
+        <div className="w-full flex items-center poppins-bold text-xl text-black">
           {/* Name */}
-          <div className="poppins-bold text-2xl text-black">{name}</div>
+          <div className="w-1/4">{name}</div>
+
+          {/* Email */}
+          <div className="w-1/4">{email}</div>
+
+          {/* Role */}
+          <div className="w-1/4">{role}</div>
 
           {/* Location */}
-          <div className="poppins-bold text-sm">{location}</div>
+          <div className="w-1/4">{location}</div>
         </div>
 
-        <div className="transition-transform ease-in-out duration-150 mr-3 group-hover:translate-x-2">
+        <div className="absolute transition-transform ease-in-out duration-150 right-5 group-hover:translate-x-2">
           <RightArrow fillColor="#1C1C1C" />
         </div>
       </div>
