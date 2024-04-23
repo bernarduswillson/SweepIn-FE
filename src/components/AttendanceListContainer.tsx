@@ -34,29 +34,27 @@ const ListContainer = (props: ListContainerProps): JSX.Element => {
     name: 'start' | 'end',
     value: Date | undefined
   ) => {
-    console.log(value)
     setMonthRange((prev) => ({
       ...prev,
       [name]: value
     }))
   }
 
+  // Set params
   useEffect(() => {
-    // if monthrange is undefined
     if (!monthRange.start && !monthRange.end) {
       router.push(`/presensi`)
     }
-  }, [monthRange])
 
-  // Handle search
-  const handleSearch = () => {
-    let startDate = new Date(monthRange.start as Date).toISOString()
-    let endDate0 = new Date(monthRange.end as Date).setDate(
-      (monthRange.end as Date).getDate() + 1
-    )
-    let endDate = new Date(endDate0).toISOString()
-    router.push(`/presensi?start_date=${startDate}&end_date=${endDate}`)
-  }
+    if (monthRange.start && monthRange.end) {
+      let startDate = new Date(monthRange.start as Date).toISOString()
+      let endDate0 = new Date(monthRange.end as Date).setDate(
+        (monthRange.end as Date).getDate() + 1
+      )
+      let endDate = new Date(endDate0).toISOString()
+      router.push(`/presensi?start_date=${startDate}&end_date=${endDate}`)
+    }
+  }, [monthRange])
 
   return (
     <div className="w-full max-w-[641px] flex justify-center flex-grow bg-white rounded-t-[26px]">
@@ -66,7 +64,6 @@ const ListContainer = (props: ListContainerProps): JSX.Element => {
         </h1>
         <DateSearchBar
           onChange={handleDateInputOnChange}
-          onSearch={handleSearch}
         />
 
         <div className="w-full h-fit flex flex-col items-center gap-1">

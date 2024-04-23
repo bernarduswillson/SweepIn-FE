@@ -6,15 +6,15 @@ import { useSession } from 'next-auth/react'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
 import { useSearchParams } from 'next/navigation'
-import Link from 'next/link'
 
 // Components
 import Header from '@/components/AdminHeader'
-import ListContainer from '@/components/AdminUserListContainer'
+import ListContainer from '@/components/AdminAttendanceListContainer'
 import Sidebar from '@/components/Sidebar'
 
 // Interface
 import type User from '@/interface/User'
+import Attendance from '@/interface/AdminAttendanceCard'
 
 const User = (): JSX.Element => {
   const { data: session } = useSession()
@@ -40,7 +40,7 @@ const User = (): JSX.Element => {
   const [user, setUser] = useState<User | null>(null)
 
   // Fetch data
-  const [data, setData] = useState<User[]>([])
+  const [data, setData] = useState<Attendance[]>([])
   const [loading, setLoading] = useState<boolean>(true)
 
   // Set user data from session
@@ -57,10 +57,11 @@ const User = (): JSX.Element => {
         setLoading(true)
         if (user?.id) {
           const response = await axios.get(
-            `${process.env.NEXT_PUBLIC_API_URL}/user?page=${page}&per_page=${itemsPerPage}&name=${name}${location && location != 'Semua Lokasi' ? `&location=${location}` : ''}${role && role != 'Semua Role' ? `&role=${role}` : ''}`
+            `${process.env.NEXT_PUBLIC_API_URL}/attendance?page=${page}&per_page=${itemsPerPage}}`
           )
+          console.log(response.data.data)
           setData(response.data.data)
-          setCount([response.data.filteredcount, itemsPerPage, response.data.countAllUsers])
+          setCount([response.data.filteredcount, itemsPerPage, response.data.countAllAttendance])
         }
       } catch (error) {
         console.error(error)
@@ -76,24 +77,15 @@ const User = (): JSX.Element => {
       <div className="w-full flex flex-col items-center bg-white">
         {/* Header */}
         <div className="w-11/12">
-          <div className='flex justify-between items-center'>
-            <Header title="Daftar User"/>
-            {/* Add user button */}
-            <Link
-              className="flex items-center justify-center bg-green_main text-white rounded-lg w-[150px] py-2 poppins-medium"
-              href="user/baru"
-            >
-              + Tambah User
-            </Link>
-          </div>
+          <Header title="Daftar Presensi"/>
 
           {/* Body */}
-          <ListContainer data={data as User[]} count={count} loading={loading} />
+          <ListContainer data={data as Attendance[]} count={count} loading={loading} />
         </div>
       </div>
 
       {/* Sidebar */}
-      <Sidebar active='user'/>
+      <Sidebar active='attendance'/>
     </div>
   )
 }
