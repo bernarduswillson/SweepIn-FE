@@ -40,15 +40,22 @@ const ListContainer = (props: ListContainerProps): JSX.Element => {
     }))
   }
 
-  // Handle search
-  const handleSearch = () => {
-    let startDate = new Date(monthRange.start as Date).toISOString()
-    let endDate0 = new Date(monthRange.end as Date).setDate(
-      (monthRange.end as Date).getDate() + 1
-    )
-    let endDate = new Date(endDate0).toISOString()
-    router.push(`/laporan?start_date=${startDate}&end_date=${endDate}`)
-  }
+  // Set params
+  useEffect(() => {
+    if (!monthRange.start && !monthRange.end) {
+      router.push(`/presensi`)
+    }
+
+    // if monthrange is defined
+    if (monthRange.start && monthRange.end) {
+      let startDate = new Date(monthRange.start as Date).toISOString()
+      let endDate0 = new Date(monthRange.end as Date).setDate(
+        (monthRange.end as Date).getDate() + 1
+      )
+      let endDate = new Date(endDate0).toISOString()
+      router.push(`/presensi?start_date=${startDate}&end_date=${endDate}`)
+    }
+  }, [monthRange])
 
   return (
     <div className="w-full max-w-[641px] flex justify-center flex-grow bg-white rounded-t-[26px]">
@@ -57,9 +64,7 @@ const ListContainer = (props: ListContainerProps): JSX.Element => {
           Daftar Laporan
         </h1>
         <DateSearchBar
-          monthRange={monthRange}
           onChange={handleDateInputOnChange}
-          onSearch={handleSearch}
         />
 
         <div className="w-full h-fit flex flex-col items-center gap-1">

@@ -16,7 +16,7 @@ import { set } from 'date-fns';
 interface ListContainerProps {
   data: User[],
   count: number[],
-  loading: boolean
+  loading: boolean,
 };
 
 const ListContainer = (props: ListContainerProps):JSX.Element => {
@@ -88,7 +88,7 @@ const ListContainer = (props: ListContainerProps):JSX.Element => {
   
   return (
     <div className="w-full flex justify-center flex-grow bg-white rounded-t-[26px]">
-      <div className='w-11/12 flex flex-col gap-6 pt-6'>
+      <div className='w-full flex flex-col gap-6 pt-6'>
         <UserSearchBar
           name={nameValue}
           location={locationValue}
@@ -98,7 +98,7 @@ const ListContainer = (props: ListContainerProps):JSX.Element => {
 
         {/* Search count result */}
         <p className="poppins-medium text-grey_text text-md">
-          {count[0]} hasil ditemukan
+          {count[0]} dari {count[2]} hasil ditemukan
         </p>
 
         <div className="w-full h-fit flex flex-col gap-2">
