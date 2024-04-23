@@ -14,7 +14,7 @@ import ReportListContainer from '@/components/ReportListContainer'
 
 // Interfaces
 import User from '@/interface/User'
-import FetchedReport from '@/interface/FetchedReport'
+import FetchedReport from '@/interface/ReportCard'
 
 const Laporan = (): JSX.Element => {
   const { data: session } = useSession()

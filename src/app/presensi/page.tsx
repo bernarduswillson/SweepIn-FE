@@ -13,7 +13,7 @@ import Header from '@/components/Header'
 import ListContainer from '@/components/AttendanceListContainer'
 
 // Interface
-import Attendance from '@/interface/FetchedAttendance'
+import Attendance from '@/interface/AttendanceCard'
 import User from '@/interface/User'
 
 const Presensi = (): JSX.Element => {
