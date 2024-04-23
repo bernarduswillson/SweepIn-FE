@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { easeInOut, motion } from 'framer-motion'
 
@@ -34,11 +34,19 @@ const ListContainer = (props: ListContainerProps): JSX.Element => {
     name: 'start' | 'end',
     value: Date | undefined
   ) => {
+    console.log(value)
     setMonthRange((prev) => ({
       ...prev,
       [name]: value
     }))
   }
+
+  useEffect(() => {
+    // if monthrange is undefined
+    if (!monthRange.start && !monthRange.end) {
+      router.push(`/presensi`)
+    }
+  }, [monthRange])
 
   // Handle search
   const handleSearch = () => {
@@ -57,7 +65,6 @@ const ListContainer = (props: ListContainerProps): JSX.Element => {
           Daftar Presensi
         </h1>
         <DateSearchBar
-          monthRange={monthRange}
           onChange={handleDateInputOnChange}
           onSearch={handleSearch}
         />
