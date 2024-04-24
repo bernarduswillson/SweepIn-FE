@@ -58,6 +58,9 @@ const DetailUser = (): JSX.Element => {
   const startDate = searchParams.get('start_date') || ''
   const endDate = searchParams.get('end_date') || ''
 
+  // Status search
+  const status = searchParams.get('status') || ''
+
   // Container state
   const [container, setContainer] = useState<'Presensi' | 'Laporan'>('Presensi')
 
@@ -126,7 +129,7 @@ const DetailUser = (): JSX.Element => {
         if (id) {
           const response = await axios.get(
             process.env.NEXT_PUBLIC_API_URL +
-              `/report?user_id=${id}&page=${page}&per_page=${itemsPerPage}&start_date=${startDate}&end_date=${endDate}`
+              `/report?user_id=${id}&page=${page}&per_page=${itemsPerPage}&start_date=${startDate}&end_date=${endDate}${status && status != 'Semua Status' ? `&status=${status}` : ''}`
           )
           setReportData(response.data.data)
           setCountReport([response.data.filteredcount, itemsPerPage, response.data.countAllReport])
@@ -138,7 +141,7 @@ const DetailUser = (): JSX.Element => {
       }
     }
     fetchData()
-  }, [id, startDate, endDate, page])
+  }, [id, startDate, endDate, page, status])
 
   return (
     <div className="flex flex-row-reverse w-screen h-screen">

@@ -150,7 +150,7 @@ const UserForm = (props: UserFormProps): JSX.Element => {
           <h2 className="poppins-bold text-blue_main">Role</h2>
           <Dropdown
             label="Role"
-            placeholder="Pilih Role"
+            placeholder="Ganti Role"
             onChange={(value) => handleValueChange('role', value)}
             value={formData.role}
             options={['ADMIN', 'CLEANER', 'SECURITY']}
@@ -162,7 +162,7 @@ const UserForm = (props: UserFormProps): JSX.Element => {
           <h2 className="poppins-bold text-blue_main">Lokasi</h2>
           <Dropdown
             label="Lokasi"
-            placeholder="Pilih Lokasi"
+            placeholder="Ganti Lokasi"
             onChange={(value) => handleValueChange('location', value)}
             value={formData.location}
             options={['GANESHA', 'JATINANGOR', 'CIREBON', 'BOSSCHA']}

@@ -10,9 +10,10 @@ import Icon from '@public/icons/calendar-ic.svg'
 // Components
 import { Calendar } from '@/components/ui/calendar'
 import Button from '@/components/ui/button'
+import Dropdown from '@/components/ui/customDropdown'
 
 interface SearchBarProps {
-  onChange: (name: 'start' | 'end', value: Date | undefined) => void
+  onChange: (name: 'start' | 'end' | 'status', value: Date | string | undefined) => void
 }
 
 const SearchBar = (props: SearchBarProps): JSX.Element => {
@@ -65,6 +66,11 @@ const SearchBar = (props: SearchBarProps): JSX.Element => {
     setDate(finalDate);
     setShowCalendar(false);
   };
+  
+  // Handle status change
+  const handleValueChange = (name: 'status', value: string) => {
+    onChange(name, value)
+  }
 
   // Check if date is valid
   useEffect(() => {
@@ -93,7 +99,7 @@ const SearchBar = (props: SearchBarProps): JSX.Element => {
   return (
     <div className="w-full flex gap-2">
       {/* Start date input */}
-      <div className='w-1/2'>
+      <div className='w-1/3'>
         <h3 className='poppins-bold'>Tanggal Awal</h3>
         <button
             className={`w-full flex justify-between items-center py-1 px-2 pl-3 border-grey border-2 rounded-xl poppins-medium ${date && isValid ? 'text-black' : 'text-grey_text'}`}
@@ -112,7 +118,7 @@ const SearchBar = (props: SearchBarProps): JSX.Element => {
       </div>
 
       {/* Start date input */}
-      <div className='w-1/2'>
+      <div className='w-1/3'>
         <h3 className='poppins-bold'>Tanggal Akhir</h3>
         <button
             className={`w-full flex justify-between items-center py-1 px-2 pl-3 border-grey border-2 rounded-xl poppins-medium ${date && isValid ? 'text-black' : 'text-grey_text'}`}
@@ -127,6 +133,22 @@ const SearchBar = (props: SearchBarProps): JSX.Element => {
             {/* Calendar icon */}
             <Image src={Icon} alt="Calendar" width={25} />
         </button>
+      </div>
+
+      {/* Status */}
+      <div className='ml-3 w-1/3'>
+        <h3 className='poppins-bold'>Status</h3>
+        <Dropdown
+          label="Status"
+          placeholder="Semua Status"
+          onChange={(value) => handleValueChange('status', value)}
+          options={[
+            'Semua Status',
+            'WAITING',
+            'ACCEPTED',
+            'REJECTED'
+          ]}
+        />
       </div>
 
       {/* Calendar form */}
