@@ -76,7 +76,7 @@ const Card = (props: AttendanceCardProps): JSX.Element => {
           <div className="w-1/4">{dateTime2String(new Date(startAttendance?.date))}</div>
 
           {/* End */}
-          <div className="w-1/4">{dateTime2String(new Date(endAttendance?.date))}</div>
+          <div className="w-1/4">{ endAttendance ? dateTime2String(new Date(endAttendance?.date)) : '-' }</div>
         </div>
 
         <div className="absolute transition-transform ease-in-out duration-150 right-5 group-hover:translate-x-2">

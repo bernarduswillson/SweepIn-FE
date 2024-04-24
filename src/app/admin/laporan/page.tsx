@@ -39,6 +39,13 @@ const User = (): JSX.Element => {
   // User data
   const [user, setUser] = useState<User | null>(null)
 
+  // Date search
+  const startDate = searchParams.get('start_date') || ''
+  const endDate = searchParams.get('end_date') || ''
+
+  // Status search
+  const status = searchParams.get('status') || ''
+
   // Fetch data
   const [data, setData] = useState<Report[]>([])
   const [loading, setLoading] = useState<boolean>(true)
@@ -57,9 +64,8 @@ const User = (): JSX.Element => {
         setLoading(true)
         if (user?.id) {
           const response = await axios.get(
-            `${process.env.NEXT_PUBLIC_API_URL}/report?page=${page}&per_page=${itemsPerPage}}`
+            `${process.env.NEXT_PUBLIC_API_URL}/report?page=${page}&per_page=${itemsPerPage}&user=${name}${location && location != 'Semua Lokasi' ? `&location=${location}` : ''}${role && role != 'Semua Role' ? `&role=${role}` : ''}${startDate && endDate ? `&start_date=${startDate}&end_date=${endDate}` : ''}${status && status != 'Semua Status' ? `&status=${status}` : ''}`
           )
-          console.log(response.data.data)
           setData(response.data.data)
           setCount([response.data.filteredcount, itemsPerPage, response.data.countAllReport])
         }
@@ -70,7 +76,7 @@ const User = (): JSX.Element => {
       }
     }
     fetchData()
-  }, [location, name, page, role, user?.id])
+  }, [location, name, page, role, user?.id, startDate, endDate, status])
 
   return (
     <div className="flex flex-row-reverse w-screen h-screen">

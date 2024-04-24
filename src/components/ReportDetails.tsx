@@ -1,6 +1,10 @@
 // Imports
 import React from 'react'
 import Image from 'next/image'
+import { useEffect, useState } from 'react'
+
+// Components
+import Dropdown from '@/components/ui/customDropdown'
 
 // Interface
 import Report from '@/interface/FetchedReport'
@@ -8,14 +12,32 @@ import Report from '@/interface/FetchedReport'
 // Utils
 import bufferToBase64 from '@/utils/image'
 import { date2String, dateTime2String } from '@/utils/date'
+import { set } from 'date-fns'
 
 interface ReportDetailsProps {
   data: Report
   loading: boolean
+  onChange: (value: string) => void
 }
 
 const ReportDetails = (props: ReportDetailsProps): JSX.Element => {
-  const { data, loading } = props
+  const { data, loading, onChange } = props
+
+  // Form data
+  const [status, setStatus] = useState<string>('')
+
+  // Set form data
+  useEffect(() => {
+    if (data) {
+      setStatus(data.status)
+    }
+  }, [data])
+
+  // Handle value change
+  const handleValueChange = (value: string) => {
+    setStatus(value)
+    onChange(value)
+  }
 
   if (loading) {
     return <div></div>
@@ -78,7 +100,13 @@ const ReportDetails = (props: ReportDetailsProps): JSX.Element => {
             </div>
             <div className="mb-7">
               <h2 className="poppins-bold text-blue_main">Status</h2>
-              <p className="text-black text-xl poppins-medium">{data.status}</p>
+              <Dropdown
+                label="Status"
+                placeholder="Ganti Status"
+                onChange={(value) => handleValueChange(value)}
+                value={status}
+                options={['WAITING', 'ACCEPTED', 'REJECTED']}
+              />
             </div>
           </div>
         </div>

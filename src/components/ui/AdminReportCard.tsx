@@ -63,7 +63,7 @@ const Card = (props: ReportCardProps): JSX.Element => {
               className={`w-[10px] h-[10px] rounded-full ${status === 'WAITING' ? 'bg-orange_main' : status === 'ACCEPTED' ? 'bg-green_main' : 'bg-red_main'}`}
             ></div>
             <span
-              className={`${isToday ? 'text-white' : 'text-black'}`}
+              className='text-black'
             >
               Laporan {parseStatus(status)}
             </span>

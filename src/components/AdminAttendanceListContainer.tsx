@@ -11,6 +11,7 @@ import DateSearchBar from '@/components/ui/DateSearchBar'
 import AttendanceCard from '@/components/ui/AdminAttendanceCard'
 import SweepLoader from '@/components/ui/SweepLoader'
 import Pagination from '@/components/ui/customPagination'
+import UserSearchBar from '@/components/ui/UserSearchBar'
 
 // Utils
 import { date2String } from '@/utils/date'
@@ -124,32 +125,27 @@ const ListContainer = (props: ListContainerProps): JSX.Element => {
     return () => clearTimeout(debounceTimer);
   }, [pageValue, nameValue, locationValue, roleValue, monthRange]);
 
-  // Set params calendar
-  // useEffect(() => {
-  //   if (!monthRange.start && !monthRange.end) {
-  //     router.push(`/presensi`)
-  //   }
-
-  //   if (monthRange.start && monthRange.end) {
-  //     let startDate = new Date(monthRange.start as Date).toISOString()
-  //     let endDate0 = new Date(monthRange.end as Date).setDate(
-  //       (monthRange.end as Date).getDate() + 1
-  //     )
-  //     let endDate = new Date(endDate0).toISOString()
-  //     router.push(`/presensi?start_date=${startDate}&end_date=${endDate}`)
-  //   }
-  // }, [monthRange])
-
   return (
     <div className="w-full flex justify-center flex-grow bg-white rounded-t-[26px]">
       <div className="w-full flex flex-col gap-6 pt-6">
-        <DateSearchBar
-          onChange={handleDateInputOnChange}
-        />
+        <div className='w-1/2'>
+          <DateSearchBar
+            onChange={handleDateInputOnChange}
+          />
+        </div>
+        { (pageURL === 'presensi' || pageURL === 'laporan') && (
+          <UserSearchBar
+            name={nameValue}
+            location={locationValue}
+            role={roleValue}
+            onChange={handleValueChange}
+          />
+        )}
 
         {/* Search count result */}
         <p className="poppins-medium text-grey_text text-md">
           { (pageURL === 'presensi' || pageURL === 'laporan') && count[0] !== undefined ? `${count[0]} dari ${count[2]} hasil ditemukan` : ``}
+          { (pageURL === 'user') && count[0] !== undefined ? `${count[0]} hasil ditemukan` : ``}
         </p>
 
         <div className="w-full h-fit flex flex-col gap-2">
