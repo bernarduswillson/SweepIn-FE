@@ -59,7 +59,7 @@ const ReportDetails = (props: ReportDetailsProps): JSX.Element => {
         <div className="mb-7">
           <h2 className="poppins-bold text-blue_main">Foto</h2>
           <div className="max-w-[355px] w-full flex flex-wrap justify-left gap-[15px]">
-            {photosBase64.length > 0 &&
+            {photosBase64 && photosBase64.length > 0 ? (
               photosBase64.map((photo, index) => (
                 <div
                   key={index}
@@ -72,7 +72,10 @@ const ReportDetails = (props: ReportDetailsProps): JSX.Element => {
                     objectFit="cover"
                   />
                 </div>
-              ))}
+              ))
+            ) : (
+              <p>No photos available</p>
+            )}
           </div>
         </div>
 

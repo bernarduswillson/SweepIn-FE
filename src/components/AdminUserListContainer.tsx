@@ -98,7 +98,9 @@ const ListContainer = (props: ListContainerProps):JSX.Element => {
 
         {/* Search count result */}
         <p className="poppins-medium text-grey_text text-md">
-          {count[0]} dari {count[2]} hasil ditemukan
+        { count.length >= 3 &&
+          (count[0] === 0 ? 'Tidak ada hasil ditemukan' : `${count[0]} dari ${count[2]} hasil ditemukan`)
+        }
         </p>
 
         <div className="w-full h-fit flex flex-col gap-2">

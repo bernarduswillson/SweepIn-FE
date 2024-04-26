@@ -47,7 +47,7 @@ const Laporan = (): JSX.Element => {
             process.env.NEXT_PUBLIC_API_URL +
               `/report?user_id=${userId}&page=1&per_page=10&start_date=${startDate}&end_date=${endDate}`
           )
-          setData(response.data.data)
+          setData(response.data.data.reports)
         }
       } catch (error) {
         console.error(error)

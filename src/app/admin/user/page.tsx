@@ -60,10 +60,12 @@ const User = (): JSX.Element => {
             `${process.env.NEXT_PUBLIC_API_URL}/user?page=${page}&per_page=${itemsPerPage}&name=${name}${location && location != 'Semua Lokasi' ? `&location=${location}` : ''}${role && role != 'Semua Role' ? `&role=${role}` : ''}`
           )
           setData(response.data.data.users)
-          setCount([response.data.data.FilteredUsersCount, itemsPerPage, response.data.data.AllUsersCount])
+          setCount([response.data.data.filtered, itemsPerPage, response.data.data.total])
         }
       } catch (error) {
         console.error(error)
+        setData([])
+        setCount([0, itemsPerPage, 0])
       } finally {
         setLoading(false)
       }

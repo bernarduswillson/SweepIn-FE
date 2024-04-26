@@ -26,6 +26,7 @@ const LogDetails = (props: LogDetailsProps): JSX.Element => {
       <div className="mb-7">
         <h2 className="poppins-bold text-blue_main">Foto</h2>
         <div className="relative w-72 h-72 ">
+        {photoBase64 ? (
           <Image
             src={`data:image/png;base64,${photoBase64}`}
             alt="Foto kehadiran"
@@ -33,6 +34,11 @@ const LogDetails = (props: LogDetailsProps): JSX.Element => {
             objectFit="cover"
             className="rounded-[7px]"
           />
+        ) : (
+          <div className="w-72 h-72 flex justify-center items-center">
+            No image available
+          </div>
+        )}
         </div>
       </div>
 

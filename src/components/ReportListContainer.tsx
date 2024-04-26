@@ -43,7 +43,7 @@ const ListContainer = (props: ListContainerProps): JSX.Element => {
   // Set params
   useEffect(() => {
     if (!monthRange.start && !monthRange.end) {
-      router.push(`/presensi`)
+      router.push(`/laporan`)
     }
 
     // if monthrange is defined
@@ -53,7 +53,7 @@ const ListContainer = (props: ListContainerProps): JSX.Element => {
         (monthRange.end as Date).getDate() + 1
       )
       let endDate = new Date(endDate0).toISOString()
-      router.push(`/presensi?start_date=${startDate}&end_date=${endDate}`)
+      router.push(`/laporan?start_date=${startDate}&end_date=${endDate}`)
     }
   }, [monthRange])
 
