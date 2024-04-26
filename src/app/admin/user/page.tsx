@@ -59,8 +59,8 @@ const User = (): JSX.Element => {
           const response = await axios.get(
             `${process.env.NEXT_PUBLIC_API_URL}/user?page=${page}&per_page=${itemsPerPage}&name=${name}${location && location != 'Semua Lokasi' ? `&location=${location}` : ''}${role && role != 'Semua Role' ? `&role=${role}` : ''}`
           )
-          setData(response.data.data)
-          setCount([response.data.filteredcount, itemsPerPage, response.data.countAllUsers])
+          setData(response.data.data.users)
+          setCount([response.data.data.FilteredUsersCount, itemsPerPage, response.data.data.AllUsersCount])
         }
       } catch (error) {
         console.error(error)

@@ -131,8 +131,8 @@ const DetailUser = (): JSX.Element => {
             process.env.NEXT_PUBLIC_API_URL +
               `/report?user_id=${id}&page=${page}&per_page=${itemsPerPage}&start_date=${startDate}&end_date=${endDate}${status && status != 'Semua Status' ? `&status=${status}` : ''}`
           )
-          setReportData(response.data.data)
-          setCountReport([response.data.filteredcount, itemsPerPage, response.data.countAllReport])
+          setReportData(response.data.data.reports)
+          setCountReport([response.data.data.FilteredReportsCount, itemsPerPage, response.data.data.AllReportsCount])
         }
       } catch (error) {
         console.error(error)
