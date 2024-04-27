@@ -144,8 +144,26 @@ const ListContainer = (props: ListContainerProps): JSX.Element => {
 
         {/* Search count result */}
         <p className="poppins-medium text-grey_text text-md">
-          { (pageURL === 'presensi' || pageURL === 'laporan') && count[0] !== undefined ? `${count[0]} dari ${count[2]} hasil ditemukan` : ``}
-          { (pageURL === 'user') && count[0] !== undefined ? `${count[0]} hasil ditemukan` : ``}
+          {count[0] === 0 ? (
+            "Tidak ada hasil ditemukan"
+          ) : (
+            <>
+              {count.length >= 3 && (
+                (pageURL === "presensi" || pageURL === "laporan") && count[0] !== undefined ? (
+                  `${count[0]} dari ${count[2]} hasil ditemukan`
+                ) : (
+                  ""
+                )
+              )}
+              {count.length >= 3 && (
+                (pageURL === "user") && count[0] !== undefined ? (
+                  `${count[0]} hasil ditemukan`
+                ) : (
+                  ""
+                )
+              )}
+            </>
+          )}
         </p>
 
         <div className="w-full h-fit flex flex-col gap-2">

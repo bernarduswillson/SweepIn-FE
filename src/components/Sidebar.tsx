@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react'
 import { signOut } from 'next-auth/react'
+import { usePathname } from 'next/navigation'
 
 // Asset
 import Arrow from '@public/icons/right-arrow-ic'
@@ -16,6 +17,8 @@ interface SidebarProps {
 
 const Sidebar = (props: SidebarProps) => {
   const { active } = props
+  const url = usePathname()
+  const page = url.split('/')[2]
 
   // Sidebar state
   const [isOpen, setIsOpen] = useState<boolean>(true)
@@ -69,22 +72,22 @@ const Sidebar = (props: SidebarProps) => {
             <SidebarButton
               text="Dashboard"
               url="/admin"
-              active={active === 'dashboard' ? true : false}
+              active={page === undefined ? true : false}
             />
             <SidebarButton
               text="User"
               url="/admin/user"
-              active={active === 'user' ? true : false}
+              active={page === 'user' ? true : false}
             />
             <SidebarButton
               text="Presensi"
               url="/admin/presensi"
-              active={active === 'attendance' ? true : false}
+              active={page === 'presensi' ? true : false}
             />
             <SidebarButton
               text="Laporan"
               url="/admin/laporan"
-              active={active === 'report' ? true : false}
+              active={page === 'laporan' ? true : false}
             />
             {/* Logout button */}
             <div

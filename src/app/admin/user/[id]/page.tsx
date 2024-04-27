@@ -109,11 +109,13 @@ const DetailUser = (): JSX.Element => {
             process.env.NEXT_PUBLIC_API_URL +
               `/attendance?user_id=${id}&page=${page}&per_page=${itemsPerPage}&start_date=${startDate}&end_date=${endDate}`
           )
-          setAttendanceData(response.data.data)
-          setCountAttendance([response.data.filteredcount, itemsPerPage, response.data.countAllAttendance])
+          setAttendanceData(response.data.data.attendance)
+          setCountAttendance([response.data.data.filtered, itemsPerPage, response.data.data.total])
         }
       } catch (error) {
         console.error(error)
+        setAttendanceData([])
+        setCountAttendance([0, itemsPerPage, 0])
       } finally {
         setLoading(false)
       }
@@ -132,10 +134,12 @@ const DetailUser = (): JSX.Element => {
               `/report?user_id=${id}&page=${page}&per_page=${itemsPerPage}&start_date=${startDate}&end_date=${endDate}${status && status != 'Semua Status' ? `&status=${status}` : ''}`
           )
           setReportData(response.data.data.reports)
-          setCountReport([response.data.data.FilteredReportsCount, itemsPerPage, response.data.data.AllReportsCount])
+          setCountReport([response.data.data.filtered, itemsPerPage, response.data.data.total])
         }
       } catch (error) {
         console.error(error)
+        setReportData([])
+        setCountReport([0, itemsPerPage, 0])
       } finally {
         setLoading(false)
       }
