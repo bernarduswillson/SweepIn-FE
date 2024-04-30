@@ -6,8 +6,8 @@ import { useSubmit } from '@/hooks/useSubmit'
 import { useSession } from 'next-auth/react'
 
 // Components
-import FormHeader from '@/components/ui/FormHeader'
-import ReportGalleryInput from '@/components/ui/ReportGalleryInput'
+import FormHeader from '@/components/navigation/FormHeader'
+import ReportGalleryInput from '@/components/inputs/ReportGalleryInput'
 import SubmitButton from '@/components/ui/SubmitButton'
 
 // Utils
@@ -16,6 +16,8 @@ import { getTodayDate, date2String } from '@/utils/date'
 // Interface
 import Report from '@/interface/FetchedReport'
 import User from '@/interface/User'
+import TextAttribute from '@/components/inputs/TextAttribute'
+import TextAreaAttribute from '@/components/inputs/TextAreaAttribute'
 
 const FormLaporan = (): JSX.Element => {
   const { data: session } = useSession()
@@ -99,31 +101,29 @@ const FormLaporan = (): JSX.Element => {
   return (
     <div className="w-screen min-h-screen h-fit flex flex-col items-center gap-5 bg-gradient-to-br from-green_main to-blue_main to-[50vh]">
       {/* Head */}
-      <div className="w-11/12 max-w-[641px] py-10 flex flex-col items-center">
-        <FormHeader title="Laporan Kerja" date={date2String(getTodayDate())} />
+      <div className="w-11/12 max-w-[641px] py-5 flex flex-col items-center">
+        <FormHeader
+          title='Laporan Kerja'
+          backDestination='/laporan'
+        />
         <ReportGalleryInput photos={photos} setPhotos={setPhotos} />
       </div>
 
       {/* Body */}
       <div className="w-full max-w-[641px] flex justify-center flex-grow py-6 bg-white rounded-t-[26px]">
-        <div className="w-11/12 h-fit flex flex-col">
-          {/* Text input */}
-          <label className="text-green_main text-base poppins-bold">Nama</label>
-          <h3 className="text-black text-xl poppins-medium">{user?.name}</h3>
-          <label className="text-green_main text-base mt-5 poppins-bold">
-            Tanggal
-          </label>
-          <h3 className="text-black text-xl poppins-medium">
-            {date2String(getTodayDate(), false)}
-          </h3>
-          <label className="text-green_main text-base mt-5 poppins-bold">
-            Deskripsi
-          </label>
-          <textarea
-            rows={3}
+        <div className="w-11/12 h-fit flex flex-col gap-3">
+          <TextAttribute 
+            label='Nama'
+            text={user?.name}
+          />
+          <TextAttribute 
+            label='Tanggal'
+            text={date2String(getTodayDate(), false)}
+          />
+          <TextAreaAttribute 
+            label='Deskripsi'
             value={desc}
-            placeholder="Contoh: Menjaga gerbang kampus"
-            className="px-3 py-2 mt-2 bg-grey_bg poppins-medium text-black placeholder:text-grey_text"
+            placeholder='Contoh: Menjaga gerbang kampus'
             onChange={handleTextChange}
           />
 

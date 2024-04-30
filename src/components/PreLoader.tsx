@@ -1,6 +1,6 @@
 import React from 'react'
 import { motion } from 'framer-motion'
-import SweepLoader from './ui/SweepLoader'
+import SweepLoader from './loaders/SweepLoader'
 
 const PreLoader = () => {
   return (

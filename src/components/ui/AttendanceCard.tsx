@@ -1,16 +1,15 @@
 'use client'
 
 import React, { useState } from 'react'
-import Image from 'next/image'
 import { useRouter, usePathname } from 'next/navigation'
 
-// Asset
-import RightArrow from '@public/icons/right-arrow-ic'
-import UncheckedMark from '@public/icons/status-unchecked-ic.svg'
-import CheckedMark from '@public/icons/status-checked-ic.svg'
+// Icons
+import RightArrowIcon from '../icons/RightArrowIcon'
 
 // Utils
 import { date2String } from '@/utils/date'
+import CheckMarkIcon from '../icons/CheckMarkIcon'
+import CrossMarkIcon from '../icons/CrossMarkIcon'
 
 interface AttendanceCardProps {
   id: String
@@ -55,20 +54,20 @@ const Card = (props: AttendanceCardProps): JSX.Element => {
   return (
     <div className="w-full">
       <div
-        className={`w-full relative rounded-xl flex justify-between items-center cursor-pointer ${isToday ? 'bg-blue_main' : 'bg-grey_bg'} p-3 mb-3 group`}
+        className={`relative w-full p-3 mb-3 rounded-xl ${isToday ? 'bg-primary-500' : 'bg-surface-container'} flex justify-between items-center cursor-pointer group`}
         onClick={handleClick}
       >
         <div className="w-full flex flex-col">
           {/* Label */}
           <div
-            className={`poppins-bold text-sm  ${isToday ? ' text-white' : 'text-blue_main'}`}
+            className={`bold-sm ${isToday ? ' text-neutral-100' : 'text-primary-500'}`}
           >
             Presensi
           </div>
 
           {/* Date */}
           <div
-            className={`poppins-bold text-2xl  ${isToday ? ' text-white' : 'text-black'}`}
+            className={`header-3  ${isToday ? ' text-neutral-100' : 'text-neutral-900'}`}
           >
             {isToday ? 'Hari ini' : date2String(date)}
           </div>
@@ -78,12 +77,12 @@ const Card = (props: AttendanceCardProps): JSX.Element => {
             {/* Start attendance status */}
             <div className="w-fit h-fit flex items-center gap-1.5">
               {startAttendanceId ? (
-                <Image src={CheckedMark} alt="Centang" />
+                <CheckMarkIcon className="text-success-500" width="1rem"/>
               ) : (
-                <Image src={UncheckedMark} alt="Silang" />
+                <CrossMarkIcon className="text-error-500" width="1rem" />
               )}
               <span
-                className={`poppins-medium text-base ${isToday ? 'text-white' : 'text-black'}`}
+                className={`body-m ${isToday ? 'text-neutral-100' : 'text-neutral-900'}`}
               >
                 Presensi Awal
               </span>
@@ -92,12 +91,12 @@ const Card = (props: AttendanceCardProps): JSX.Element => {
             {/* End attendance status */}
             <div className="w-fit h-fit flex items-center gap-1.5">
               {endAttendanceId ? (
-                <Image src={CheckedMark} alt="Centang" />
+                <CheckMarkIcon className="text-success-500" width="1rem"/>
               ) : (
-                <Image src={UncheckedMark} alt="Silang" />
+                <CrossMarkIcon className="text-error-500" width="1rem" />
               )}
               <span
-                className={`poppins-medium text-base ${isToday ? 'text-white' : 'text-black'}`}
+                className={`body-m ${isToday ? 'text-neutral-100' : 'text-neutral-900'}`}
               >
                 Presensi Akhir
               </span>
@@ -105,8 +104,8 @@ const Card = (props: AttendanceCardProps): JSX.Element => {
           </div>
         </div>
 
-        <div className="transition-transform ease-in-out duration-150 mr-3 group-hover:translate-x-2">
-          <RightArrow fillColor={isToday ? '#FCFCFC' : '#1C1C1C'} />
+        <div className="transition-fast mr-1 group-hover:translate-x-2">
+          <RightArrowIcon className={`${isToday ? 'text-neutral-100' : 'text-neutral-900'}`} height="1.5rem" />
         </div>
       </div>
     </div>

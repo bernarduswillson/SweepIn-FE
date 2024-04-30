@@ -3,8 +3,8 @@
 import React, { useState } from 'react'
 import { useRouter, usePathname } from 'next/navigation'
 
-// Asset
-import RightArrow from '@public/icons/right-arrow-ic'
+// Icons
+import RightArrowIcon from '../icons/RightArrowIcon'
 
 // Utils
 import { date2String } from '@/utils/date'
@@ -43,20 +43,20 @@ const Card = (props: ReportCardProps): JSX.Element => {
   return (
     <div className="w-full">
       <div
-        className={`w-full relative rounded-xl flex justify-between items-center cursor-pointer ${isToday ? 'bg-blue_main' : 'bg-grey_bg'} p-3 mb-3 group`}
+        className={`relative w-full p-3 mb-3 rounded-xl ${isToday ? 'bg-primary-500' : 'bg-surface-container'} flex justify-between items-center cursor-pointer group`}
         onClick={handleClick}
       >
         <div className="w-full flex flex-col">
           {/* Label */}
           <div
-            className={`poppins-bold text-sm  ${isToday ? ' text-white' : 'text-blue_main'}`}
+            className={`bold-sm ${isToday ? ' text-neutral-100' : 'text-primary-500'}`}
           >
-            {numOfPhoto ? `${numOfPhoto} Foto` : 'Belum ada foto'}
+            {numOfPhoto && `${numOfPhoto} Foto`}
           </div>
 
           {/* Date */}
           <div
-            className={`poppins-bold text-2xl  ${isToday ? ' text-white' : 'text-black'}`}
+            className={`header-3 ${isToday ? ' text-neutral-100' : 'text-neutral-900'}`}
           >
             {isToday ? 'Hari ini' : date2String(date)}
           </div>
@@ -64,18 +64,18 @@ const Card = (props: ReportCardProps): JSX.Element => {
           {/* Status */}
           <div className="w-fit h-fit flex items-center gap-1.5">
             <div
-              className={`w-[10px] h-[10px] rounded-full ${status === 'WAITING' ? 'bg-orange_main' : status === 'ACCEPTED' ? 'bg-green_main' : 'bg-red_main'}`}
+              className={`w-[10px] h-[10px] rounded-full ${status === 'WAITING' ? 'bg-warning-500' : status === 'ACCEPTED' ? 'bg-success-500' : 'bg-error-500'}`}
             ></div>
             <span
-              className={`poppins-medium text-base ${isToday ? 'text-white' : 'text-black'}`}
+              className={`body-m ${isToday ? 'text-neutral-100' : 'text-neutral-900'}`}
             >
               Laporan {parseStatus(status)}
             </span>
           </div>
         </div>
 
-        <div className="transition-transform ease-in-out duration-150 mr-3 group-hover:translate-x-2">
-          <RightArrow fillColor={isToday ? '#FCFCFC' : '#1C1C1C'} />
+        <div className="transition-fast mr-1 group-hover:translate-x-2">
+          <RightArrowIcon className={`${isToday ? 'text-neutral-100' : 'text-neutral-900'}`} height="1.5rem" />
         </div>
       </div>
     </div>

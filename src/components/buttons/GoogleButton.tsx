@@ -33,12 +33,12 @@ const GoogleButton = (): JSX.Element => {
     <div className="w-full">
       {!isLoading ? (
         <button
-          className="flex items-center justify-center w-full py-4 mt-20 border-2 bg-white rounded-xl border-grey text-black relative hover:bg-grey button-animation"
+          className="relative w-full py-4 mt-20 bg-transparent rounded-xl border-outline border-[2px] flex items-center justify-center transition-fast hover:bg-outline"
           type="button"
           onClick={handleLogin}
         >
           <Image src={Google} alt="Google" className="absolute left-3" />
-          <p className="text-md text-center poppins-medium w-full">
+          <p className="body-m text-neutral-900 w-full">
             Masuk dengan Google
           </p>
         </button>

@@ -1,16 +1,16 @@
 'use client'
 
 // Hooks
-import { useFetch } from '@/hooks/useFetch'
 import { useSession } from 'next-auth/react'
 import { useEffect, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
 import axios from 'axios'
 
 // Components
-import Navbar from '@/components/Navbar'
-import Header from '@/components/Header'
-import ReportListContainer from '@/components/ReportListContainer'
+import HomeHeader from '@/components/navigation/HomeHeader'
+import Header from '@/components/sections/Header'
+import ReportListContainer from '@/components/sections/ReportListContainer'
+import BottomNavbar from '@/components/navigation/BottomNavbar'
 
 // Interfaces
 import User from '@/interface/User'
@@ -60,15 +60,19 @@ const Laporan = (): JSX.Element => {
   }, [user?.id, startDate, endDate])
 
   return (
-    <div className="w-screen min-h-screen flex flex-col items-center bg-blue_main">
+    <div className="w-screen min-h-screen flex flex-col items-center bg-primary-500">
       {/* Header */}
       <div className="w-11/12 max-w-[641px]">
-        <Navbar active="Laporan" />
-        <Header title="Laporan" />
+        <HomeHeader currentPage='Laporan' />
+
+        <Header type="report" />
       </div>
 
       {/* Body */}
       <ReportListContainer data={data as FetchedReport[]} loading={loading} />
+    
+      {/* Navbar */}
+      <BottomNavbar active="laporan" />
     </div>
   )
 }

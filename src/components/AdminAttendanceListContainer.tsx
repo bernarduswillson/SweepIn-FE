@@ -3,13 +3,13 @@ import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 import { easeInOut, motion } from 'framer-motion'
 
 // Interfaces
-import MonthRange from '@/interface/MonthRange'
+import MonthRange from '@/interface/data/MonthRange'
 import Attendance from '@/interface/AdminAttendanceCard'
 
 // Components
-import DateSearchBar from '@/components/ui/DateSearchBar'
+import DateSearchBar from '@/components/inputs/DateSearchBar'
 import AttendanceCard from '@/components/ui/AdminAttendanceCard'
-import SweepLoader from '@/components/ui/SweepLoader'
+import SweepLoader from '@/components/loaders/SweepLoader'
 import Pagination from '@/components/ui/customPagination'
 import UserSearchBar from '@/components/ui/UserSearchBar'
 
@@ -131,6 +131,7 @@ const ListContainer = (props: ListContainerProps): JSX.Element => {
         <div className='w-1/2'>
           <DateSearchBar
             onChange={handleDateInputOnChange}
+            withLabel
           />
         </div>
         { (pageURL === 'presensi' || pageURL === 'laporan') && (

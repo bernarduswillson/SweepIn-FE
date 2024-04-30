@@ -4,12 +4,12 @@ import { easeInOut, motion } from 'framer-motion'
 
 // Interfaces
 import Report from '@/interface/ReportCard'
-import MonthRange from '@/interface/MonthRange'
+import MonthRange from '@/interface/data/MonthRange'
 
 // Components
-import DateSearchBar from '@/components/ui/DateSearchBar'
+import DateSearchBar from '@/components/inputs/DateSearchBar'
 import ReportCard from '@/components/ui/ReportCard'
-import SweepLoader from '@/components/ui/SweepLoader'
+import SweepLoader from '@/components/loaders/SweepLoader'
 
 // Utils
 import { date2String } from '@/utils/date'
@@ -58,46 +58,19 @@ const ListContainer = (props: ListContainerProps): JSX.Element => {
   }, [monthRange])
 
   return (
-    <div className="w-full max-w-[641px] flex justify-center flex-grow bg-white rounded-t-[26px]">
-      <div className="w-11/12 flex flex-col gap-6 pt-6">
-        <h1 className="text-black text-left text-2xl poppins-bold">
+    <div className="w-full max-w-[641px] flex justify-center flex-grow bg-surface rounded-t-[24px]">
+      <div className="w-11/12 flex flex-col gap-4 pt-3">
+        <h1 className="text-neutral-900 text-left header-2">
           Daftar Laporan
         </h1>
+
         <DateSearchBar
           onChange={handleDateInputOnChange}
         />
 
         <div className="w-full h-fit flex flex-col items-center gap-1">
-          {!loading &&
-            data &&
-            data[0] &&
-            date2String(new Date(data[0].date)) != date2String(new Date()) && (
-              <motion.div
-                initial={{
-                  opacity: 0,
-                  y: 50
-                }}
-                whileInView={{
-                  opacity: 1,
-                  y: 0,
-                  transition: {
-                    duration: 0.5,
-                    ease: easeInOut
-                  }
-                }}
-                viewport={{ once: true }}
-                className="w-full"
-              >
-                <ReportCard
-                  id=""
-                  numOfPhoto={0}
-                  date={new Date()}
-                  status="belum dikirim"
-                />
-              </motion.div>
-            )}
           {!loading ? (
-            data &&
+            data && data.length > 0 ?
             data.map((item: Report, index: number) => (
               <motion.div
                 key={index}
@@ -123,7 +96,11 @@ const ListContainer = (props: ListContainerProps): JSX.Element => {
                   status={item.status}
                 />
               </motion.div>
-            ))
+            )) : (
+              <div className='py-4'>
+                <p className='body-m text-neutral-400'>Belum ada laporan</p>
+              </div>
+            )
           ) : (
             <SweepLoader />
           )}

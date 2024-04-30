@@ -1,25 +1,22 @@
-import { useEffect, useState } from 'react'
-import { useRouter } from 'next/navigation'
-import { easeInOut, motion } from 'framer-motion'
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { easeInOut, motion } from 'framer-motion';
 
 // Interfaces
-import MonthRange from '@/interface/MonthRange'
-import Attendance from '@/interface/AttendanceCard'
+import MonthRange from '@/interface/data/MonthRange';
+import Attendance from '@/interface/AttendanceCard';
 
 // Components
-import DateSearchBar from '@/components/ui/DateSearchBar'
-import AttendanceCard from '@/components/ui/AttendanceCard'
-import SweepLoader from '@/components/ui/SweepLoader'
+import DateSearchBar from '@/components/inputs/DateSearchBar';
+import AttendanceCard from '@/components/ui/AttendanceCard';
+import SweepLoader from '@/components/loaders/SweepLoader';
 
-// Utils
-import { date2String } from '@/utils/date'
-
-interface ListContainerProps {
-  data: Attendance[]
+interface AttendanceListContainerProps {
+  data: Attendance[],
   loading: boolean
-}
+};
 
-const ListContainer = (props: ListContainerProps): JSX.Element => {
+const AttendanceListContainer = (props: AttendanceListContainerProps): JSX.Element => {
   const { data, loading } = props
   const router = useRouter()
 
@@ -57,46 +54,19 @@ const ListContainer = (props: ListContainerProps): JSX.Element => {
   }, [monthRange])
 
   return (
-    <div className="w-full max-w-[641px] flex justify-center flex-grow bg-white rounded-t-[26px]">
-      <div className="w-11/12 flex flex-col gap-6 pt-6">
-        <h1 className="text-black text-left text-2xl poppins-bold">
+    <div className="w-full max-w-[641px] flex justify-center flex-grow bg-surface rounded-t-[24px]">
+      <div className="w-11/12 flex flex-col gap-4 pt-3">
+        <h1 className="text-neutral-900 text-left header-2">
           Daftar Presensi
         </h1>
+
         <DateSearchBar
           onChange={handleDateInputOnChange}
         />
 
         <div className="w-full h-fit flex flex-col items-center gap-1">
-          {!loading &&
-            data &&
-            data[0] &&
-            date2String(new Date(data[0].date)) != date2String(new Date()) && (
-              <motion.div
-                initial={{
-                  opacity: 0,
-                  y: 50
-                }}
-                whileInView={{
-                  opacity: 1,
-                  y: 0,
-                  transition: {
-                    duration: 0.5,
-                    ease: easeInOut
-                  }
-                }}
-                viewport={{ once: true }}
-                className="w-full"
-              >
-                <AttendanceCard
-                  id=""
-                  date={new Date()}
-                  startAttendanceId={null}
-                  endAttendanceId={null}
-                />
-              </motion.div>
-            )}
           {!loading ? (
-            data &&
+            data && data.length > 0 ?
             data.map((item: Attendance, index: number) => (
               <motion.div
                 key={index}
@@ -122,7 +92,11 @@ const ListContainer = (props: ListContainerProps): JSX.Element => {
                   endAttendanceId={item?.endLog?.[0]?.id as string}
                 />
               </motion.div>
-            ))
+            )) : (
+              <div className='py-4'>
+                <p className='body-m text-neutral-400'>Belum ada presensi</p>
+              </div>
+            )
           ) : (
             <SweepLoader />
           )}
@@ -132,4 +106,4 @@ const ListContainer = (props: ListContainerProps): JSX.Element => {
   )
 }
 
-export default ListContainer
+export default AttendanceListContainer;

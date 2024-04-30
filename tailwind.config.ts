@@ -4,6 +4,22 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        'primary-300': '#328AD8',
+        'primary-500': '#005AAB',
+        'primary-700': '#003B70',
+        'secondary-500': '#48AD83',
+        'secondary-700': '#3D8567',
+        'neutral-100': '#EAECEE',
+        'neutral-200': '#D1D6DC',
+        'neutral-400': '#9399A1',
+        'neutral-900' : '#1C1C1C',
+        'success-500' : '#48AD83',
+        'warning-500' : '#F9AF42',
+        'error-500' : '#FF5959',
+        'error-700' : '#D43535',
+        'outline' : '#D1D6DC',
+        'surface': '#FCFCFC',
+        'surface-container' : '#EAECEE',
         white: '#FCFCFC',
         green_main: '#48AD83',
         grey: '#C2C9D3',
