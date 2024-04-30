@@ -86,7 +86,7 @@ const SearchBar = (props: SearchBarProps): JSX.Element => {
             <h3 className='poppins-bold'>Cari</h3>
             <div className='w-full relative h-full'>
               <input
-                className={`w-full h-full flex justify-between items-center py-1 px-2 pl-3 border-grey border-2 rounded-xl poppins-medium `}
+                className={`w-full h-full flex justify-between items-center py-1 px-2 pl-3 border-outline border-[1px] rounded-xl poppins-medium `}
                 type="text"
                 placeholder="Cari berdasarkan nama"
                 onChange={(e) => handleValueChange('name', e.target.value)}

@@ -10,8 +10,8 @@ import WaveBot from '@public/images/wave-bottom-illustration.svg'
 import ITB from '@public/icons/itb-ic.svg'
 
 // Components
-import GoogleButton from '@/components/ui/GoogleButton'
-import Modal from '@/components/ui/Modal'
+import GoogleButton from '@/components/buttons/GoogleButton'
+import ConfirmModal from '@/components/dialouge/ConfirmModal'
 
 const Masuk = (): JSX.Element => {
   const router = useRouter()
@@ -33,7 +33,7 @@ const Masuk = (): JSX.Element => {
   }
 
   return (
-    <div className="relative h-screen bg-white font-bold flex flex-col justify-center overflow-hidden">
+    <div className="relative h-screen bg-surface font-bold flex flex-col justify-center overflow-hidden">
       {/* Top Illustration */}
       <div className="absolute w-screen top-0 sm:translate-y-[-25vw]">
         <Image src={WaveTop} alt="WaveTop" className="w-full" />
@@ -43,11 +43,11 @@ const Masuk = (): JSX.Element => {
       <div className="flex flex-col items-center z-[10]">
         {/* Title */}
         <div>
-          <h1 className="text-[50px] poppins-bold text-center text-blue_main font-extrabold">
+          <h1 className="display text-center text-primary-500">
             Sweep
-            <span className="outline-title text-white">In</span>
+            <span className="outline-title text-transparent">In</span>
           </h1>
-          <p className="text-center text-md poppins-medium text-text_grey">
+          <p className="body-m text-neutral-400">
             Masuk untuk melanjutkan
           </p>
         </div>
@@ -58,11 +58,10 @@ const Masuk = (): JSX.Element => {
         </div>
 
         {/* Alert Box */}
-        <Modal
-          title="Akun tidak ditemukan"
-          type="info"
-          msg="Akun anda belum terdaftar, coba masuk menggunakan akun lain atau hubungi admin."
-          confirmText="Oke"
+        <ConfirmModal 
+          title='Akun tidak ditemukan'
+          msg='Akun anda belum terdaftar, coba masuk menggunakan akun lain atau hubungi admin.'
+          confirmText='Oke'
           onConfirm={handleConfirm}
           onClose={handleConfirm}
           isOpen={showAlert}

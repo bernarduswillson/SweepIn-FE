@@ -6,7 +6,7 @@ import { useParams } from 'next/navigation'
 import axios from 'axios'
 
 // Components
-import FormHeader from '@/components/ui/FormHeader'
+import FormHeader from '@/components/navigation/FormHeader'
 import AttendancePhoto from '@/components/ui/AttendacePhoto'
 import PreLoader from '@/components/PreLoader'
 
@@ -73,7 +73,10 @@ const DetailPresensi = () => {
         >
           {/* Head */}
           <div className="w-11/12 max-w-[641px] py-10 flex flex-col items-center">
-            <FormHeader title="Presensi" date={data.date} />
+            <FormHeader 
+              title="Presensi" 
+              backDestination="/presensi" 
+            />
             <AttendancePhoto
               startPhoto={data.startLog.images[0]}
               endPhoto={data.endLog?.images[0]}

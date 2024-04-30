@@ -7,6 +7,7 @@ import DeleteIcon from '@public/icons/close-ic.svg'
 
 // Components
 import Modal from '@/components/ui/Modal'
+import PlusIcon from '../icons/PlusIcon'
 
 interface ReportGalleryInputProps {
   photos: File[]
@@ -87,13 +88,7 @@ const ReportGalleryInput = (props: ReportGalleryInputProps) => {
             className="w-[170px] h-[170px] bg-transparent flex flex-col justify-center items-center gap-3 cursor-pointer rounded-lg border-dashed border-white border-2 transition-opacity ease-in-out duration-150 group"
             onClick={openFile}
           >
-            <Image
-              src={AddIcon}
-              alt="Foto kosong"
-              width={24}
-              height={24}
-              className="transition-transform ease-in-out duration-150 group-hover:-translate-y-2"
-            />
+            <PlusIcon className="text-neutral-100 transition-fast group-hover:-translate-y-2" width="1.5rem" height="1.5rem" />
             <div className="flex flex-col">
               <span className="poppins-medium text-white text-base">
                 Tambah foto

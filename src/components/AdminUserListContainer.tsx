@@ -3,13 +3,13 @@ import { easeInOut, motion} from 'framer-motion';
 import { useSearchParams, useRouter } from 'next/navigation';
 
 // Interfaces
-import MonthRange from '@/interface/MonthRange';
+import MonthRange from '@/interface/data/MonthRange';
 import User from '@/interface/User';
 
 // Components
 import UserSearchBar from '@/components/ui/UserSearchBar';
 import UserCard from '@/components/ui/UserCard';
-import SweepLoader from '@/components/ui/SweepLoader';
+import SweepLoader from '@/components/loaders/SweepLoader';
 import Pagination from '@/components/ui/customPagination';
 import { set } from 'date-fns';
 

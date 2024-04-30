@@ -1,20 +1,19 @@
-'use client'
+'use client';
 
-// Hooks
-// import { useFetch } from '@/hooks/useFetch';
 import { useSession } from 'next-auth/react'
 import { useEffect, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
 import axios from 'axios'
 
 // Components
-import Navbar from '@/components/Navbar'
-import Header from '@/components/Header'
-import ListContainer from '@/components/AttendanceListContainer'
+import BottomNavbar from '@/components/navigation/BottomNavbar';
+import Header from '@/components/sections/Header'
+import AttendanceListContainer from '@/components/sections/AttendanceListContainer'
 
 // Interface
 import Attendance from '@/interface/AttendanceCard'
 import User from '@/interface/User'
+import HomeHeader from '@/components/navigation/HomeHeader';
 
 const Presensi = (): JSX.Element => {
   const { data: session } = useSession()
@@ -62,15 +61,19 @@ const Presensi = (): JSX.Element => {
   }, [user?.id, startDate, endDate])
 
   return (
-    <div className="w-screen min-h-screen flex flex-col items-center bg-blue_main">
-      {/* Header */}
-      <div className="w-11/12 max-w-[641px]">
-        <Navbar active="Presensi" />
-        <Header title="Presensi" />
+    <div className="w-screen min-h-screen flex flex-col items-center bg-primary-500">
+      {/* Mobile container */}
+      <div className="w-11/12 max-w-[640px]">
+        <HomeHeader currentPage='Presensi' />
+
+        <Header type="attendance" />
       </div>
 
       {/* Body */}
-      <ListContainer data={data as Attendance[]} loading={loading} />
+      <AttendanceListContainer data={data as Attendance[]} loading={loading} />
+
+      {/* Navbar */}
+      <BottomNavbar active="presensi" />
     </div>
   )
 }

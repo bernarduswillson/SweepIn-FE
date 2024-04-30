@@ -4,12 +4,12 @@ import { easeInOut, motion } from 'framer-motion'
 
 // Interfaces
 import Report from '@/interface/AdminReportCard'
-import MonthRange from '@/interface/MonthRange'
+import MonthRange from '@/interface/data/MonthRange'
 
 // Components
 import DateSearchBar from '@/components/ui/StatusDateSearchBar'
 import ReportCard from '@/components/ui/AdminReportCard'
-import SweepLoader from '@/components/ui/SweepLoader'
+import SweepLoader from '@/components/loaders/SweepLoader'
 import Pagination from '@/components/ui/customPagination'
 import UserSearchBar from '@/components/ui/UserSearchBar';
 
