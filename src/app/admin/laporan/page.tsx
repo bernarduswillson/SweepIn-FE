@@ -9,7 +9,7 @@ import { useSearchParams } from 'next/navigation'
 
 // Components
 import Header from '@/components/AdminHeader'
-import ListContainer from '@/components/AdminReportListContainer'
+import ListContainer from '@/components/sections/AdminReportListContainer'
 import Sidebar from '@/components/Sidebar'
 
 // Interface

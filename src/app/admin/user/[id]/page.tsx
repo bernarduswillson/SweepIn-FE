@@ -10,8 +10,8 @@ import { useParams } from 'next/navigation'
 
 // Components
 import Header from '@/components/AdminHeader'
-import AttendaceListContainer from '@/components/AdminAttendanceListContainer'
-import ReportListContainer from '@/components/AdminReportListContainer'
+import AttendaceListContainer from '@/components/sections/AdminAttendanceListContainer'
+import ReportListContainer from '@/components/sections/AdminReportListContainer'
 import Sidebar from '@/components/Sidebar'
 import UserEditForm from '@/components/UserEditForm'
 import ToggleButton from '@/components/AdminToggleButton'
@@ -153,7 +153,7 @@ const DetailUser = (): JSX.Element => {
       <div className="w-full flex flex-col items-center bg-white">
         {/* Header */}
         <div className="w-11/12">
-          <Header title="Detail User" />
+          <Header title="Detail Pengguna" />
         </div>
 
         {/* Body */}

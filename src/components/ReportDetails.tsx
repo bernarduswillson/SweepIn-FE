@@ -29,14 +29,26 @@ const ReportDetails = (props: ReportDetailsProps): JSX.Element => {
   // Set form data
   useEffect(() => {
     if (data) {
-      setStatus(data.status)
+      if (data.status === 'WAITING') {
+        setStatus('DIPROSES')
+      } else if (data.status === 'REJECTED') {
+        setStatus('DITOLAK')
+      } else if (data.status === 'ACCEPTED') {
+        setStatus('DITERIMA')
+      }
     }
   }, [data])
 
   // Handle value change
   const handleValueChange = (value: string) => {
     setStatus(value)
-    onChange(value)
+    if (value === 'DIPROSES') {
+      onChange('WAITING')
+    } else if (value === 'DITOLAK') {
+      onChange('REJECTED')
+    } else if (value === 'DITERIMA') {
+      onChange('ACCEPTED')
+    }
   }
 
   if (loading) {
@@ -47,7 +59,7 @@ const ReportDetails = (props: ReportDetailsProps): JSX.Element => {
 
   return (
     <div className="">
-      <h2 className="poppins-extrabold text-lg mb-2">User</h2>
+      <h2 className="poppins-extrabold text-lg mb-2">Pengguna</h2>
       {/* Name */}
       <h3 className="poppins-bold text-blue_main mb-10">{data.user?.name}</h3>
 
@@ -108,7 +120,7 @@ const ReportDetails = (props: ReportDetailsProps): JSX.Element => {
                 placeholder="Ganti Status"
                 onChange={(value) => handleValueChange(value)}
                 value={status}
-                options={['WAITING', 'ACCEPTED', 'REJECTED']}
+                options={['DIPROSES', 'DITOLAK', 'DITERIMA']}
               />
             </div>
           </div>

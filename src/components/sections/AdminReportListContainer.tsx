@@ -7,7 +7,7 @@ import Report from '@/interface/AdminReportCard'
 import MonthRange from '@/interface/data/MonthRange'
 
 // Components
-import DateSearchBar from '@/components/ui/StatusDateSearchBar'
+import DateSearchBar from '@/components/inputs/StatusDateSearchBar'
 import ReportCard from '@/components/card/AdminReportCard'
 import SweepLoader from '@/components/loaders/SweepLoader'
 import Pagination from '@/components/ui/customPagination'
@@ -15,6 +15,7 @@ import UserSearchBar from '@/components/ui/UserSearchBar';
 
 // Utils
 import { date2String } from '@/utils/date'
+import { set } from 'date-fns';
 
 interface ListContainerProps {
   data: Report[]
@@ -49,7 +50,7 @@ const ListContainer = (props: ListContainerProps): JSX.Element => {
   const [valueChanged, setValueChanged] = useState<boolean>(false);
 
   // Handle value change
-  const handleValueChange = (name: 'name' | 'location' | 'role', value: string) => {
+  const handleValueChange = (name: 'name' | 'location' | 'role' | 'status', value: string) => {
     switch (name) {
       case 'name':
         setNameValue(value);
@@ -139,6 +140,7 @@ const ListContainer = (props: ListContainerProps): JSX.Element => {
         <div className='w-3/4'>
           <DateSearchBar
             onChange={handleDateInputOnChange}
+            withLabel
           />
         </div>
         { (pageURL === 'presensi' || pageURL === 'laporan') && (
@@ -146,6 +148,7 @@ const ListContainer = (props: ListContainerProps): JSX.Element => {
             name={nameValue}
             location={locationValue}
             role={roleValue}
+            status={'ACTIVE'}
             onChange={handleValueChange}
           />
         )}

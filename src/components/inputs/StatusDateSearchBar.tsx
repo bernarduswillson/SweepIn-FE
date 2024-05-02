@@ -11,13 +11,17 @@ import Icon from '@public/icons/calendar-ic.svg'
 import { Calendar } from '@/components/ui/calendar'
 import Button from '@/components/ui/button'
 import Dropdown from '@/components/ui/customDropdown'
+import RedButton from '../buttons/RedButton'
+import GreenButton from '../buttons/GreenButton'
+import CalendarIcon from '../icons/CalendarIcon'
 
 interface SearchBarProps {
+  withLabel?: boolean,
   onChange: (name: 'start' | 'end' | 'status', value: Date | string | undefined) => void
 }
 
 const SearchBar = (props: SearchBarProps): JSX.Element => {
-  const { onChange } = props
+  const { withLabel, onChange } = props
 
   const router = useRouter()
   const url = usePathname()
@@ -100,9 +104,12 @@ const SearchBar = (props: SearchBarProps): JSX.Element => {
     <div className="w-full flex gap-2">
       {/* Start date input */}
       <div className='w-1/3'>
-        <h3 className='poppins-bold'>Tanggal Awal</h3>
+        {
+          withLabel && 
+          <h3 className='poppins-bold'>Tanggal Awal</h3>
+        }
         <button
-            className={`w-full flex justify-between items-center py-1 px-2 pl-3 border-grey border-2 rounded-xl poppins-medium ${date && isValid ? 'text-black' : 'text-grey_text'}`}
+            className={`w-full text-input flex justify-between items-center body-m ${date && isValid ? 'text-neutral-900' : 'text-neutral-400'}`}
             onClick={() => setShowCalendar(true)}
         >
             {date && isValid ? 
@@ -112,16 +119,19 @@ const SearchBar = (props: SearchBarProps): JSX.Element => {
             }
 
             {/* Calendar icon */}
-            <Image src={Icon} alt="Calendar" width={25} />
+            <CalendarIcon className="text-primary-500" width="1.2rem" height="1.2rem" />
 
         </button>
       </div>
 
-      {/* Start date input */}
+      {/* End date input */}
       <div className='w-1/3'>
-        <h3 className='poppins-bold'>Tanggal Akhir</h3>
+        {
+          withLabel && 
+          <h3 className='poppins-bold'>Tanggal Akhir</h3>
+        }
         <button
-            className={`w-full flex justify-between items-center py-1 px-2 pl-3 border-grey border-2 rounded-xl poppins-medium ${date && isValid ? 'text-black' : 'text-grey_text'}`}
+            className={`w-full text-input flex justify-between items-center body-m ${date && isValid ? 'text-neutral-900' : 'text-neutral-400'}`}
             onClick={() => setShowCalendar(true)}
         >
             {date && isValid ?
@@ -131,7 +141,7 @@ const SearchBar = (props: SearchBarProps): JSX.Element => {
             }
 
             {/* Calendar icon */}
-            <Image src={Icon} alt="Calendar" width={25} />
+            <CalendarIcon className="text-primary-500" width="1.2rem" height="1.2rem" />
         </button>
       </div>
 
@@ -153,37 +163,55 @@ const SearchBar = (props: SearchBarProps): JSX.Element => {
 
       {/* Calendar form */}
       {showCalendar && (
-          <>
-            <div
-              className="fixed top-0 left-0 w-full h-full bg-black opacity-50 z-10"
-              onClick={(e) => handleClickOutside(e)}
-            ></div>
-            <div className="fixed top-1/2 left-1/2 flex flex-col py-5 px-5 items-center gap-5 transform -translate-x-1/2 -translate-y-1/2 z-20 bg-white rounded-md border shadow">
-              <div className="text-black poppins-bold">Pilih Tanggal</div>
-              <div className="text-black poppins-bold -mt-5">(tekan 2 tanggal yang berbeda untuk memilih rentang tanggal)</div>
-              <Calendar
-                initialFocus
-                mode="range"
-                defaultMonth={date?.from}
-                selected={date}
-                onSelect={setDate}
-                numberOfMonths={2}
+        <div
+          className="fixed overflow-auto z-50 inset-0 w-full h-full bg-scrim backdrop-blur flex justify-center items-center"
+        >
+          <div className="fixed w-full h-full inset-0 -z-10" onClick={(e) => handleClickOutside(e)} />
+
+          <div className="w-11/12 py-6 px-4 bg-surface rounded-md flex flex-col items-center gap-5 md:w-fit">
+            <div className="text-neutral-900 header-3">Pilih Tanggal</div>
+            
+            <Calendar
+              initialFocus
+              mode="range"
+              defaultMonth={date?.from}
+              selected={date}
+              onSelect={setDate}
+              numberOfMonths={2}
+            />
+            
+            <div className='w-[120px]'
+              onClick={(e) => handleButtonClick(e)}>
+              <GreenButton
+                text='Pilih'
+                type='primary'
+                size='small'
+                roundness='square'
               />
-              <button
-                className="w-[80px]"
-                onClick={(e) => handleButtonClick(e)}
-              >
-                <Button text="Pilih" color="green" disable={!isValid} />
-              </button>
-              <button
-                className="-mt-2"
-                onClick={(e) => handleResetButtonClick(e)}
-              >
-                <Button text="Reset Tanggal" color="blue" />
-              </button>
             </div>
-          </>
-        )}
+
+            <div className='w-[120px] -mt-3'
+              onClick={(e) => handleResetButtonClick(e)}>
+              <RedButton
+                text='Reset'
+                type='secondary'
+                size='small'
+                roundness='square'
+              />
+            </div>
+
+            <div className='w-[120px] -mt-3'
+              onClick={(e) => handleResetButtonClick(e)}>
+              <RedButton
+                text='Batal'
+                type='primary'
+                size='small'
+                roundness='square'
+              />
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

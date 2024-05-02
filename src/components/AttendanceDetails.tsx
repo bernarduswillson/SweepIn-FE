@@ -18,7 +18,7 @@ const AttendanceDetails = (props: AttendanceDetailsProps): JSX.Element => {
 
   return (
     <div className="">
-      <h2 className="poppins-extrabold text-lg mb-2">User</h2>
+      <h2 className="poppins-extrabold text-lg mb-2">Pengguna</h2>
       {/* Name */}
       <h3 className="poppins-bold text-blue_main mb-10">{data.user.name}</h3>
 

@@ -115,7 +115,7 @@ const ListContainer = (props: ListContainerProps):JSX.Element => {
           <div className='flex px-3 poppins-bold'>
             <div className='w-1/4'>Nama</div>
             <div className='w-1/4'>Email</div>
-            <div className='w-1/4'>Role</div>
+            <div className='w-1/4'>Akses</div>
             <div className='w-1/4'>Lokasi</div>
           </div>
           {!loading ? (

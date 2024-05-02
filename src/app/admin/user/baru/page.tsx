@@ -27,7 +27,8 @@ const UserCreate = (): JSX.Element => {
     name: '',
     email: '',
     location: '',
-    role: ''
+    role: '',
+    status: ''
   })
 
   // Handle value change
@@ -70,62 +71,68 @@ const UserCreate = (): JSX.Element => {
   }
 
   return (
-    <div className="px-[5vw] flex flex-col">
-      <h1 className="poppins-extrabold text-blue_main text-5xl text-center my-10">
-        Tambah User
+    <div className="px-[5vw] -mt-20 h-screen flex flex-col justify-center">
+      <h1 className="poppins-extrabold text-blue_main text-5xl text-center mb-32">
+        Tambah Pengguna
       </h1>
 
-      {/* Name */}
-      <div className="poppins-regular mb-5">
-        <h2 className="poppins-bold text-xl">Nama</h2>
-        <input
-          type="text"
-          placeholder="Ketik nama disini"
-          className="w-full border-2 border-gray-300 rounded-md p-2"
-          onChange={(e) => handleValueChange('name', e.target.value)}
-        />
-      </div>
+      <div className="grid grid-cols-2 gap-x-5 mb-5">
+        {/* Name */}
+        <div className="poppins-regular mb-5">
+          <h2 className="poppins-bold text-xl">Nama</h2>
+          <input
+            type="text"
+            placeholder="Ketik nama disini"
+            className="w-full border-2 border-gray-300 rounded-md p-2"
+            onChange={(e) => handleValueChange('name', e.target.value)}
+          />
+        </div>
 
-      {/* Email */}
-      <div className="poppins-regular mb-5">
-        <h2 className="poppins-bold text-xl">Email</h2>
-        <input
-          type="email"
-          placeholder="Ketik email disini"
-          className="w-full border-2 border-gray-300 rounded-md p-2"
-          onChange={(e) => handleValueChange('email', e.target.value)}
-        />
-      </div>
+        {/* Email */}
+        <div className="poppins-regular mb-5">
+          <h2 className="poppins-bold text-xl">Email</h2>
+          <input
+            type="email"
+            placeholder="Ketik email disini"
+            className="w-full border-2 border-gray-300 rounded-md p-2"
+            onChange={(e) => handleValueChange('email', e.target.value)}
+          />
+        </div>
 
-      {/* Location */}
-      <div className="poppins-regular mb-5">
-        <h2 className="poppins-bold text-xl">Lokasi</h2>
-        <Dropdown
-          label="Lokasi"
-          placeholder="Pilih Lokasi"
-          onChange={(value) => handleValueChange('location', value)}
-          options={['GANESHA', 'JATINANGOR', 'CIREBON', 'BOSSCHA']}
-        />
-      </div>
+        {/* Location */}
+        <div className="poppins-regular mb-5">
+          <h2 className="poppins-bold text-xl">Lokasi</h2>
+          <Dropdown
+            label="Lokasi"
+            placeholder="Pilih Lokasi"
+            onChange={(value) => handleValueChange('location', value)}
+            options={['GANESHA', 'JATINANGOR', 'CIREBON', 'BOSSCHA']}
+          />
+        </div>
 
-      {/* Role */}
-      <div className="poppins-regular mb-10">
-        <h2 className="poppins-bold text-xl">Role</h2>
-        <Dropdown
-          label="Role"
-          placeholder="Pilih Role"
-          onChange={(value) => handleValueChange('role', value)}
-          options={['ADMIN', 'CLEANER', 'SECURITY']}
-        />
+        {/* Role */}
+        <div className="poppins-regular mb-10">
+          <h2 className="poppins-bold text-xl">Role</h2>
+          <Dropdown
+            label="Role"
+            placeholder="Pilih Role"
+            onChange={(value) => handleValueChange('role', value)}
+            options={['ADMIN', 'CLEANER', 'SECURITY']}
+          />
+        </div>
       </div>
 
       {/* Submit button */}
-      <SubmitButton
-        text="Tambah User"
-        onClick={handleSubmit}
-        loading={isSubmitLoading}
-        disable={!isInputValid}
-      />
+      <div className='w-full flex justify-center'>
+        <div className='w-[300px]'>
+          <SubmitButton
+            text="Tambah Pengguna"
+            onClick={handleSubmit}
+            loading={isSubmitLoading}
+            disable={!isInputValid}
+          />
+        </div>
+      </div>
     </div>
   )
 }
