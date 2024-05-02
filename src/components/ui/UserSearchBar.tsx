@@ -11,11 +11,12 @@ interface SearchBarProps {
   name: string
   location: string
   role: string
-  onChange: (name: 'name' | 'location' | 'role', value: string) => void
+  status: string
+  onChange: (name: 'name' | 'location' | 'role' | 'status', value: string) => void
 }
 
 const SearchBar = (props: SearchBarProps): JSX.Element => {
-  const { name, location, role, onChange } = props
+  const { name, location, role, status, onChange } = props
 
   // Name values
   const [nameValue, setNameValue] = useState<string>(name)
@@ -26,9 +27,12 @@ const SearchBar = (props: SearchBarProps): JSX.Element => {
   // Role values
   const [roleValue, setRoleValue] = useState<string>(role)
 
+  // Status values
+  const [statusValue, setStatusValue] = useState<string>(status)
+
   // Handle value change
   const handleValueChange = (
-    name: 'name' | 'location' | 'role',
+    name: 'name' | 'location' | 'role' | 'status',
     value: string
   ) => {
     switch (name) {
@@ -43,6 +47,10 @@ const SearchBar = (props: SearchBarProps): JSX.Element => {
       case 'role':
         setRoleValue(value)
         onChange('role', value)
+        break
+      case 'status':
+        setStatusValue(value)
+        onChange('status', value)
         break
     }
   }
@@ -97,6 +105,19 @@ const SearchBar = (props: SearchBarProps): JSX.Element => {
             </div>
           </div>
         </div>
+      </div>
+      {/* Status dropdown */}
+      <div className='w-[150px]'>
+        <h3 className='poppins-bold'>Status</h3>
+        <Dropdown
+          label="Status"
+          placeholder="ACTIVE"
+          onChange={(value) => handleValueChange('status', value)}
+          options={[
+            'ACTIVE',
+            'INACTIVE'
+          ]}
+        />
       </div>
     </div>
   )
