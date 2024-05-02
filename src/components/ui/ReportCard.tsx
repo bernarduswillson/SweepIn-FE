@@ -51,7 +51,7 @@ const Card = (props: ReportCardProps): JSX.Element => {
           <div
             className={`bold-sm ${isToday ? ' text-neutral-100' : 'text-primary-500'}`}
           >
-            {numOfPhoto && `${numOfPhoto} Foto`}
+            {numOfPhoto === 0 ? 'Tidak ada foto' : numOfPhoto > 0 ? `${numOfPhoto} foto` : ''}
           </div>
 
           {/* Date */}

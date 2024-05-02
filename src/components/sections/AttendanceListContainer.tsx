@@ -64,7 +64,7 @@ const AttendanceListContainer = (props: AttendanceListContainerProps): JSX.Eleme
           onChange={handleDateInputOnChange}
         />
 
-        <div className="w-full h-fit flex flex-col items-center gap-1">
+        <div className="w-full h-fit flex flex-col items-center gap-1 pb-[100px]">
           {!loading ? (
             data && data.length > 0 ?
             data.map((item: Attendance, index: number) => (

@@ -68,7 +68,7 @@ const ListContainer = (props: ListContainerProps): JSX.Element => {
           onChange={handleDateInputOnChange}
         />
 
-        <div className="w-full h-fit flex flex-col items-center gap-1">
+        <div className="w-full h-fit flex flex-col items-center gap-1 pb-[100px]">
           {!loading ? (
             data && data.length > 0 ?
             data.map((item: Report, index: number) => (
