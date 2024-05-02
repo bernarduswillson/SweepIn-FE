@@ -118,7 +118,7 @@ const SearchBar = (props: SearchBarProps): JSX.Element => {
         </button>
       </div>
 
-      {/* Start date input */}
+      {/* End date input */}
       <div className='w-1/2'>
         {
           withLabel && 

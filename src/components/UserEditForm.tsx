@@ -49,7 +49,20 @@ const UserForm = (props: UserFormProps): JSX.Element => {
   // Set form data
   useEffect(() => {
     if (data) {
-      setFormData(data)
+      if (data.status === 'ACTIVE') {
+        data.status = 'AKTIF'
+      } else {
+        data.status = 'TIDAK AKTIF'
+      }
+
+      setFormData({
+        id: data.id,
+        name: data.name,
+        email: data.email,
+        location: data.location,
+        role: data.role,
+        status: data.status
+      })
     }
   }, [data])
 
@@ -85,6 +98,12 @@ const UserForm = (props: UserFormProps): JSX.Element => {
   const handleSubmit = async () => {
     // Set loading
     setIsSubmitLoading(true)
+
+    if (formData.status === 'AKTIF') {
+      formData.status = 'ACTIVE'
+    } else {
+      formData.status = 'INACTIVE'
+    }
 
     // Edit
     try {
@@ -149,10 +168,10 @@ const UserForm = (props: UserFormProps): JSX.Element => {
 
         {/* Role */}
         <div className="poppins-regular mb-5">
-          <h2 className="poppins-bold text-blue_main">Role</h2>
+          <h2 className="poppins-bold text-blue_main">Akses</h2>
           <Dropdown
-            label="Role"
-            placeholder="Ganti Role"
+            label="Akses"
+            placeholder="Ganti Akses"
             onChange={(value) => handleValueChange('role', value)}
             value={formData.role}
             options={['ADMIN', 'CLEANER', 'SECURITY']}
@@ -179,7 +198,7 @@ const UserForm = (props: UserFormProps): JSX.Element => {
             placeholder="Ganti Status"
             onChange={(value) => handleValueChange('status', value)}
             value={formData.status}
-            options={['ACTIVE', 'INACTIVE']}
+            options={['AKTIF', 'TIDAK AKTIF']}
           />
         </div>
       </div>
@@ -188,7 +207,7 @@ const UserForm = (props: UserFormProps): JSX.Element => {
         <div className="w-[400px] flex gap-5">
           {/* Submit button */}
           <SubmitButton
-            text="Save changes"
+            text="Simpan"
             onClick={handleSubmit}
             loading={isSubmitLoading}
             disable={!isInputValid}
@@ -197,7 +216,7 @@ const UserForm = (props: UserFormProps): JSX.Element => {
 
           {/* Delete button */}
           <DeleteButton
-            text="Delete"
+            text="Hapus"
             onClick={HandleDelete}
             loading={isDeleteLoading}
             username={formData.name}

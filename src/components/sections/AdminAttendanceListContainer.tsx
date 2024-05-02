@@ -49,7 +49,7 @@ const ListContainer = (props: ListContainerProps): JSX.Element => {
   const [valueChanged, setValueChanged] = useState<boolean>(false);
 
   // Handle value change
-  const handleValueChange = (name: 'name' | 'location' | 'role', value: string) => {
+  const handleValueChange = (name: 'name' | 'location' | 'role' | 'status', value: string) => {
     switch (name) {
       case 'name':
         setNameValue(value);
@@ -139,6 +139,7 @@ const ListContainer = (props: ListContainerProps): JSX.Element => {
             name={nameValue}
             location={locationValue}
             role={roleValue}
+            status={'ACTIVE'}
             onChange={handleValueChange}
           />
         )}

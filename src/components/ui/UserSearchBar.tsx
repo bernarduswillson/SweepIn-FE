@@ -1,4 +1,6 @@
+// Imports
 import React, { useEffect, useState } from 'react'
+import { useRouter, usePathname } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
 
@@ -17,6 +19,8 @@ interface SearchBarProps {
 
 const SearchBar = (props: SearchBarProps): JSX.Element => {
   const { name, location, role, status, onChange } = props
+  const pathname = usePathname()
+  const page = pathname.split('/')[2]
 
   // Name values
   const [nameValue, setNameValue] = useState<string>(name)
@@ -49,8 +53,13 @@ const SearchBar = (props: SearchBarProps): JSX.Element => {
         onChange('role', value)
         break
       case 'status':
-        setStatusValue(value)
-        onChange('status', value)
+        if (value === 'AKTIF') {
+          setStatusValue('ACTIVE')
+          onChange('status', 'ACTIVE')
+        } else {
+          setStatusValue('INACTIVE')
+          onChange('status', 'INACTIVE')
+        }
         break
     }
   }
@@ -79,12 +88,12 @@ const SearchBar = (props: SearchBarProps): JSX.Element => {
 
             {/* Role dropdown */}
             <div className='w-full'>
-              <h3 className='poppins-bold'>Role</h3>
+              <h3 className='poppins-bold'>Akses</h3>
               <Dropdown
-                label="Role"
-                placeholder="Semua Role"
+                label="Akses"
+                placeholder="Semua Akses"
                 onChange={(value) => handleValueChange('role', value)}
-                options={['Semua Role', 'ADMIN', 'CLEANER', 'SECURITY']}
+                options={['Semua Akses', 'ADMIN', 'CLEANER', 'SECURITY']}
               />
             </div>
           </div>
@@ -107,18 +116,20 @@ const SearchBar = (props: SearchBarProps): JSX.Element => {
         </div>
       </div>
       {/* Status dropdown */}
-      <div className='w-[150px]'>
-        <h3 className='poppins-bold'>Status</h3>
-        <Dropdown
-          label="Status"
-          placeholder="ACTIVE"
-          onChange={(value) => handleValueChange('status', value)}
-          options={[
-            'ACTIVE',
-            'INACTIVE'
-          ]}
-        />
-      </div>
+      { (page === 'user') && (
+        <div className='w-[150px]'>
+          <h3 className='poppins-bold'>Status</h3>
+          <Dropdown
+            label="Status"
+            placeholder="AKTIF"
+            onChange={(value) => handleValueChange('status', value)}
+            options={[
+              'AKTIF',
+              'TIDAK AKTIF'
+            ]}
+          />
+        </div>
+      )}
     </div>
   )
 }

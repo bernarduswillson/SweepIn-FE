@@ -10,7 +10,7 @@ import Link from 'next/link'
 
 // Components
 import Header from '@/components/AdminHeader'
-import ListContainer from '@/components/AdminUserListContainer'
+import ListContainer from '@/components/sections/AdminUserListContainer'
 import Sidebar from '@/components/Sidebar'
 
 // Interface
@@ -60,7 +60,7 @@ const User = (): JSX.Element => {
         setLoading(true)
         if (user?.id) {
           const response = await axios.get(
-            `${process.env.NEXT_PUBLIC_API_URL}/user?page=${page}&per_page=${itemsPerPage}&name=${name}${location && location != 'Semua Lokasi' ? `&location=${location}` : ''}${role && role != 'Semua Role' ? `&role=${role}` : ''}&status=${status}`
+            `${process.env.NEXT_PUBLIC_API_URL}/user?page=${page}&per_page=${itemsPerPage}&name=${name}${location && location != 'Semua Lokasi' ? `&location=${location}` : ''}${role && role != 'Semua Akses' ? `&role=${role}` : ''}&status=${status}`
           )
           setData(response.data.data.users)
           setCount([response.data.data.filtered, itemsPerPage, response.data.data.total])
@@ -82,13 +82,13 @@ const User = (): JSX.Element => {
         {/* Header */}
         <div className="w-11/12">
           <div className='flex justify-between items-center'>
-            <Header title="Daftar User"/>
+            <Header title="Daftar Pengguna"/>
             {/* Add user button */}
             <Link
-              className="flex items-center justify-center bg-green_main text-white rounded-lg w-[150px] py-2 poppins-medium"
+              className="flex items-center justify-center bg-green_main text-white rounded-lg w-[200px] py-2 poppins-medium"
               href="user/baru"
             >
-              + Tambah User
+              + Tambah Pengguna
             </Link>
           </div>
 
