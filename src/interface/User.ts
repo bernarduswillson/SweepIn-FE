@@ -4,4 +4,5 @@ export default interface User {
   name: string
   role: string
   location: string
+  status: string
 }

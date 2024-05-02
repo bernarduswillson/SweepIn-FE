@@ -36,13 +36,16 @@ const ListContainer = (props: ListContainerProps):JSX.Element => {
   // Role values
   const [roleValue, setRoleValue] = useState<string>('');
 
+  // Status values
+  const [statusValue, setStatusValue] = useState<string>('');
+
   // Page values
   const [pageValue, setPageValue] = useState<number>(page);
 
   const [valueChanged, setValueChanged] = useState<boolean>(false);
 
   // Handle value change
-  const handleValueChange = (name: 'name' | 'location' | 'role', value: string) => {
+  const handleValueChange = (name: 'name' | 'location' | 'role' | 'status', value: string) => {
     switch (name) {
       case 'name':
         setNameValue(value);
@@ -52,6 +55,9 @@ const ListContainer = (props: ListContainerProps):JSX.Element => {
         break;
       case 'role':
         setRoleValue(value);
+        break;
+      case 'status':
+        setStatusValue(value);
         break;
     }
     setValueChanged(true);
@@ -75,6 +81,7 @@ const ListContainer = (props: ListContainerProps):JSX.Element => {
       if (nameValue) queryParams.append('name', nameValue);
       if (locationValue) queryParams.append('location', locationValue);
       if (roleValue) queryParams.append('role', roleValue);
+      if (statusValue) queryParams.append('status', statusValue);
 
       const queryString = queryParams.toString();
       const newPath = `${window.location.pathname}?${queryString}`;
@@ -84,7 +91,7 @@ const ListContainer = (props: ListContainerProps):JSX.Element => {
     }, 500);
 
     return () => clearTimeout(debounceTimer);
-  }, [pageValue, nameValue, locationValue, roleValue]);
+  }, [pageValue, nameValue, locationValue, roleValue, statusValue]);
   
   return (
     <div className="w-full flex justify-center flex-grow bg-white rounded-t-[26px]">
@@ -93,6 +100,7 @@ const ListContainer = (props: ListContainerProps):JSX.Element => {
           name={nameValue}
           location={locationValue}
           role={roleValue}
+          status={statusValue}
           onChange={handleValueChange}
         />
 

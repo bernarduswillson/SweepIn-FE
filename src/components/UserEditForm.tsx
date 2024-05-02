@@ -42,7 +42,8 @@ const UserForm = (props: UserFormProps): JSX.Element => {
     name: '',
     email: '',
     location: '',
-    role: ''
+    role: '',
+    status: ''
   })
 
   // Set form data
@@ -54,7 +55,7 @@ const UserForm = (props: UserFormProps): JSX.Element => {
 
   // Handle value change
   const handleValueChange = (
-    name: 'name' | 'email' | 'location' | 'role',
+    name: 'name' | 'email' | 'location' | 'role' | 'status',
     value: string
   ) => {
     setFormData((prev) => ({
@@ -70,12 +71,13 @@ const UserForm = (props: UserFormProps): JSX.Element => {
 
   // Validate form
   const validateForm = () => {
-    const { name, email, location, role } = formData
+    const { name, email, location, role, status } = formData
     const isValid =
       name.trim() !== '' &&
       email.trim() !== '' &&
       location.trim() !== '' &&
       role.trim() !== ''
+      status.trim() !== ''
     setIsInputValid(isValid)
   }
 
@@ -146,7 +148,7 @@ const UserForm = (props: UserFormProps): JSX.Element => {
         </div>
 
         {/* Role */}
-        <div className="poppins-regular mb-10">
+        <div className="poppins-regular mb-5">
           <h2 className="poppins-bold text-blue_main">Role</h2>
           <Dropdown
             label="Role"
@@ -166,6 +168,18 @@ const UserForm = (props: UserFormProps): JSX.Element => {
             onChange={(value) => handleValueChange('location', value)}
             value={formData.location}
             options={['GANESHA', 'JATINANGOR', 'CIREBON', 'BOSSCHA']}
+          />
+        </div>
+
+        {/* Status */}
+        <div className="poppins-regular mb-10">
+          <h2 className="poppins-bold text-blue_main">Status</h2>
+          <Dropdown
+            label="Status"
+            placeholder="Ganti Status"
+            onChange={(value) => handleValueChange('status', value)}
+            value={formData.status}
+            options={['ACTIVE', 'INACTIVE']}
           />
         </div>
       </div>

@@ -70,7 +70,8 @@ const DetailUser = (): JSX.Element => {
     name: '',
     email: '',
     location: '',
-    role: ''
+    role: '',
+    status: ''
   })
   const [attendanceData, setAttendanceData] = useState<Attendance[]>([])
   const [reportData, setReportData] = useState<Report[]>([])
