@@ -8,7 +8,7 @@ import MonthRange from '@/interface/data/MonthRange'
 
 // Components
 import DateSearchBar from '@/components/inputs/DateSearchBar'
-import ReportCard from '@/components/ui/ReportCard'
+import ReportCard from '@/components/card/ReportCard'
 import SweepLoader from '@/components/loaders/SweepLoader'
 
 // Utils

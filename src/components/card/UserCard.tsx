@@ -32,16 +32,16 @@ const Card = (props: UserCardProps): JSX.Element => {
       >
         <div className="w-full flex items-center poppins-bold text-xl text-black">
           {/* Name */}
-          <div className="w-1/4">{name}</div>
+          <div className="w-1/4 pr-3">{name}</div>
 
           {/* Email */}
-          <div className="w-1/4">{email}</div>
+          <div className="w-1/4 truncate pr-3">{email}</div>
 
           {/* Role */}
-          <div className="w-1/4">{role}</div>
+          <div className="w-1/4 pr-3">{role}</div>
 
           {/* Location */}
-          <div className="w-1/4">{location}</div>
+          <div className="w-1/4 pr-3">{location}</div>
         </div>
 
         <div className="absolute transition-transform ease-in-out duration-150 right-5 group-hover:translate-x-2">

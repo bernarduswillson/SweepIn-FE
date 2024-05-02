@@ -8,7 +8,7 @@ import Attendance from '@/interface/AdminAttendanceCard'
 
 // Components
 import DateSearchBar from '@/components/inputs/DateSearchBar'
-import AttendanceCard from '@/components/ui/AdminAttendanceCard'
+import AttendanceCard from '@/components/card/AdminAttendanceCard'
 import SweepLoader from '@/components/loaders/SweepLoader'
 import Pagination from '@/components/ui/customPagination'
 import UserSearchBar from '@/components/ui/UserSearchBar'

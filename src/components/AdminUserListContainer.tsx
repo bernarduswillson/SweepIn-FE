@@ -8,7 +8,7 @@ import User from '@/interface/User';
 
 // Components
 import UserSearchBar from '@/components/ui/UserSearchBar';
-import UserCard from '@/components/ui/UserCard';
+import UserCard from '@/components/card/UserCard';
 import SweepLoader from '@/components/loaders/SweepLoader';
 import Pagination from '@/components/ui/customPagination';
 import { set } from 'date-fns';

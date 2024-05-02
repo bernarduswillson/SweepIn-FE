@@ -8,7 +8,7 @@ import Attendance from '@/interface/AttendanceCard';
 
 // Components
 import DateSearchBar from '@/components/inputs/DateSearchBar';
-import AttendanceCard from '@/components/ui/AttendanceCard';
+import AttendanceCard from '@/components/card/AttendanceCard';
 import SweepLoader from '@/components/loaders/SweepLoader';
 
 interface AttendanceListContainerProps {

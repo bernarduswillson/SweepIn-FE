@@ -49,16 +49,16 @@ const Card = (props: ReportCardProps): JSX.Element => {
       >
         <div className="w-full flex items-center poppins-bold text-xl text-black">
           {/* Name */}
-          <div className="w-1/4">{username}</div>
+          <div className="w-1/4 pr-3">{username}</div>
 
           {/* Date */}
-          <div className="w-1/4">{date2String(date)}</div>
+          <div className="w-1/4 pr-3">{date2String(date)}</div>
 
           {/* Number of photo */}
-          <div className="w-1/4">{numOfPhoto}</div>
+          <div className="w-1/4 pr-3">{numOfPhoto}</div>
 
           {/* Status */}
-          <div className="w-fit h-fit flex items-center gap-1.5">
+          <div className="w-1/4 pr-3 h-fit flex items-center gap-1.5">
             <div
               className={`w-[10px] h-[10px] rounded-full ${status === 'WAITING' ? 'bg-orange_main' : status === 'ACCEPTED' ? 'bg-green_main' : 'bg-red_main'}`}
             ></div>

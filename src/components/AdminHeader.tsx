@@ -16,7 +16,7 @@ const Header = (props: HeaderProps): JSX.Element => {
   const isInView = useInView(ref, { once: true })
 
   return (
-    <div className="relative h-fit flex flex-col justify-end pt-[50px]">
+    <div className="relative h-fit flex flex-col justify-end">
       <div className="relative h-fit flex flex-col justify-end">
         <div className="mb-7 transition ease-in-out duration-500">
           <h1

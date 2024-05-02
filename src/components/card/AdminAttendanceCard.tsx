@@ -67,16 +67,16 @@ const Card = (props: AttendanceCardProps): JSX.Element => {
       >
         <div className="w-full flex items-center poppins-bold text-xl text-black">
           {/* Name */}
-          <div className="w-1/4">{username}</div>
+          <div className="w-1/4 pr-3">{username}</div>
 
           {/* Date */}
-          <div className="w-1/4">{date2String(date)}</div>
+          <div className="w-1/4 pr-3">{date2String(date)}</div>
 
           {/* Start */}
-          <div className="w-1/4">{dateTime2String(new Date(startAttendance?.date))}</div>
+          <div className="w-1/4 pr-3">{dateTime2String(new Date(startAttendance?.date))}</div>
 
           {/* End */}
-          <div className="w-1/4">{ endAttendance ? dateTime2String(new Date(endAttendance?.date)) : '-' }</div>
+          <div className="w-1/4 pr-3">{ endAttendance ? dateTime2String(new Date(endAttendance?.date)) : '-' }</div>
         </div>
 
         <div className="absolute transition-transform ease-in-out duration-150 right-5 group-hover:translate-x-2">
