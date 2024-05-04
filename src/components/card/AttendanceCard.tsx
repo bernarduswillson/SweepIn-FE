@@ -39,13 +39,6 @@ const Card = (props: AttendanceCardProps): JSX.Element => {
   const handleClick = () => {
     if (page === 'admin') {
       route.push(`${process.env.NEXT_PUBLIC_BASE_URL}/admin/presensi/${id}`)
-      // Routing to start log form
-    } else if (isToday && !startAttendanceId && !endAttendanceId) {
-      route.push(`${process.env.NEXT_PUBLIC_BASE_URL}/presensi/baru`)
-      // Routing to end log form
-    } else if (isToday && !endAttendanceId) {
-      route.push(`${process.env.NEXT_PUBLIC_BASE_URL}/presensi/baru/${id}`)
-      // Routing to attendance detail page
     } else {
       route.push(`${process.env.NEXT_PUBLIC_BASE_URL}/presensi/${id}`)
     }

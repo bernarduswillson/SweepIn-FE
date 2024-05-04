@@ -101,6 +101,7 @@ const FormPresensiAwal = () => {
     setIsSubmitLoading(true)
     let formDataData = new FormData()
     if (user) {
+      console.log(user.id)
       formDataData.append('userId', user.id as string)
       formDataData.append('date', formData.date)
       formDataData.append('latitude', formData.latitude.toString())
@@ -108,7 +109,7 @@ const FormPresensiAwal = () => {
       if (formData.image) {
         formDataData.append('file', formData.image)
       }
-      submit('/log', formDataData)
+      submit('/log/start', formDataData)
       route.push(`${process.env.NEXT_PUBLIC_BASE_URL}/presensi`)
     }
 

@@ -10,7 +10,7 @@ function GreenButton(props: ButtonProps) {
   
   return (
     <div 
-      className={`w-full h-fit ${color} ${spacing} ${round} flex justify-center items-center cursor-pointer transition-fast`}
+      className={`w-full h-fit text-center ${color} ${spacing} ${round} flex justify-center items-center cursor-pointer transition-fast`}
       onClick={onClick}
     >
       <span className={`${textSize}`}>{text}</span>

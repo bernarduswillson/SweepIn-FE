@@ -15,6 +15,11 @@ import Attendance from '@/interface/AttendanceCard'
 import User from '@/interface/User'
 import HomeHeader from '@/components/navigation/HomeHeader';
 
+// Utils
+import { date2String, dateTime2String, getTodayDate } from '@/utils/date'
+import { get } from 'http';
+import { set } from 'date-fns';
+
 const Presensi = (): JSX.Element => {
   const { data: session } = useSession()
 
@@ -24,6 +29,9 @@ const Presensi = (): JSX.Element => {
   // Date search
   const startDate = searchParams.get('start_date') || ''
   const endDate = searchParams.get('end_date') || ''
+
+  // Attendace status
+  const [attendanceStatus, setAttendanceStatus] = useState<number>(0)
 
   // User data
   const [user, setUser] = useState<User | null>(null)
@@ -60,6 +68,19 @@ const Presensi = (): JSX.Element => {
     fetchData()
   }, [user?.id, startDate, endDate])
 
+  // Check attendance status
+  useEffect(() => {
+    if (data) {
+      data.forEach((attendance) => {
+        if (attendance.endLog[0] && attendance.date.split('T')[0] === new Date().toISOString().split('T')[0]) {
+          setAttendanceStatus(2)
+        } else if (attendance.date.split('T')[0] === new Date().toISOString().split('T')[0]) {
+          setAttendanceStatus(1)
+        }
+      })
+    }
+  }, [data])
+
   return (
     <div className="w-screen min-h-screen flex flex-col items-center bg-primary-500">
       {/* Mobile container */}
@@ -73,7 +94,7 @@ const Presensi = (): JSX.Element => {
       <AttendanceListContainer data={data as Attendance[]} loading={loading} />
 
       {/* Navbar */}
-      <BottomNavbar active="presensi" />
+      <BottomNavbar active="presensi" attendaceStatus={attendanceStatus} />
     </div>
   )
 }

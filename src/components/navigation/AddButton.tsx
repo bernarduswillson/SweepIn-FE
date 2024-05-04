@@ -5,7 +5,14 @@ import GreenButton from "../buttons/GreenButton";
 import PlusIcon from "../icons/PlusIcon";
 import Link from "next/link";
 
-function AddButton() {
+interface AddButtonProps {
+  active: 'presensi' | 'laporan'
+  attendaceStatus?: number
+}
+
+function AddButton(props: AddButtonProps) {
+  const { active, attendaceStatus } = props;
+
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const toggleOpen = () => {
@@ -34,54 +41,66 @@ function AddButton() {
     <div onClick={toggleOpen} className="flex flex-col items-center  cursor-pointer">
       {
         isOpen &&
-        <div className="mb-5 flex flex-col gap-5 items-center">
-          <Link href='/presensi/awal'>
-            <motion.div 
-              className="w-40"
-              variants={slideUp}
-              custom={0}
-              initial="initial"
-              whileInView="animate"
-            >
-              <GreenButton 
-                text="Presensi Awal" 
-                type="primary"
-                size="small" 
-                roundness="round"/>
-            </motion.div>
-          </Link>
+        <div className="">
+          { active === 'presensi' &&
+          <div className="mb-5 flex flex-col gap-5 items-center">
+            { attendaceStatus != 2 &&
+            <Link href='/presensi/awal'>
+              <motion.div 
+                className="w-40"
+                variants={slideUp}
+                custom={0}
+                initial="initial"
+                whileInView="animate"
+              >
+                <GreenButton 
+                  text="Presensi Awal" 
+                  type="primary"
+                  size="small" 
+                  roundness="round"/>
+              </motion.div>
+            </Link>
+            }
 
-          <Link href='/presensi/akhir'>
-            <motion.div 
-              className="w-40"
-              variants={slideUp}
-              custom={1}
-              initial="initial"
-              whileInView="animate"
-            >
-              <GreenButton 
-                text="Presensi Akhir"
-                type="primary"
-                size="small"
-                roundness="round"/>
-            </motion.div>
-          </Link>
+            { attendaceStatus != 0 &&
+            <Link href='/presensi/akhir'>
+              <motion.div 
+                className="w-40"
+                variants={slideUp}
+                custom={1}
+                initial="initial"
+                whileInView="animate"
+              >
+                <GreenButton 
+                  text="Presensi Akhir"
+                  type="primary"
+                  size="small"
+                  roundness="round"/>
+              </motion.div>
+            </Link>
+            }
+          </div>
+          }
 
-          <Link href='/laporan/baru'>
-            <motion.div 
-              className="w-40"
-              variants={slideUp}
-              custom={2}
-              initial="initial"
-              whileInView="animate"
-            >
-              <GreenButton 
-                text="Laporan"
-                type="primary"
-                size="small"
-                roundness="round"/>
-            </motion.div>
-          </Link>
+          { active === 'laporan' &&
+          <div className="mb-5 flex flex-col gap-5 items-center">
+            <Link href='/laporan/baru'>
+              <motion.div 
+                className="w-40"
+                variants={slideUp}
+                custom={2}
+                initial="initial"
+                whileInView="animate"
+              >
+                <GreenButton 
+                  text="Laporan"
+                  type="primary"
+                  size="small"
+                  roundness="round"/>
+              </motion.div>
+            </Link>
+          </div>
+          }
         </div>
       }
 

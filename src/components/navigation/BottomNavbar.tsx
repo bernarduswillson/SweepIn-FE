@@ -4,10 +4,11 @@ import BottomNavbarItem from "./BottomNavbarItem";
 
 interface BottomNavbarProps {
   active: 'presensi' | 'laporan'
+  attendaceStatus?: number
 };
 
 function BottomNavbar(props: BottomNavbarProps) {
-  const { active } = props;
+  const { active, attendaceStatus } = props;
 
   return (
     <div className="fixed z-40 bottom-0 inset-x-0 w-full py-3 bg-primary-500">
@@ -22,7 +23,7 @@ function BottomNavbar(props: BottomNavbarProps) {
           </Link>
         
           <div className="absolute bottom-6 left-[50%] translate-x-[-50%] flex justify-center">
-            <AddButton />
+            <AddButton active={active} attendaceStatus={attendaceStatus} />
           </div>
         
           <Link href="/laporan">
