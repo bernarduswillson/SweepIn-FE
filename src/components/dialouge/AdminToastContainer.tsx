@@ -15,15 +15,15 @@ const ToastContainer = () => {
             (<motion.div 
               className="w-full"
               initial={{
-                y: 20,
+                x: 20,
                 opacity: 0
               }}
               animate={{
-                y: 0,
+                x: 0,
                 opacity: 1,
               }}
               exit={{
-                y: 20,
+                x: 20,
                 opacity: 0,
               }}
             >
