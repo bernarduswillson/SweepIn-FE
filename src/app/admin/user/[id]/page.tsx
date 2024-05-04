@@ -20,7 +20,6 @@ import ToggleButton from '@/components/AdminToggleButton'
 import User from '@/interface/User'
 import Attendance from '@/interface/AdminAttendanceCard'
 import Report from '@/interface/AdminReportCard'
-import { set } from 'date-fns'
 
 const DetailUser = (): JSX.Element => {
   const { data: session } = useSession()

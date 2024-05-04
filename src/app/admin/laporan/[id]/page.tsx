@@ -6,6 +6,7 @@ import { useSession } from 'next-auth/react'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
 import { useParams } from 'next/navigation'
+import useToast from '@/components/hooks/useToast'
 
 // Components
 import Header from '@/components/AdminHeader'
@@ -15,10 +16,10 @@ import ReportDetails from '@/components/ReportDetails'
 // Interface
 import User from '@/interface/User'
 import Report from '@/interface/FetchedReport'
-import { set } from 'date-fns'
 
 const DetailLaporan = (): JSX.Element => {
-  const { data: session } = useSession()
+  const { data: session } = useSession();
+  const { showToast } = useToast();
 
   // Get attendance id
   const { id } = useParams()
@@ -91,13 +92,13 @@ const DetailLaporan = (): JSX.Element => {
   
       // Edit
       try {
-        const response = await axios.post(
+        await axios.post(
           `${process.env.NEXT_PUBLIC_API_URL}/report/status`,
           formData
         )
-        console.log(response)
+        showToast({message: "Laporan berhasil diubah", type:"info", access: 'admin'});
       } catch (error) {
-        console.error('Error updating user:', error)
+        showToast({message: "Laporan gagal diubah", type:"error", access: 'admin'});
       }
   
       setIsSubmitLoading(false)

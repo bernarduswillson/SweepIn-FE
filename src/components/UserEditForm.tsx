@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { useSubmit } from '@/hooks/useSubmit'
 import { useParams } from 'next/navigation'
+import useToast from './hooks/useToast';
 import axios from 'axios'
 
 // Components
@@ -14,6 +15,7 @@ import DeleteButton from '@/components/ui/DeleteButton'
 
 // Interface
 import User from '@/interface/User'
+import { access } from 'fs'
 
 // Props
 interface UserFormProps {
@@ -21,10 +23,11 @@ interface UserFormProps {
 }
 
 const UserForm = (props: UserFormProps): JSX.Element => {
-  const { data } = props
+  const { data } = props;
 
   const route = useRouter()
   const { submit } = useSubmit()
+  const { showToast } = useToast();
 
   // Get attendance id
   const { id } = useParams()
@@ -112,12 +115,14 @@ const UserForm = (props: UserFormProps): JSX.Element => {
         formData
       )
       console.log(response)
-      route.push(`${process.env.NEXT_PUBLIC_BASE_URL}/admin/user`)
+      route.push(`${process.env.NEXT_PUBLIC_BASE_URL}/admin/user`);
+      showToast({message: "User berhasil diubah", type:"info", access: 'admin'});
     } catch (error) {
       console.error('Error updating user:', error)
+      showToast({message: "User gagal diubah", type:"error", access: 'admin'});
     }
 
-    setIsSubmitLoading(false)
+    setIsSubmitLoading(false);
   }
 
   // Handle delete
@@ -127,13 +132,13 @@ const UserForm = (props: UserFormProps): JSX.Element => {
 
     // Delete
     try {
-      const response = await axios.delete(
+      await axios.delete(
         `${process.env.NEXT_PUBLIC_API_URL}/user/${id}`
       )
-      console.log(response)
+      showToast({message: "User berhasil dihapus", type:"info", access: 'admin'});
       route.push(`${process.env.NEXT_PUBLIC_BASE_URL}/admin/user`)
     } catch (error) {
-      console.error('Error deleting user:', error)
+      showToast({message: "User gagal diubah", type:"error", access: 'admin'});
     }
 
     setIsDeleteLoading(false)
