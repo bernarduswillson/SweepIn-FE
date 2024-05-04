@@ -11,7 +11,7 @@ const ToastContainer = () => {
       <div className="w-11/12 max-w-[600px] h-full mx-auto pb-28 flex items-end">
         <AnimatePresence>
           {
-            toast &&
+            toast && toast.access === 'user' &&
             (<motion.div 
               className="w-full"
               initial={{

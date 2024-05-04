@@ -115,7 +115,7 @@ const FormPresensiAkhir = () => {
     }
 
     setIsSubmitLoading(false);
-    showToast({message: "Presensi berhasil dikirim", type: "info"});
+    showToast({message: "Presensi berhasil dikirim", type: "info", access: "user"});
   }
 
   return (

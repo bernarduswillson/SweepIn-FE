@@ -98,7 +98,7 @@ const FormLaporan = (): JSX.Element => {
     }
 
     setIsSubmitLoading(false);
-    showToast({message: "Laporan berhasil dikirim", type: "info"});
+    showToast({message: "Laporan berhasil dikirim", type: "info", access:"user"});
   }
 
   return (

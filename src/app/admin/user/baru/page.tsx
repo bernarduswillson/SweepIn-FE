@@ -11,10 +11,12 @@ import SubmitButton from '@/components/ui/SubmitButton'
 
 // Interface
 import User from '@/interface/User'
+import useToast from '@/components/hooks/useToast'
 
 const UserCreate = (): JSX.Element => {
-  const route = useRouter()
-  const { submit } = useSubmit()
+  const route = useRouter();
+  const { submit } = useSubmit();
+  const { showToast } = useToast();
 
   // Loading state
   const [isSubmitLoading, setIsSubmitLoading] = useState<boolean>(false)
@@ -67,7 +69,8 @@ const UserCreate = (): JSX.Element => {
     submit('/register', formData)
     route.push(`${process.env.NEXT_PUBLIC_BASE_URL}/admin/user`)
 
-    setIsSubmitLoading(false)
+    setIsSubmitLoading(false);
+    showToast({message: "User berhasil dibuat", type: "info", access: "admin"});
   }
 
   return (

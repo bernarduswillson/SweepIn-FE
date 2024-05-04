@@ -3,6 +3,7 @@ import { createContext, useState } from 'react';
 interface Toast {
   message: string;
   type: 'error' | 'info';
+  access: 'user' | 'admin';
 }
 
 interface ToastContextProps {
