@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useSubmit } from '@/hooks/useSubmit'
 import { useSession } from 'next-auth/react'
+import useToast from '@/components/hooks/useToast'
 
 // Components
 import FormHeader from '@/components/navigation/FormHeader'
@@ -21,6 +22,7 @@ import TextAreaAttribute from '@/components/inputs/TextAreaAttribute'
 
 const FormLaporan = (): JSX.Element => {
   const { data: session } = useSession()
+  const { showToast } = useToast();
 
   // User data
   const [user, setUser] = useState<User | null>(null)
@@ -95,7 +97,8 @@ const FormLaporan = (): JSX.Element => {
       route.push(`${process.env.NEXT_PUBLIC_BASE_URL}/laporan`)
     }
 
-    setIsSubmitLoading(false)
+    setIsSubmitLoading(false);
+    showToast({message: "Laporan berhasil dikirim", type: "info"});
   }
 
   return (

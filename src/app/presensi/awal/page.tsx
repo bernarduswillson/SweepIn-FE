@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSubmit } from '@/hooks/useSubmit';
 import { useSession } from 'next-auth/react';
+import useToast from '@/components/hooks/useToast';
 
 // Asset
 import MapMissing from '@public/images/map-missing.svg';
@@ -24,6 +25,8 @@ import User from '@/interface/User';
 import { getTodayDate, date2String, dateTime2String } from '@/utils/date';
 
 const FormPresensiAwal = () => {
+  const { showToast } = useToast();
+
   // Session
   const { data: session } = useSession();
   const [user, setUser] = useState<User | null>(null);
@@ -109,11 +112,12 @@ const FormPresensiAwal = () => {
       if (formData.image) {
         formDataData.append('file', formData.image)
       }
-      submit('/log/start', formDataData)
-      route.push(`${process.env.NEXT_PUBLIC_BASE_URL}/presensi`)
+      submit('/log/start', formDataData);
+      route.push(`${process.env.NEXT_PUBLIC_BASE_URL}/presensi`);
     }
 
     setIsSubmitLoading(false);
+    showToast({message: "Presensi berhasil dikirim", type: "info"});
   }
 
   return (

@@ -15,11 +15,6 @@ import Attendance from '@/interface/AttendanceCard'
 import User from '@/interface/User'
 import HomeHeader from '@/components/navigation/HomeHeader';
 
-// Utils
-import { date2String, dateTime2String, getTodayDate } from '@/utils/date'
-import { get } from 'http';
-import { set } from 'date-fns';
-
 const Presensi = (): JSX.Element => {
   const { data: session } = useSession()
 
@@ -70,6 +65,7 @@ const Presensi = (): JSX.Element => {
 
   // Check attendance status
   useEffect(() => {
+
     if (data) {
       data.forEach((attendance) => {
         if (attendance.endLog[0] && attendance.date.split('T')[0] === new Date().toISOString().split('T')[0]) {
