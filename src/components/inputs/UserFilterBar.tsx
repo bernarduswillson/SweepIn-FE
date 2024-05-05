@@ -5,7 +5,7 @@ import Dropdown from '@/components/ui/customDropdown'
 interface FilterBarProps {
   location: string
   role: string
-  onChange: (name: 'name' | 'location' | 'role', value: string) => void
+  onChange: (name: 'location' | 'role', value: string) => void
 }
 
 // Filter bar without search bar
@@ -21,7 +21,7 @@ const FilterBar = (props: FilterBarProps): JSX.Element => {
 
   // Handle value change
   const handleValueChange = (
-    name: 'name' | 'location' | 'role',
+    name: 'location' | 'role',
     value: string
   ) => {
     switch (name) {
