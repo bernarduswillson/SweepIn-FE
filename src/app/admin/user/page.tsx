@@ -6,14 +6,15 @@ import { useSession } from 'next-auth/react'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
 import { useSearchParams } from 'next/navigation'
+import Link from 'next/link'
 
 // Components
 import Header from '@/components/AdminHeader'
-import ListContainer from '@/components/UserListContainer'
+import ListContainer from '@/components/sections/AdminUserListContainer'
 import Sidebar from '@/components/Sidebar'
 
 // Interface
-import User from '@/interface/User'
+import type User from '@/interface/User'
 
 const User = (): JSX.Element => {
   const { data: session } = useSession()
@@ -34,6 +35,9 @@ const User = (): JSX.Element => {
 
   // Role search
   const role = searchParams.get('role') || ''
+
+  // Status search
+  const status = searchParams.get('status') || 'ACTIVE'
 
   // User data
   const [user, setUser] = useState<User | null>(null)
@@ -56,34 +60,45 @@ const User = (): JSX.Element => {
         setLoading(true)
         if (user?.id) {
           const response = await axios.get(
-            `${process.env.NEXT_PUBLIC_API_URL}/user?page=${page}&per_page=${itemsPerPage}&name=${name}${location && location != 'Semua Lokasi' ? `&location=${location}` : ''}${role && role != 'Semua Role' ? `&role=${role}` : ''}`
+            `${process.env.NEXT_PUBLIC_API_URL}/user?page=${page}&per_page=${itemsPerPage}&name=${name}${location && location != 'Semua Lokasi' ? `&location=${location}` : ''}${role && role != 'Semua Akses' ? `&role=${role}` : ''}&status=${status}`
           )
-          setData(response.data.data)
-          setCount([response.data.count, itemsPerPage])
+          setData(response.data.data.users)
+          setCount([response.data.data.filtered, itemsPerPage, response.data.data.total])
         }
       } catch (error) {
         console.error(error)
+        setData([])
+        setCount([0, itemsPerPage, 0])
       } finally {
         setLoading(false)
       }
     }
     fetchData()
-  }, [location, name, page, role, user?.id])
+  }, [location, name, page, role, status, user?.id])
 
   return (
     <div className="flex flex-row-reverse w-screen h-screen">
       <div className="w-full flex flex-col items-center bg-white">
         {/* Header */}
         <div className="w-11/12">
-          <Header title="Daftar User" />
-        </div>
+          <div className='flex justify-between items-center'>
+            <Header title="Daftar Pengguna"/>
+            {/* Add user button */}
+            <Link
+              className="flex items-center justify-center bg-green_main text-white rounded-lg w-[200px] py-2 poppins-medium"
+              href="user/baru"
+            >
+              + Tambah Pengguna
+            </Link>
+          </div>
 
-        {/* Body */}
-        <ListContainer data={data as User[]} count={count} loading={loading} />
+          {/* Body */}
+          <ListContainer data={data as User[]} count={count} loading={loading} />
+        </div>
       </div>
 
       {/* Sidebar */}
-      <Sidebar active="user" />
+      <Sidebar active='user'/>
     </div>
   )
 }

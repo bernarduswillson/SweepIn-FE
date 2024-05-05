@@ -1,11 +1,12 @@
 'use client'
 
-// Components
-import { useEffect, useState } from 'react'
-import FormHeader from '@/components/ui/FormHeader'
-import ReportGallery from '@/components/ui/ReportGallery'
-import { useParams } from 'next/navigation'
 import axios from 'axios'
+import { useEffect, useState } from 'react'
+import { useParams } from 'next/navigation'
+
+// Components
+import FormHeader from '@/components/navigation/FormHeader'
+import ReportGallery from '@/components/ui/ReportGallery'
 
 // Utils
 import { getTodayDate, date2String } from '@/utils/date'
@@ -66,7 +67,10 @@ const FormLaporan = (): JSX.Element => {
     <div className="w-screen min-h-screen h-fit flex flex-col items-center gap-5 bg-gradient-to-br from-green_main to-blue_main to-[50vh]">
       {/* Head */}
       <div className="w-11/12 max-w-[641px] py-10 flex flex-col items-center">
-        <FormHeader title="Laporan Kerja" date={date2String(getTodayDate())} />
+        <FormHeader 
+          title="Laporan Kerja" 
+          backDestination='/laporan'
+        />
         <ReportGallery photos={report.images} />
       </div>
 

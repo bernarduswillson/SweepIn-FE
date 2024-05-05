@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { useSubmit } from '@/hooks/useSubmit'
 import { useParams } from 'next/navigation'
+import useToast from './hooks/useToast';
 import axios from 'axios'
 
 // Components
@@ -14,6 +15,7 @@ import DeleteButton from '@/components/ui/DeleteButton'
 
 // Interface
 import User from '@/interface/User'
+import { access } from 'fs'
 
 // Props
 interface UserFormProps {
@@ -21,10 +23,11 @@ interface UserFormProps {
 }
 
 const UserForm = (props: UserFormProps): JSX.Element => {
-  const { data } = props
+  const { data } = props;
 
   const route = useRouter()
   const { submit } = useSubmit()
+  const { showToast } = useToast();
 
   // Get attendance id
   const { id } = useParams()
@@ -42,19 +45,33 @@ const UserForm = (props: UserFormProps): JSX.Element => {
     name: '',
     email: '',
     location: '',
-    role: ''
+    role: '',
+    status: ''
   })
 
   // Set form data
   useEffect(() => {
     if (data) {
-      setFormData(data)
+      if (data.status === 'ACTIVE') {
+        data.status = 'AKTIF'
+      } else {
+        data.status = 'TIDAK AKTIF'
+      }
+
+      setFormData({
+        id: data.id,
+        name: data.name,
+        email: data.email,
+        location: data.location,
+        role: data.role,
+        status: data.status
+      })
     }
   }, [data])
 
   // Handle value change
   const handleValueChange = (
-    name: 'name' | 'email' | 'location' | 'role',
+    name: 'name' | 'email' | 'location' | 'role' | 'status',
     value: string
   ) => {
     setFormData((prev) => ({
@@ -70,12 +87,13 @@ const UserForm = (props: UserFormProps): JSX.Element => {
 
   // Validate form
   const validateForm = () => {
-    const { name, email, location, role } = formData
+    const { name, email, location, role, status } = formData
     const isValid =
       name.trim() !== '' &&
       email.trim() !== '' &&
       location.trim() !== '' &&
       role.trim() !== ''
+      status.trim() !== ''
     setIsInputValid(isValid)
   }
 
@@ -84,6 +102,12 @@ const UserForm = (props: UserFormProps): JSX.Element => {
     // Set loading
     setIsSubmitLoading(true)
 
+    if (formData.status === 'AKTIF') {
+      formData.status = 'ACTIVE'
+    } else {
+      formData.status = 'INACTIVE'
+    }
+
     // Edit
     try {
       const response = await axios.patch(
@@ -91,12 +115,14 @@ const UserForm = (props: UserFormProps): JSX.Element => {
         formData
       )
       console.log(response)
-      route.push(`${process.env.NEXT_PUBLIC_BASE_URL}/admin/user`)
+      route.push(`${process.env.NEXT_PUBLIC_BASE_URL}/admin/user`);
+      showToast({message: "User berhasil diubah", type:"info", access: 'admin'});
     } catch (error) {
       console.error('Error updating user:', error)
+      showToast({message: "User gagal diubah", type:"error", access: 'admin'});
     }
 
-    setIsSubmitLoading(false)
+    setIsSubmitLoading(false);
   }
 
   // Handle delete
@@ -106,13 +132,13 @@ const UserForm = (props: UserFormProps): JSX.Element => {
 
     // Delete
     try {
-      const response = await axios.delete(
+      await axios.delete(
         `${process.env.NEXT_PUBLIC_API_URL}/user/${id}`
       )
-      console.log(response)
+      showToast({message: "User berhasil dihapus", type:"info", access: 'admin'});
       route.push(`${process.env.NEXT_PUBLIC_BASE_URL}/admin/user`)
     } catch (error) {
-      console.error('Error deleting user:', error)
+      showToast({message: "User gagal diubah", type:"error", access: 'admin'});
     }
 
     setIsDeleteLoading(false)
@@ -146,11 +172,11 @@ const UserForm = (props: UserFormProps): JSX.Element => {
         </div>
 
         {/* Role */}
-        <div className="poppins-regular mb-10">
-          <h2 className="poppins-bold text-blue_main">Role</h2>
+        <div className="poppins-regular mb-5">
+          <h2 className="poppins-bold text-blue_main">Akses</h2>
           <Dropdown
-            label="Role"
-            placeholder="Pilih Role"
+            label="Akses"
+            placeholder="Ganti Akses"
             onChange={(value) => handleValueChange('role', value)}
             value={formData.role}
             options={['ADMIN', 'CLEANER', 'SECURITY']}
@@ -162,10 +188,22 @@ const UserForm = (props: UserFormProps): JSX.Element => {
           <h2 className="poppins-bold text-blue_main">Lokasi</h2>
           <Dropdown
             label="Lokasi"
-            placeholder="Pilih Lokasi"
+            placeholder="Ganti Lokasi"
             onChange={(value) => handleValueChange('location', value)}
             value={formData.location}
             options={['GANESHA', 'JATINANGOR', 'CIREBON', 'BOSSCHA']}
+          />
+        </div>
+
+        {/* Status */}
+        <div className="poppins-regular mb-10">
+          <h2 className="poppins-bold text-blue_main">Status</h2>
+          <Dropdown
+            label="Status"
+            placeholder="Ganti Status"
+            onChange={(value) => handleValueChange('status', value)}
+            value={formData.status}
+            options={['AKTIF', 'TIDAK AKTIF']}
           />
         </div>
       </div>
@@ -174,7 +212,7 @@ const UserForm = (props: UserFormProps): JSX.Element => {
         <div className="w-[400px] flex gap-5">
           {/* Submit button */}
           <SubmitButton
-            text="Save changes"
+            text="Simpan"
             onClick={handleSubmit}
             loading={isSubmitLoading}
             disable={!isInputValid}
@@ -183,7 +221,7 @@ const UserForm = (props: UserFormProps): JSX.Element => {
 
           {/* Delete button */}
           <DeleteButton
-            text="Delete"
+            text="Hapus"
             onClick={HandleDelete}
             loading={isDeleteLoading}
             username={formData.name}

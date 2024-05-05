@@ -18,7 +18,7 @@ const AttendanceDetails = (props: AttendanceDetailsProps): JSX.Element => {
 
   return (
     <div className="">
-      <h2 className="poppins-extrabold text-lg mb-2">User</h2>
+      <h2 className="poppins-extrabold text-lg mb-2">Pengguna</h2>
       {/* Name */}
       <h3 className="poppins-bold text-blue_main mb-10">{data.user.name}</h3>
 
@@ -30,7 +30,11 @@ const AttendanceDetails = (props: AttendanceDetailsProps): JSX.Element => {
         </div>
         <div className="w-1/2">
           <h2 className="poppins-extrabold text-lg mb-5">Presensi Akhir</h2>
-          <LogDetails data={data.endLog} />
+            { data.endLog ? (
+              <LogDetails data={data.endLog} />
+            ) : (
+              <p className="text-red_main poppins-bold">Belum ada presensi akhir</p>
+            )}
         </div>
       </div>
     </div>
