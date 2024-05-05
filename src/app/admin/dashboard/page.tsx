@@ -100,16 +100,6 @@ const DashboardPage = (): JSX.Element => {
                 {/* Header */}
                 <div className='flex justify-between items-center'>
                     <Header title="Dashboard"/>
-
-                    {/* Download button */}
-                    <div className='w-1/12'>
-                        <BlueButton
-                            text="Download"
-                            type="primary"
-                            size="small"
-                            roundness="square"
-                        />
-                    </div>
                 </div>
 
                 {/* Body */}
