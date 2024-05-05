@@ -1,6 +1,6 @@
-import { useState, useEffect, useRef, useLayoutEffect } from 'react';
-import { easeInOut, motion} from 'framer-motion';
-import { useSearchParams, useRouter } from 'next/navigation';
+import { useState, useEffect, useRef, useLayoutEffect } from 'react'
+import { easeInOut, motion } from 'framer-motion'
+import { useSearchParams, useRouter } from 'next/navigation'
 
 // Interfaces
 import MonthRange from '@/interface/data/MonthRange';
@@ -19,40 +19,40 @@ interface ListContainerProps {
   loading: boolean,
 };
 
-const ListContainer = (props: ListContainerProps):JSX.Element => {
-  const { data, count, loading } = props;
+const ListContainer = (props: ListContainerProps): JSX.Element => {
+  const { data, count, loading } = props
 
   // Params
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const page = Number(searchParams.get('page')) || 1;
+  const router = useRouter()
+  const searchParams = useSearchParams()
+  const page = Number(searchParams.get('page')) || 1
 
   // Name values
-  const [nameValue, setNameValue] = useState<string>('');
+  const [nameValue, setNameValue] = useState<string>('')
 
   // Location values
-  const [locationValue, setLocationValue] = useState<string>('');
+  const [locationValue, setLocationValue] = useState<string>('')
 
   // Role values
-  const [roleValue, setRoleValue] = useState<string>('');
+  const [roleValue, setRoleValue] = useState<string>('')
 
   // Status values
   const [statusValue, setStatusValue] = useState<string>('');
 
   // Page values
-  const [pageValue, setPageValue] = useState<number>(page);
+  const [pageValue, setPageValue] = useState<number>(page)
 
-  const [valueChanged, setValueChanged] = useState<boolean>(false);
+  const [valueChanged, setValueChanged] = useState<boolean>(false)
 
   // Handle value change
   const handleValueChange = (name: 'name' | 'location' | 'role' | 'status', value: string) => {
     switch (name) {
       case 'name':
-        setNameValue(value);
-        break;
+        setNameValue(value)
+        break
       case 'location':
-        setLocationValue(value);
-        break;
+        setLocationValue(value)
+        break
       case 'role':
         setRoleValue(value);
         break;
@@ -60,21 +60,21 @@ const ListContainer = (props: ListContainerProps):JSX.Element => {
         setStatusValue(value);
         break;
     }
-    setValueChanged(true);
+    setValueChanged(true)
   }
 
   // Handle page change
   const handlePageChange = (page: number) => {
-    setPageValue(page);
+    setPageValue(page)
   }
 
   // Debounce search
   useEffect(() => {
     const debounceTimer = setTimeout(() => {
-      const queryParams = new URLSearchParams();
+      const queryParams = new URLSearchParams()
 
       if (valueChanged) {
-        setPageValue(1);
+        setPageValue(1)
       }
 
       if (pageValue) queryParams.append('page', pageValue.toString());
@@ -83,12 +83,11 @@ const ListContainer = (props: ListContainerProps):JSX.Element => {
       if (roleValue) queryParams.append('role', roleValue);
       if (statusValue) queryParams.append('status', statusValue);
 
-      const queryString = queryParams.toString();
-      const newPath = `${window.location.pathname}?${queryString}`;
-      router.push(newPath);
-      setValueChanged(false);
-
-    }, 500);
+      const queryString = queryParams.toString()
+      const newPath = `${window.location.pathname}?${queryString}`
+      router.push(newPath)
+      setValueChanged(false)
+    }, 500)
 
     return () => clearTimeout(debounceTimer);
   }, [pageValue, nameValue, locationValue, roleValue, statusValue]);
@@ -135,8 +134,8 @@ const ListContainer = (props: ListContainerProps):JSX.Element => {
                     ease: easeInOut
                   }
                 }}
-                viewport={{once: true}}  
-                className='w-full'
+                viewport={{ once: true }}
+                className="w-full"
               >
                 <UserCard
                   id={item.id as string}
@@ -150,10 +149,15 @@ const ListContainer = (props: ListContainerProps):JSX.Element => {
             <SweepLoader />
           }
         </div>
-        <Pagination page={page} totalItem={count[0]} perPage={count[1]} onChange={handlePageChange} />
+        <Pagination
+          page={page}
+          totalItem={count[0]}
+          perPage={count[1]}
+          onChange={handlePageChange}
+        />
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default ListContainer;
+export default ListContainer
