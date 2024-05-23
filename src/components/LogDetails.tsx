@@ -1,13 +1,16 @@
 // Imports
-import React from 'react'
 import Image from 'next/image'
+import { date2String, dateTime2String } from '@/utils/date'
+import { useState } from 'react'
 
 // Interface
 import Log from '@/interface/FetchedLog'
 
+// Components
+import Modal from '@/components/ui/Modal'
+
 // Utils
 import bufferToBase64 from '@/utils/image'
-import { date2String, dateTime2String } from '@/utils/date'
 
 interface LogDetailsProps {
   data: Log
@@ -15,25 +18,47 @@ interface LogDetailsProps {
 
 const LogDetails = (props: LogDetailsProps): JSX.Element => {
   const { data } = props
+  const [isModalOpen, setIsModalOpen] = useState<Boolean>(false)
+  const [modalPhoto, setModalPhoto] = useState<string | undefined>(undefined)
 
   const photoBase64 = data.images[0]
     ? bufferToBase64(data.images[0].data)
     : undefined
 
+  const handleOpenModal = (photo: string | undefined) => {
+    setModalPhoto(photo)
+    setIsModalOpen(true)
+  }
+  const handleCloseModal = () => {
+    setIsModalOpen(false)
+    setModalPhoto(undefined)
+  }
+
   return (
     <div className="w-full">
+      <Modal
+        title=""
+        msg=""
+        type="info"
+        previewImg={modalPhoto}
+        onClose={handleCloseModal}
+        isOpen={isModalOpen}
+      />
+
       {/* Photo */}
       <div className="mb-7">
         <h2 className="poppins-bold text-blue_main">Foto</h2>
         <div className="relative w-72 h-72 ">
         {photoBase64 ? (
-          <Image
-            src={`data:image/png;base64,${photoBase64}`}
-            alt="Foto kehadiran"
-            fill={true}
-            objectFit="cover"
-            className="rounded-[7px]"
-          />
+          <button onClick={() => handleOpenModal(photoBase64)}>
+            <Image
+              src={`data:image/png;base64,${photoBase64}`}
+              alt="Foto kehadiran"
+              fill={true}
+              objectFit="cover"
+              className="rounded-[7px]"
+            />
+          </button>
         ) : (
           <div className="w-72 h-72 flex justify-center items-center">
             No image available

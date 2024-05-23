@@ -5,11 +5,12 @@ interface ModalProps {
   title: String
   msg: String
   type: 'info' | 'danger'
-  confirmText: String
-  onConfirm: () => void
+  confirmText?: String
+  onConfirm?: () => void
   onClose: () => void
   isOpen: Boolean
   img?: any
+  previewImg?: any
   cancelText?: String
 }
 
@@ -18,6 +19,7 @@ const Modal = (props: ModalProps): JSX.Element => {
     title,
     msg,
     img,
+    previewImg,
     type,
     confirmText,
     onConfirm,
@@ -30,49 +32,38 @@ const Modal = (props: ModalProps): JSX.Element => {
     <AnimatePresence>
       {isOpen && (
         <motion.div
-          className={`fixed z-[50] backdrop-blur inset-0 flex items-center justify-center bg-black bg-opacity-60`}
-          initial={{
-            opacity: 0
-          }}
-          animate={{
-            opacity: 1,
-            transition: {
-              duration: 0.2
-            }
-          }}
+          className="fixed z-[50] backdrop-blur inset-0 flex items-center justify-center bg-black bg-opacity-60"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1, transition: { duration: 0.2 } }}
+          exit={{ opacity: 0, transition: { duration: 0.2 } }}
         >
           <div className="fixed w-full h-full inset-0" onClick={onClose} />
 
           <motion.div
-            className={`flex flex-col items-center bg-white max-w-[500px] w-11/12 p-5 pt-10 rounded-md`}
-            initial={{
-              scale: 0,
-              rotate: '12.5deg'
-            }}
-            animate={{
-              scale: 1,
-              rotate: '0deg',
-              transition: {
-                duration: 0.3,
-                ease: 'backOut'
-              }
-            }}
-            exit={{
-              scale: 0,
-              rotate: '0deg',
-              transition: {
-                duration: 0.3,
-                ease: 'backIn'
-              }
-            }}
+            className="bg-white rounded-md p-5 m-10 flex flex-col items-center"
+            initial={{ scale: 0, rotate: '12.5deg' }}
+            animate={{ scale: 1, rotate: '0deg', transition: { duration: 0.3, ease: 'backOut' } }}
+            exit={{ scale: 0, rotate: '0deg', transition: { duration: 0.3, ease: 'backIn' } }}
           >
             {img && (
               <Image src={img} alt="Lokasi tidak ditemukan" className="mb-7" />
             )}
 
-            <h2
-              className={`mb-1 text-lg ${type === 'info' ? 'text-blue_main' : 'text-red'} poppins-bold text-center`}
-            >
+            {previewImg && (
+              <div className="relative w-full h-full mb-7">
+                <Image
+                  src={`data:image/png;base64,${previewImg}`}
+                  alt="Preview"
+                  layout="intrinsic"
+                  width={800}
+                  height={800}
+                  objectFit="contain"
+                  className="rounded-[7px]"
+                />
+              </div>
+            )}
+
+            <h2 className={`mb-1 text-lg ${type === 'info' ? 'text-blue_main' : 'text-red'} poppins-bold text-center`}>
               {title}
             </h2>
 
@@ -81,12 +72,14 @@ const Modal = (props: ModalProps): JSX.Element => {
             </p>
 
             <div className="flex justify-center items-center gap-5">
-              <button
-                onClick={onConfirm}
-                className={`poppins-medium px-7 py-2 text-white rounded-3xl border-solid border-[3px] button-animation ${type === 'info' ? 'bg-green_main border-green_main hover:bg-green_dark hover:border-green_dark' : 'bg-red_main border-red_main hover:bg-red_dark hover:border-red_dark'}`}
-              >
-                {confirmText}
-              </button>
+              {confirmText && (
+                <button
+                  onClick={onConfirm}
+                  className={`poppins-medium px-7 py-2 text-white rounded-3xl border-solid border-[3px] button-animation ${type === 'info' ? 'bg-green_main border-green_main hover:bg-green_dark hover:border-green_dark' : 'bg-red_main border-red_main hover:bg-red_dark hover:border-red_dark'}`}
+                >
+                  {confirmText}
+                </button>
+              )}
               {cancelText && (
                 <button
                   onClick={onClose}
