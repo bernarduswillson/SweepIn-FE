@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react'
 
 // Components
 import Dropdown from '@/components/ui/customDropdown'
+import Modal from '@/components/ui/Modal'
 
 // Interface
 import Report from '@/interface/FetchedReport'
@@ -22,6 +23,8 @@ interface ReportDetailsProps {
 
 const ReportDetails = (props: ReportDetailsProps): JSX.Element => {
   const { data, loading, onChange } = props
+  const [isModalOpen, setIsModalOpen] = useState<Boolean>(false)
+  const [modalPhoto, setModalPhoto] = useState<string | undefined>(undefined)
 
   // Form data
   const [status, setStatus] = useState<string>('')
@@ -51,6 +54,15 @@ const ReportDetails = (props: ReportDetailsProps): JSX.Element => {
     }
   }
 
+  const handleOpenModal = (photo: string | undefined) => {
+    setModalPhoto(photo)
+    setIsModalOpen(true)
+  }
+  const handleCloseModal = () => {
+    setIsModalOpen(false)
+    setModalPhoto(undefined)
+  }
+
   if (loading) {
     return <div></div>
   }
@@ -59,6 +71,15 @@ const ReportDetails = (props: ReportDetailsProps): JSX.Element => {
 
   return (
     <div className="">
+      <Modal
+        title=""
+        msg=""
+        type="info"
+        previewImg={modalPhoto}
+        onClose={handleCloseModal}
+        isOpen={isModalOpen}
+      />
+
       <h2 className="poppins-extrabold text-lg mb-2">Pengguna</h2>
       {/* Name */}
       <h3 className="poppins-bold text-blue_main mb-10">{data.user?.name}</h3>
@@ -77,12 +98,14 @@ const ReportDetails = (props: ReportDetailsProps): JSX.Element => {
                   key={index}
                   className="relative w-[170px] h-[170px] bg-grey_bg flex justify-center items-center overflow-hidden rounded-lg"
                 >
-                  <Image
-                    src={`data:image/png;base64,${photo}`}
-                    alt="Foto laporan"
-                    fill={true}
-                    objectFit="cover"
-                  />
+                  <button onClick={() => handleOpenModal(photo)}>
+                    <Image
+                      src={`data:image/png;base64,${photo}`}
+                      alt="Foto laporan"
+                      fill={true}
+                      objectFit="cover"
+                    />
+                  </button>
                 </div>
               ))
             ) : (
