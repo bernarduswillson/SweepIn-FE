@@ -65,7 +65,6 @@ const DetailLaporan = (): JSX.Element => {
         const response = await axios.get(
           process.env.NEXT_PUBLIC_API_URL + `/report/${id}`
         )
-        console.log(response.data.data)
         setReportData(response.data.data)
         setLoading(false)
       } catch (error) {

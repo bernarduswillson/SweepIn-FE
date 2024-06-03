@@ -33,7 +33,6 @@ const ListContainer = (props: ListContainerProps): JSX.Element => {
   const url = usePathname()
   const page = Number(searchParams.get('page')) || 1;
   const pageURL = url.split('/')[2]
-  console.log(pageURL)
 
   // Name values
   const [nameValue, setNameValue] = useState<string>('');
