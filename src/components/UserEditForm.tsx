@@ -81,7 +81,6 @@ const UserForm = (props: UserFormProps): JSX.Element => {
   }
 
   useEffect(() => {
-    console.log(formData)
     validateForm()
   }, [formData])
 
@@ -114,7 +113,6 @@ const UserForm = (props: UserFormProps): JSX.Element => {
         `${process.env.NEXT_PUBLIC_API_URL}/user/${id}`,
         formData
       )
-      console.log(response)
       route.push(`${process.env.NEXT_PUBLIC_BASE_URL}/admin/user`);
       showToast({message: "User berhasil diubah", type:"info", access: 'admin'});
     } catch (error) {
