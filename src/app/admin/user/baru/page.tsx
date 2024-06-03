@@ -45,7 +45,6 @@ const UserCreate = (): JSX.Element => {
   }
 
   useEffect(() => {
-    console.log(formData)
     validateForm()
   }, [formData])
 

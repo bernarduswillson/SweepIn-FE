@@ -104,7 +104,6 @@ const FormPresensiAwal = () => {
     setIsSubmitLoading(true)
     let formDataData = new FormData()
     if (user) {
-      console.log(user.id)
       formDataData.append('userId', user.id as string)
       formDataData.append('date', formData.date)
       formDataData.append('latitude', formData.latitude.toString())
