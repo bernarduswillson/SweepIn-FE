@@ -27,17 +27,22 @@ const authOptions: NextAuthOptions = {
         if (response && response.data.message === 'Login successful') {
           return true
         }
-        return '/masuk?error=AccessDenied'
+        throw new Error('Login failed')
       } catch (error) {
         return '/masuk?error=AccessDenied'
       }
     },
-    async jwt({ token, user, account }: any) {
-      if (account) {
-        const userLoggedIn = await SignToken(user?.email as string)
-        token.userLoggedIn = userLoggedIn
+    async jwt({ token, user, account }) {
+      if (token) {
+        const response = await axios.post(
+          process.env.NEXT_PUBLIC_API_URL + '/login',
+          {
+            email: token.email,
+          }
+        );
+        token.role = response.data.data.role;
       }
-      return token
+      return token;
     },
     async session({ session, token }: any) {
       const response = await axios.post(

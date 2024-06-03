@@ -48,7 +48,6 @@ const FormLaporan = (): JSX.Element => {
         )
         if (response.status === 200) {
           const data = response.data
-          console.log(data)
           setReport({
             userId: data.data.userId,
             date: date2String(new Date(data.data.date), false),
