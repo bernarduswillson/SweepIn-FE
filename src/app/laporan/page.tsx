@@ -50,6 +50,7 @@ const Laporan = (): JSX.Element => {
           setData(response.data.data.reports)
         }
       } catch (error) {
+        setData([])
         console.error(error)
       } finally {
         setLoading(false)

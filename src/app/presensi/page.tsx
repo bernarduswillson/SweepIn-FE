@@ -55,6 +55,7 @@ const Presensi = (): JSX.Element => {
           setData(response.data.data.attendance)
         }
       } catch (error) {
+        setData([])
         console.error(error)
       } finally {
         setLoading(false)
